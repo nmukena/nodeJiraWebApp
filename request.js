@@ -1,4 +1,8 @@
+var express = require("express"); 
+var app = express();
 request = require('request');
+
+
 var options = {rejectUnauthorized: this.strictSSL, 
     uri: "https://mehran-development.atlassian.net/rest/api/2/issue/GTMP-2", 
     method: 'GET',

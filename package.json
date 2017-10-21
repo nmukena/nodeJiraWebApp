@@ -1,0 +1,22 @@
+{
+  "name": "jirawebapp",
+  "version": "1.0.0",
+  "description": "Jira Web App on NodeJs.",
+  "main": "request.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nmukena/nodeJiraWebApp.git"
+  },
+  "author": "Nathan Mukena",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nmukena/nodeJiraWebApp/issues"
+  },
+  "homepage": "https://github.com/nmukena/nodeJiraWebApp#readme",
+  "dependencies": {
+    "express": "^4.16.2"
+  }
+}
