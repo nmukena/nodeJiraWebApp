@@ -6,8 +6,8 @@ request = require('request');
 var options = {rejectUnauthorized: this.strictSSL, 
     uri: "https://mehran-development.atlassian.net/rest/api/2/issue/GTMP-2", 
     method: 'GET',
-    auth: {'user': 'nmukena@deloitte.ca', 
-    'pass': 'I lift my eyes up.'}
+    auth: {'user': 'USERNAME', 
+    'pass': 'PASSWORD'}
 };
 
 getIssue = function(issueNumber) {
