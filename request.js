@@ -1,6 +1,7 @@
 var express = require("express"); 
 var app = express();
 request = require('request');
+var path = require('path');
 
 
 var options = {rejectUnauthorized: this.strictSSL, 
@@ -10,172 +11,112 @@ var options = {rejectUnauthorized: this.strictSSL,
     'pass': 'PASSWORD'}
 };
 
-getIssue = function(issueNumber) {
-        options.uri = "https://mehran-development.atlassian.net/rest/api/2/issue/"+issueNumber
+app.get('/', function(req, res) {
+    res.sendFile(path.join(__dirname + '/index.html'));
+});
+
+app.get("/getIssue/:issueNumber", function(req, res)  {
+        options.uri = "https://mehran-development.atlassian.net/rest/api/2/issue/"+req.params.issueNumber;
         request(options, function(error, response, body) {
             if (error) {
-                console.log(error);
-                return;
-            }
-            if (response.statusCode === 404) {
-                console.log('Invalid issue number.');
+                res.send(error)
                 return;
             }
             if (response.statusCode !== 200) {
-                console.log(response.statusCode + ': Unable to connect to JIRA during findIssueStatus.');
+                console.log(response.statusCode + "/n"+ error);
+                res.status(response.statusCode).send(error)
                 return;
-            }
-            if (body === undefined) {
-                console.log('Response body was undefined.');
-                return;
-            }
-                console.log(JSON.parse(body));
+             }
+            res.json(JSON.parse(body));
+            return;
         });
-};
+});
+
 //Attempt to use express.
 app.get("/getAllIssues/:projectId", function(req, res)  {
     options.uri = "https://mehran-development.atlassian.net/rest/api/2/search?jql=project="+req.params.projectId; 
     request(options, function(error, response, body) {
         if (error) {
-            console.log(error);
-            return;
-        }
-        if (response.statusCode === 404) {
-            console.log('Invalid issue number.');
+            res.send(error)
             return;
         }
         if (response.statusCode !== 200) {
-            console.log(response.statusCode + ': Unable to connect to JIRA during findIssueStatus.');
+            console.log(response.statusCode + "/n"+ error);
+            res.status(response.statusCode).send(error)
             return;
-        }
-        if (body === undefined) {
-            console.log('Response body was undefined.');
-            return;
-        }
-        json = JSON.parse(body);
-        console.log(json);
-        res.json(json);
+         }
+        res.json(JSON.parse(body));
+        return;
     });
 });
 
-
-getAllIssuesProject = function(projectId) {
-    options.uri = "https://mehran-development.atlassian.net/rest/api/2/search?jql=project="+projectId;
+app.get("/getIssueMeta/:issueNumber", function(req, res)  {
+    options.uri = "https://mehran-development.atlassian.net/rest/api/2/issue/"+req.params.issueNumber+"/editmeta"
     request(options, function(error, response, body) {
         if (error) {
-            console.log(error);
-            return;
-        }
-        if (response.statusCode === 404) {
-            console.log('Invalid issue number.');
+            res.send(error)
             return;
         }
         if (response.statusCode !== 200) {
-            console.log(response.statusCode + ': Unable to connect to JIRA during findIssueStatus.');
+            console.log(response.statusCode + "/n"+ error);
+            res.status(response.statusCode).send(error)
             return;
-        }
-        if (body === undefined) {
-            console.log('Response body was undefined.');
-            return;
-        }
-            console.log(JSON.parse(body));
+         }
+        res.json(JSON.parse(body));
+        return;
     });
-};
+});
 
-
-
-
-getIssueMeta = function(issueNumber) {
-    options.uri = "https://mehran-development.atlassian.net/rest/api/2/issue/"+issueNumber+"/editmeta"
+app.get("/getIssueWorklog/:issueNumber", function(req, res)  {
+    options.uri = "https://mehran-development.atlassian.net/rest/api/2/issue/"+req.params.issueNumber+"/worklog";
     request(options, function(error, response, body) {
         if (error) {
-            console.log(error);
-            return;
-        }
-        if (response.statusCode === 404) {
-            console.log('Invalid issue number.');
+            res.send(error)
             return;
         }
         if (response.statusCode !== 200) {
-            console.log(response.statusCode + ': Unable to connect to JIRA during findIssueStatus.');
+            console.log(response.statusCode + "/n"+ error);
+            res.status(response.statusCode).send(error)
             return;
-        }
-        if (body === undefined) {
-            console.log('Response body was undefined.');
-            return;
-        }
-            console.log(JSON.parse(body));
+         }
+        res.json(JSON.parse(body));
+        return;
     });
-};
+});
 
-getWorklog = function(issueNumber) {
-    options.uri = "https://mehran-development.atlassian.net/rest/api/2/issue/"+issueNumber+"/worklog";
+app.get("/getProject/:projectId", function(req, res)  {
+    options.uri = "https://mehran-development.atlassian.net//rest/api/2/project/"+req.params.projectId;
     request(options, function(error, response, body) {
         if (error) {
-            console.log(error);
-            return;
-        }
-        if (response.statusCode === 404) {
-            console.log('Invalid issue number.');
+            res.send(error)
             return;
         }
         if (response.statusCode !== 200) {
-            console.log(response.statusCode + ': Unable to connect to JIRA during findIssueStatus.');
+            console.log(response.statusCode + "/n"+ error);
+            res.status(response.statusCode).send(error)
             return;
-        }
-        if (body === undefined) {
-            console.log('Response body was undefined.');
-            return;
-        }
-            console.log(JSON.parse(body));
+         }
+        res.json(JSON.parse(body));
+        return;
     });
-};
+});
 
-getProject = function(projectId) {
-    options.uri = "https://mehran-development.atlassian.net//rest/api/2/project/"+projectId;
+app.get("/getProjectRole/:projectId", function(req, res)  {
+    options.uri = "https://mehran-development.atlassian.net//rest/api/2/project/"+req.params.projectId+"/role";
     request(options, function(error, response, body) {
         if (error) {
-            console.log(error);
-            return;
-        }
-        if (response.statusCode === 404) {
-            console.log('Invalid project number.');
+            res.send(error)
             return;
         }
         if (response.statusCode !== 200) {
-            console.log(response.statusCode + ': Unable to connect to JIRA.');
+            console.log(response.statusCode + "/n"+ error);
+            res.status(response.statusCode).send(error)
             return;
-        }
-        if (body === undefined) {
-            console.log('Response body was undefined.');
-            return;
-        }
-            console.log(JSON.parse(body));
+         }
+        res.json(JSON.parse(body));
+        return;
     });
-};
-
-getProjectRoles = function(projectId) {
-    options.uri = "https://mehran-development.atlassian.net//rest/api/2/project/"+projectId+"/role";
-    request(options, function(error, response, body) {
-        if (error) {
-            console.log(error);
-            return;
-        }
-        if (response.statusCode === 404) {
-            console.log('Invalid project number.');
-            return;
-        }
-        if (response.statusCode !== 200) {
-            console.log(response.statusCode + ': Unable to connect to JIRA.');
-            return;
-        }
-        if (body === undefined) {
-            console.log('Response body was undefined.');
-            return;
-        }
-            console.log(JSON.parse(body));
-    });
-};
+});
 
 app.listen(3000, function() {  
     console.log("Request Server is running on http://localhost:3000");

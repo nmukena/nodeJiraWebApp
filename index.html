@@ -1,0 +1,88 @@
+<html lang="en">
+  <head>
+    <title>GuessGame</title>
+  </head>
+  <body>
+      <div id="main-div"></div>
+  </body>
+    <script src="https://fb.me/react-15.0.0.js"></script>
+    <script src="https://fb.me/react-dom-15.0.0.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
+    <script type="text/babel">
+
+    var URL = "http://localhost:3000";
+
+
+
+    class AllIssues extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = {status: 'Data Not Available', issues: [], json: ''};
+      }
+
+
+      render() {
+        var xmlhttp = new XMLHttpRequest();
+        var displayIssues = [];
+        xmlhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+              var data = JSON.parse(this.responseText);
+              //this.state.status = Date.now();
+              for (var i=0; i<data.issues.length; i++) {
+                //this.state.issues.push(data.issues[i]);
+                displayIssues.push(<span><Issue issueId={data.issues[i].key}/></span>);
+              }
+          }
+          return (
+                  <div class="container">
+                    {displayIssues}
+                  </div>
+          );
+        };
+        xmlhttp.open("GET", URL+"/getAllIssues/"+this.props.projectId, true);
+        xmlhttp.send();
+      }    
+    }
+
+    class Issue extends React.Component {
+      
+      constructor(props) {
+        console.log("Issue");
+        super(props);
+        this.state = {status: 'Data Not Available', json: ''};
+        var that = this;
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+              that.state.json = JSON.parse(this.responseText);
+              that.state.status = Date.now();
+          }
+        };
+        xmlhttp.open("GET", URL+"/getIssue/"+this.props.issueId, true);
+        xmlhttp.send();
+      }
+
+      
+      render() {
+        return (
+          <div id={this.props.issueId}>
+            <header>
+              <h1>{this.state.json.fields.summary}</h1>
+            </header>
+            <article>
+              <ul>
+                <li> Assignee: {this.state.json.fields.assignee.displayName} </li>
+                <li> Story Points: {this.state.json.fields.customfield_10200} </li>
+                <li> Status: {this.state.json.fields.status.name} :
+                  {this.state.json.fields.status.description} </li>
+                <li> Deadline: {this.state.json.fields.duedate}</li>
+              </ul>
+            </article>
+          </div>
+        );
+      }
+    }
+    
+    ReactDOM.render(<AllIssues projectId={'GTMP'}/>, document.getElementById('main-div'));
+    </script>
+</html>
