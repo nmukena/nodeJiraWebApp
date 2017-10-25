@@ -12,7 +12,7 @@ var options = {rejectUnauthorized: this.strictSSL,
 };
 
 app.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname + '/index.html'));
+    res.sendFile(path.join(__dirname + '/react.html'));
 });
 
 app.get("/getIssue/:issueNumber", function(req, res)  {
