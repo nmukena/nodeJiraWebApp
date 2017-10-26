@@ -2,9 +2,9 @@ import React from "react"
 import ReactDOM from "react-dom"
 import { Provider } from  "react-redux"
 
-import Layout from "./js/layout.js"
-import store from "./js/store.js"
+import Layout from "layout"
+import store from "./store"
 
-const app = document.body
+const app = document.getElementById('app')
 
 ReactDOM.render(<Provider store={store}>< Layout /></Provider>, app);

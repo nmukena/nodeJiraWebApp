@@ -12,7 +12,15 @@ var options = {rejectUnauthorized: this.strictSSL,
 };
 
 app.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname + '/react.html'));
+    res.sendFile(path.join(__dirname + '/index.html'));
+});
+app.get('/index.js', function(req, res) {
+    console.log('/src/index.js');
+    res.sendFile(path.join(__dirname + '/src/index.js'));
+});
+app.get('/bundle.js', function(req, res) {
+    console.log('/src/bundle.js');
+    res.sendFile(path.join(__dirname + '/dist/bundle.js'));
 });
 
 app.get("/getIssue/:issueNumber", function(req, res)  {
@@ -27,7 +35,7 @@ app.get("/getIssue/:issueNumber", function(req, res)  {
                 res.status(response.statusCode).send(error)
                 return;
              }
-            res.json(JSON.parse(body));
+            res.json(body);
             return;
         });
 });
@@ -45,7 +53,7 @@ app.get("/getAllIssues/:projectId", function(req, res)  {
             res.status(response.statusCode).send(error)
             return;
          }
-        res.json(JSON.parse(body));
+        res.json(body);
         return;
     });
 });
