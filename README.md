@@ -24,18 +24,17 @@ index.html: Main page that serves as the entry point of the application
 
 INSTALLATION:
 
-1) Install Node.js and NPM
-a) NodeJS
+1) Install Node.js
 >   sudo apt-get install nodejs 
-b) NPM
+2) NPM
 >   sudo apt-get install npm
-c) Rename NodeJs to Node
+3) Rename NodeJs to Node
 >   sudo ln -s /usr/bin/nodejs /usr/bin/node
 
-2) Install all the dependencies in package.json in your local node-modules folder
+4) Install all the dependencies in package.json in your local node-modules folder
 >   sudo npm install
 
-3) Provide the Jira Account URL and credentials in request.js
+5) Provide the Jira Account URL and credentials in request.js
 
         var URL = "WRITE URL HERE"
 
@@ -48,10 +47,9 @@ c) Rename NodeJs to Node
         };
 
 
-4) Run the application
-a) Run webpack to compile the React-Redux Application.
+6) Run webpack to compile the React-Redux Application.
 > npm start
-b) Run request.js to start the Node Express server.
+7) Run request.js to start the Node Express server.
 > node request.js
 
 
