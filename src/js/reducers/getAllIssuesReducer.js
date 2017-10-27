@@ -1,6 +1,6 @@
 export default function reducer(state={ 
-    issueId:"", 
-    json: {}, 
+    projectId:"GTMP", 
+    json: {issues: []}, 
     fetching: true, 
     fetched: false, 
     error: null,
@@ -13,7 +13,7 @@ export default function reducer(state={
             return {...state, fetching: false, error: action.error}
         }
         case "GET_ALL_ISSUES_SUCCESS":{
-            return {...state, fetching: false, fetched: true, json: JSON.parse(action.json)}
+            return {...state, fetching: false, fetched: true, json: action.json}
         }
     }
     return state;

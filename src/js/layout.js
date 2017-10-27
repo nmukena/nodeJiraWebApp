@@ -1,21 +1,41 @@
 import React from "react";
 import { connect } from "react-redux";
-import * as actions from "./actions.js";
+import * as actions from "./actions/actions.js";
 
 @connect((store)=>{
-        return {
-            data: store.json,
-        };
-    })
-
+    return {
+        data: store.json,
+    };
+})
 
 export default class Layout extends React.Component {
-    
+
+    getAllIssuesFunc(id){
+        this.props.dispatch(actions.getAllIssues(id))
+    }
+
     componentWillMount(){
         this.props.dispatch(actions.getAllIssues("GTMP"))
     }
 
     render(){
-        return <h1>{this.props.data}</h1>;
+
+        if (!this.props.data){
+            return <button onClick={this.getAllIssuesFunc("GTMP").bind(this)}>Get Issues</button>
+        }
+
+        const listIssues = this.props.data.issues.
+        map((issue, i) =>
+        <div key={issue.key}>
+            <article>
+            <h1>Issue {issue.key}</h1>
+            <h3>Description: {issue.fields.summary}</h3>
+            <p>Status: {issue.fields.status.name} </p>
+            </article>
+        </div>)
+
+        return <div>
+            <ul>{ listIssues }</ul>
+        </div>;
     };
 }

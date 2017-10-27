@@ -7,19 +7,17 @@ var path = require('path');
 var options = {rejectUnauthorized: this.strictSSL, 
     uri: "https://mehran-development.atlassian.net/rest/api/2/issue/GTMP-2", 
     method: 'GET',
-    auth: {'user': 'USERNAME', 
-    'pass': 'PASSWORD'}
+    auth: {'user': 'nmukena@deloitte.ca', 
+    'pass': 'I lift my eyes up.'}
 };
 
 app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname + '/index.html'));
 });
 app.get('/index.js', function(req, res) {
-    console.log('/src/index.js');
     res.sendFile(path.join(__dirname + '/src/index.js'));
 });
 app.get('/bundle.js', function(req, res) {
-    console.log('/src/bundle.js');
     res.sendFile(path.join(__dirname + '/dist/bundle.js'));
 });
 
@@ -35,7 +33,7 @@ app.get("/getIssue/:issueNumber", function(req, res)  {
                 res.status(response.statusCode).send(error)
                 return;
              }
-            res.json(body);
+            res.json(JSON.parse(body));
             return;
         });
 });
@@ -53,7 +51,7 @@ app.get("/getAllIssues/:projectId", function(req, res)  {
             res.status(response.statusCode).send(error)
             return;
          }
-        res.json(body);
+         res.json(JSON.parse(body));
         return;
     });
 });
