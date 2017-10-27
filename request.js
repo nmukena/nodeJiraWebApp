@@ -3,12 +3,14 @@ var app = express();
 request = require('request');
 var path = require('path');
 
+var URL = "https://mehran-development.atlassian.net"
+
 
 var options = {rejectUnauthorized: this.strictSSL, 
-    uri: "https://mehran-development.atlassian.net/rest/api/2/issue/GTMP-2", 
+    uri: "", 
     method: 'GET',
-    auth: {'user': 'nmukena@deloitte.ca', 
-    'pass': 'I lift my eyes up.'}
+    auth: {'user': 'USERNAME', 
+    'pass': 'PASSWORD'}
 };
 
 app.get('/', function(req, res) {
@@ -22,7 +24,7 @@ app.get('/bundle.js', function(req, res) {
 });
 
 app.get("/getIssue/:issueNumber", function(req, res)  {
-        options.uri = "https://mehran-development.atlassian.net/rest/api/2/issue/"+req.params.issueNumber;
+        options.uri = URL+"/rest/api/2/issue/"+req.params.issueNumber;
         request(options, function(error, response, body) {
             if (error) {
                 res.send(error)
@@ -40,7 +42,7 @@ app.get("/getIssue/:issueNumber", function(req, res)  {
 
 //Attempt to use express.
 app.get("/getAllIssues/:projectId", function(req, res)  {
-    options.uri = "https://mehran-development.atlassian.net/rest/api/2/search?jql=project="+req.params.projectId; 
+    options.uri = URL+"/rest/api/2/search?jql=project="+req.params.projectId; 
     request(options, function(error, response, body) {
         if (error) {
             res.send(error)
@@ -57,7 +59,7 @@ app.get("/getAllIssues/:projectId", function(req, res)  {
 });
 
 app.get("/getIssueMeta/:issueNumber", function(req, res)  {
-    options.uri = "https://mehran-development.atlassian.net/rest/api/2/issue/"+req.params.issueNumber+"/editmeta"
+    options.uri = URL+"/rest/api/2/issue/"+req.params.issueNumber+"/editmeta"
     request(options, function(error, response, body) {
         if (error) {
             res.send(error)
@@ -74,7 +76,7 @@ app.get("/getIssueMeta/:issueNumber", function(req, res)  {
 });
 
 app.get("/getIssueWorklog/:issueNumber", function(req, res)  {
-    options.uri = "https://mehran-development.atlassian.net/rest/api/2/issue/"+req.params.issueNumber+"/worklog";
+    options.uri = URL+"/rest/api/2/issue/"+req.params.issueNumber+"/worklog";
     request(options, function(error, response, body) {
         if (error) {
             res.send(error)
@@ -91,7 +93,7 @@ app.get("/getIssueWorklog/:issueNumber", function(req, res)  {
 });
 
 app.get("/getProject/:projectId", function(req, res)  {
-    options.uri = "https://mehran-development.atlassian.net//rest/api/2/project/"+req.params.projectId;
+    options.uri = URL+"/rest/api/2/project/"+req.params.projectId;
     request(options, function(error, response, body) {
         if (error) {
             res.send(error)
@@ -108,7 +110,7 @@ app.get("/getProject/:projectId", function(req, res)  {
 });
 
 app.get("/getProjectRole/:projectId", function(req, res)  {
-    options.uri = "https://mehran-development.atlassian.net//rest/api/2/project/"+req.params.projectId+"/role";
+    options.uri = URL+"/rest/api/2/project/"+req.params.projectId+"/role";
     request(options, function(error, response, body) {
         if (error) {
             res.send(error)
