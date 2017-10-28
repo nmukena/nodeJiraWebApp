@@ -7,4 +7,8 @@ import store from "./js/store.js"
 
 const app = document.getElementById("main-div")
 
-ReactDOM.render(<Provider store={store}>< Layout /></Provider>, app);
+ReactDOM.render(
+	<Provider store={store}>
+	<Layout />
+	</Provider>
+	, app);

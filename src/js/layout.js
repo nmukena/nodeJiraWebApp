@@ -2,6 +2,10 @@ import React from "react";
 import { connect } from "react-redux";
 import * as actions from "./actions/actions.js";
 
+import '../App.css';
+import Header from "./Header";
+import Footer from "./Footer";
+
 @connect((store)=>{
     return {
         data: store.json,
@@ -28,14 +32,24 @@ export default class Layout extends React.Component {
         map((issue, i) =>
         <div key={issue.key}>
             <article>
-            <h1>Issue {issue.key}</h1>
-            <h3>Description: {issue.fields.summary}</h3>
-            <p>Status: {issue.fields.status.name} </p>
+                <h2>Issue {issue.key}</h2>
+                <h3>Description: {issue.fields.summary}</h3>
+                <p>Status: {issue.fields.status.name} </p>
             </article>
         </div>)
 
-        return <div>
-            <ul>{ listIssues }</ul>
-        </div>;
+        return(
+        <div>
+            <div>
+                <Header />
+            </div>
+            <div>          
+                <ul>{ listIssues }</ul>
+            </div>
+            <div>
+                <Footer />
+            </div>
+        </div>
+        );
     };
 }
