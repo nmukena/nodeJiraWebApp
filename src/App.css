@@ -7,41 +7,158 @@ input[type=reset],input[type=submit]{-webkit-appearance:button;cursor:pointer;}b
 
 body{
 	background: #3D3D43;
+	margin: 0 auto;
 	color: white;
+	width: 90%;
 }
+
+.epic-row{
+	text-align: left;
+	display: flex;
+}
+
+.epic-row .epic-type{
+	font-size: 14px;
+	text-align: center;
+	width: 10%;
+	padding: 150px 20px;
+	margin-right: 10px;
+	margin-top: 10px;
+	background: white;
+	color: black;
+	box-shadow: 0px 10px 10px 0px black;
+}
+
+.epic-row .epic-type span{
+	padding: 5 2.5;
+	color: #74BEA7;
+}
+
+.epic-sprint{
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+}
+
+.epic-sprint-one, .epic-sprint-two, .epic-sprint-three, .epic-sprint-four{
+	width: 25%;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	background: black;
+	text-align: center;
+	padding: 5px;
+	justify-content: space-between;
+	margin: 10 2.5 0 5;
+	font-weight: bold;
+}
+
+#main-div{
+	text-align: center;
+	width: 100%;
+	margin: 0 auto;
+}
+
+.label-column{
+	display: flex;
+	justify-content: space-between;
+	box-shadow: 2.5px 5px 5px black;
+	text-align: center;
+	margin-top: 5px;
+}
+
+.label-header{
+	width: 10%;
+	flex-direction: row;
+	flex-wrap: wrap;
+	background: #5B5B60;
+	text-align: center;
+	box-shadow: 2.5px 5px 5px black;
+	padding: 5px;
+	margin-right: 2.5px;
+}
+
+.sprint-header{
+	width: 22.5%;
+	flex-direction: row;
+	flex-wrap: wrap;
+	background: #5B5B60;
+	text-align: center;
+	box-shadow: 2.5px 5px 5px black;
+	padding: 5px;
+	justify-content: space-between;
+	margin-left: 2.5px;
+	margin-right: 2.5px;
+	letter-spacing: 5px;
+	font-weight: bold;
+}
+
+.sprint-date{
+	font-weight: 200px;
+	color: #74BEA7;
+	font-size: 12px;
+	letter-spacing: 1px;
+	padding-top: 5px;
+}
+
 
 h1{
 	font-size: 20px;
+	width: 100%;
+	padding: 10px;
+	background: #2C2C33;
+	text-align: center;
 	margin: 0 auto;
 	margin-top: 20px;
-	padding: 5px;
-	background: #2C2C33;
-	width: 95%;
-	text-align: center;
+	margin-bottom: 10px;
+	letter-spacing: 4px;
 }
 
 h2{
+	padding: 5 5 0 5;
 	font-size: 20px;
+	background: #D0D2D3;
+	color: black;
+	border-bottom: 8px solid #51a087;
+	margin: 0;
 }
 
 h3{
+	padding: 5px;
 	font-size: 14px;
+	background: white;
+	color: black;
+	margin: 0;
+}
+
+ul{
+	display: flex;
+	flex-wrap: wrap;
+	padding: 0;
+    list-style-type: none;
 }
 
 .epic-details{
-	display: flex;
+	width: 50%;	
 }
 
 article{
 	background: #2C2C33;
 	padding: 5px;
-	width: 15%;
+	margin: 5px;
 	font-size: 16px;
 }
 
 article p {
 	font-size: 12px;
+	color: black;
+	background: white;
+	padding: 5px;
+	margin: 0;
 }
 
 
+.footer{
+	margin: 15px;
 
+}

@@ -3,8 +3,8 @@ import React from "react";
 export default class Footer extends React.Component {
 	render() {
 		return (
-			<div>
-			<p>Footer</p>
+			<div className="footer">
+				&copy; 2017 Deloitte Canada
 			</div>
 		);
 	}
