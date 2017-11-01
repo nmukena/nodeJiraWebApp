@@ -31,7 +31,6 @@ app.get("/getIssue/:issueNumber", function(req, res)  {
                 return;
             }
             if (response.statusCode !== 200) {
-                console.log(response.statusCode + "/n"+ error);
                 res.status(response.statusCode).send(error)
                 return;
              }
@@ -40,7 +39,6 @@ app.get("/getIssue/:issueNumber", function(req, res)  {
         });
 });
 
-//Attempt to use express.
 app.get("/getAllIssues/:projectId", function(req, res)  {
     options.uri = URL+"/rest/api/2/search?jql=project="+req.params.projectId; 
     request(options, function(error, response, body) {
@@ -49,7 +47,6 @@ app.get("/getAllIssues/:projectId", function(req, res)  {
             return;
         }
         if (response.statusCode !== 200) {
-            console.log(response.statusCode + "/n"+ error);
             res.status(response.statusCode).send(error)
             return;
          }
@@ -58,70 +55,89 @@ app.get("/getAllIssues/:projectId", function(req, res)  {
     });
 });
 
-app.get("/getIssueMeta/:issueNumber", function(req, res)  {
-    options.uri = URL+"/rest/api/2/issue/"+req.params.issueNumber+"/editmeta"
+app.get("/getRapidviews/", function(req, res)  {
+    options.uri = URL+"/rest/greenhopper/latest/rapidviews/list"; 
     request(options, function(error, response, body) {
         if (error) {
             res.send(error)
             return;
         }
         if (response.statusCode !== 200) {
-            console.log(response.statusCode + "/n"+ error);
             res.status(response.statusCode).send(error)
             return;
          }
-        res.json(JSON.parse(body));
+         res.json(JSON.parse(body));
         return;
     });
 });
 
-app.get("/getIssueWorklog/:issueNumber", function(req, res)  {
-    options.uri = URL+"/rest/api/2/issue/"+req.params.issueNumber+"/worklog";
+app.get("/getSprints/:rapidViewId", function(req, res)  {
+    options.uri = URL+"/rest/greenhopper/latest/sprintquery/"+req.params.rapidViewId
+    +"?includeHistoricSprints=true&includeFutureSprints=true"; 
     request(options, function(error, response, body) {
         if (error) {
             res.send(error)
             return;
         }
         if (response.statusCode !== 200) {
-            console.log(response.statusCode + "/n"+ error);
             res.status(response.statusCode).send(error)
             return;
          }
-        res.json(JSON.parse(body));
+         res.json(JSON.parse(body));
         return;
     });
 });
 
-app.get("/getProject/:projectId", function(req, res)  {
-    options.uri = URL+"/rest/api/2/project/"+req.params.projectId;
+app.get("/getIssuesBySprint/:rapidViewId/:sprintId", function(req, res)  {
+    options.uri = URL+"/rest/greenhopper/latest/rapid/charts/sprintreport?rapidViewId="+
+    req.params.rapidViewId+"&sprintId="+req.params.sprintId;
     request(options, function(error, response, body) {
         if (error) {
             res.send(error)
             return;
         }
         if (response.statusCode !== 200) {
-            console.log(response.statusCode + "/n"+ error);
             res.status(response.statusCode).send(error)
             return;
          }
-        res.json(JSON.parse(body));
+         res.json(JSON.parse(body));
         return;
     });
 });
 
-app.get("/getProjectRole/:projectId", function(req, res)  {
-    options.uri = URL+"/rest/api/2/project/"+req.params.projectId+"/role";
+app.get("/getAllEpics/:projectId/", function(req, res)  {
+    options.uri = URL+"/rest/api/2/search?jql=project%3D%22"+req.params.projectId+"%22%20AND%20issuetype%3D%22Epic%22&"+
+    "fields=summary,duedate,priority,issuetype,key,timeoriginalestimate,customfield_11000,"+
+    "customfield_10100,customfield_10002,customfield_10014,assignee,components,fixVersions,"+
+    "versions,resolution,customfield_10011,labels,reporter,status,customfield_10015,time%20estimate";
     request(options, function(error, response, body) {
         if (error) {
             res.send(error)
             return;
         }
         if (response.statusCode !== 200) {
-            console.log(response.statusCode + "/n"+ error);
             res.status(response.statusCode).send(error)
             return;
          }
-        res.json(JSON.parse(body));
+         res.json(JSON.parse(body));
+        return;
+    });
+});
+
+
+"https://mehran-development.atlassian.net/rest/api/2/search?jql=%22Epic%20Link%22%3DGTMP-33"
+app.get("/getIssuesPerEpic/:epicId/", function(req, res)  {
+    options.uri = URL+"/rest/api/2/search?jql=%22Epic%20Link%22%3D"+req.params.epicId;
+    request(options, function(error, response, body) {
+        if (error) {
+            res.send(error)
+            return;
+        }
+        if (response.statusCode !== 200) {
+            res.status(response.statusCode).send(error)
+            return;
+         }
+         res.json(JSON.parse(body));
         return;
     });
 });
