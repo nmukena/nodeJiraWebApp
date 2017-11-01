@@ -125,7 +125,6 @@ app.get("/getAllEpics/:projectId/", function(req, res)  {
 });
 
 
-"https://mehran-development.atlassian.net/rest/api/2/search?jql=%22Epic%20Link%22%3DGTMP-33"
 app.get("/getIssuesPerEpic/:epicId/", function(req, res)  {
     options.uri = URL+"/rest/api/2/search?jql=%22Epic%20Link%22%3D"+req.params.epicId;
     request(options, function(error, response, body) {
