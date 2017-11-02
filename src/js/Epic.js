@@ -41,6 +41,7 @@ export default class Epic extends React.Component {
 						<div className="epic-sprint-four">{listIssues}</div>
 					</div>
 				</div>
+				<div className="border"></div>
 			
 				<div className="epic-row">
 					<div className="epic-type"><span>Epic Two </span><br/>Advanced Phone Channel Quote</div>
@@ -51,7 +52,7 @@ export default class Epic extends React.Component {
 						<div className="epic-sprint-four"> </div>
 					</div>
 				</div>
-		
+				<div className="border"></div>
 			
 				<div className="epic-row">
 					<div className="epic-type"><span>Epic Three </span><br/>Digital Quote for multi driver and multi vehicle</div>
@@ -62,7 +63,6 @@ export default class Epic extends React.Component {
 						<div className="epic-sprint-four"> </div>
 					</div>
 				</div>
-
 			</div>
 		);
 	}

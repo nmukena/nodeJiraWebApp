@@ -85,7 +85,6 @@ h1{
 	text-align: left;
 	display: flex;
 	justify-content: space-between;
-
 }
 
 .epic-row .epic-type{
@@ -114,6 +113,11 @@ h1{
 	background: black;
 	text-align: center;
 	font-weight: bold;
+}
+
+.border{
+	margin-top: 10px;
+	border-bottom: 2.5px solid white;
 }
 
 
@@ -168,6 +172,9 @@ article p {
 /*Footer Styles*/
 
 .footer{
-	margin: 15px;
+	color: #74BEA7;
+	font-size: 16px;
+	font-weight: bold;
+	margin: 25px;
 
 }
