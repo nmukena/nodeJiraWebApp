@@ -29,7 +29,6 @@ export default class Layout extends React.Component {
             return <button onClick={this.getAllIssuesFunc("GTMP").bind(this)}>Get Issues</button>
         }
 
-
         const listIssues = this.props.data.issues.
         map((issue, i) =>
         <div className="epic-details" key={issue.key}>

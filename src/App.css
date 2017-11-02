@@ -12,55 +12,13 @@ body{
 	width: 90%;
 }
 
-.epic-row{
-	text-align: left;
-	display: flex;
-}
-
-.epic-row .epic-type{
-	font-size: 14px;
-	text-align: center;
-	width: 10%;
-	padding: 150px 20px;
-	margin-right: 10px;
-	margin-top: 10px;
-	background: white;
-	color: black;
-	box-shadow: 0px 10px 10px 0px black;
-}
-
-.epic-row .epic-type span{
-	padding: 5 2.5;
-	color: #74BEA7;
-	font-size: 16px;
-	font-weight: bold;
-}
-
-.epic-sprint{
-	width: 100%;
-	display: flex;
-	flex-direction: row;
-}
-
-.epic-sprint-one, .epic-sprint-two, .epic-sprint-three, .epic-sprint-four{
-	width: 25%;
-	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
-	background: black;
-	text-align: center;
-	padding: 5px;
-	justify-content: space-between;
-	margin: 10 2.5 0 5;
-	font-weight: bold;
-}
-
 #main-div{
 	text-align: center;
 	width: 100%;
 	margin: 0 auto;
 }
 
+/*Header Styles*/
 .label-column{
 	display: flex;
 	justify-content: space-between;
@@ -70,27 +28,24 @@ body{
 }
 
 .label-header{
-	width: 10%;
+	width: 9.5%;
 	flex-direction: row;
 	flex-wrap: wrap;
 	background: #5B5B60;
 	text-align: center;
 	box-shadow: 2.5px 5px 5px black;
-	padding: 5px;
-	margin-right: 2.5px;
+	justify-content: space-between;
+
 }
 
 .sprint-header{
-	width: 22.5%;
+	width: 22%;
 	flex-direction: row;
 	flex-wrap: wrap;
 	background: #5B5B60;
 	text-align: center;
 	box-shadow: 2.5px 5px 5px black;
-	padding: 5px;
 	justify-content: space-between;
-	margin-left: 2.5px;
-	margin-right: 2.5px;
 	letter-spacing: 5px;
 	font-weight: bold;
 }
@@ -114,6 +69,57 @@ h1{
 	margin-top: 20px;
 	margin-bottom: 10px;
 	letter-spacing: 4px;
+}
+/*End of Header Styles*/
+
+/*Epic Styles*/
+.epic-sprint{
+	width: 90%;
+	margin-top: 10px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.epic-row{
+	text-align: left;
+	display: flex;
+	justify-content: space-between;
+
+}
+
+.epic-row .epic-type{
+	font-size: 14px;
+	text-align: center;
+	width: 9.5%;
+	padding: 150px 0px;
+	margin-top: 10px;
+	background: white;
+	color: black;
+	
+}
+
+.epic-row .epic-type span{
+	
+	color: #74BEA7;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.epic-sprint-one, .epic-sprint-two, .epic-sprint-three, .epic-sprint-four{
+	width: 24.5%;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	background: black;
+	text-align: center;
+	font-weight: bold;
+}
+
+
+/*List Issues*/
+.epic-details{
+	width: 50%;	
 }
 
 h2{
@@ -140,9 +146,6 @@ ul{
     list-style-type: none;
 }
 
-.epic-details{
-	width: 50%;	
-}
 
 article{
 	background: #2C2C33;
@@ -159,6 +162,10 @@ article p {
 	margin: 0;
 }
 
+/*End of List Issues*/
+/*End of Epic Styles*/
+
+/*Footer Styles*/
 
 .footer{
 	margin: 15px;
