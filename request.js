@@ -9,8 +9,8 @@ var URL = "https://mehran-development.atlassian.net"
 var options = {rejectUnauthorized: this.strictSSL, 
     uri: "", 
     method: 'GET',
-    auth: {'user': '', 
-    'pass': ''}
+    auth: {'user': 'nmukena@deloitte.ca', 
+    'pass': 'I lift my eyes up.'}
 };
 
 app.get('/', function(req, res) {
@@ -24,7 +24,8 @@ app.get('/bundle.js', function(req, res) {
 });
 
 app.get("/getIssue/:issueNumber", function(req, res)  {
-        options.uri = URL+"/rest/api/2/issue/"+req.params.issueNumber;
+        options.uri = URL+"/rest/api/2/search?jql=issue%3D%22"+req.params.issueNumber
+        +"%22&fields=summary,customfield_10500,customfield_10501";
         request(options, function(error, response, body) {
             if (error) {
                 res.send(error)
@@ -107,9 +108,7 @@ app.get("/getIssuesBySprint/:rapidViewId/:sprintId", function(req, res)  {
 
 app.get("/getAllEpics/:projectId/", function(req, res)  {
     options.uri = URL+"/rest/api/2/search?jql=project%3D%22"+req.params.projectId+"%22%20AND%20issuetype%3D%22Epic%22&"+
-    "fields=summary,duedate,priority,issuetype,key,timeoriginalestimate,customfield_11000,"+
-    "customfield_10100,customfield_10002,customfield_10014,assignee,components,fixVersions,"+
-    "versions,resolution,customfield_10011,labels,reporter,status,customfield_10015,time%20estimate";
+    "fields=summary,key";
     request(options, function(error, response, body) {
         if (error) {
             res.send(error)
@@ -124,8 +123,7 @@ app.get("/getAllEpics/:projectId/", function(req, res)  {
     });
 });
 
-
-app.get("/getIssuesPerEpic/:epicId/", function(req, res)  {
+app.get("/getIssuesByEpic/:epicId/", function(req, res)  {
     options.uri = URL+"/rest/api/2/search?jql=%22Epic%20Link%22%3D"+req.params.epicId;
     request(options, function(error, response, body) {
         if (error) {
