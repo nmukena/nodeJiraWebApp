@@ -23,7 +23,7 @@ app.get('/bundle.js', function(req, res) {
     res.sendFile(path.join(__dirname + '/dist/bundle.js'));
 });
 
-app.get("/getIssue/:issueNumber", function(req, res)  {
+app.get("/getEpic/:issueNumber", function(req, res)  {
         options.uri = URL+"/rest/api/2/search?jql=issue%3D%22"+req.params.issueNumber
         +"%22&fields=summary,customfield_10500,customfield_10501";
         request(options, function(error, response, body) {
@@ -38,6 +38,23 @@ app.get("/getIssue/:issueNumber", function(req, res)  {
             res.json(JSON.parse(body));
             return;
         });
+});
+
+app.get("/getStory/:issueNumber", function(req, res)  {
+    options.uri = URL+"/rest/api/2/search?jql=issue%3D%22"+req.params.issueNumber
+    +"%22&fields=summary,status";
+    request(options, function(error, response, body) {
+        if (error) {
+            res.send(error)
+            return;
+        }
+        if (response.statusCode !== 200) {
+            res.status(response.statusCode).send(error)
+            return;
+         }
+        res.json(JSON.parse(body));
+        return;
+    });
 });
 
 app.get("/getAllIssues/:projectId", function(req, res)  {
@@ -123,7 +140,7 @@ app.get("/getAllEpics/:projectId/", function(req, res)  {
     });
 });
 
-app.get("/getIssuesByEpic/:epicId/", function(req, res)  {
+app.get("/getStoriesByEpic/:epicId/", function(req, res)  {
     options.uri = URL+"/rest/api/2/search?jql=%22Epic%20Link%22%3D"+req.params.epicId;
     request(options, function(error, response, body) {
         if (error) {

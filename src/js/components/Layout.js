@@ -7,6 +7,7 @@ import store from "../store.js"
 import '../../App.css';
 import Header from "./Header";
 import AllEpics from "./AllEpics";
+import AllStoriesByEpic from "./AllStoriesByEpic";
 import Footer from "./Footer";
 
 @connect((store)=>{
@@ -26,6 +27,9 @@ export default class Layout extends React.Component {
             </div>
             <div>
                 <AllEpics projectId = {"GTMP"}/>
+            </div>
+            <div>
+                <AllStoriesByEpic epicId = {"GTMP-2"}/>
             </div>
             <div>
                 <Footer />

@@ -1,10 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
-import axios from 'axios';
 import * as actions from "../actions/actions.js";
 import store from "../store.js"
 
-var API_SERVER="http://localhost:3000";
 
 @connect((store)=>{
     return {

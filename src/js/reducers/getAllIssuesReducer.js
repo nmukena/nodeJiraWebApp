@@ -1,12 +1,13 @@
-var store = { 
+var store = {
+    render: 0, 
     projectId:"GTMP",
     currentRapidView: 4,
     sprintIds : [],
     currentSprintDetails : 2,
-    issuesBySprints: [],
+    storiesByEpics: {},
     epics: {},
-    allIssues: {},
-    json: {}, 
+    allStories: {},
+    allEpics: {}, 
     fetching: true, 
     fetched: false, 
     error: null,
@@ -14,15 +15,37 @@ var store = {
 
 export default function reducer(state=store, action){
     switch (action.type){
-        case "GET_ISSUE_SUCCESS":{
+        case "RE-RENDER":
+            return {...state, render:state.render+1}
+
+        case "GET_EPIC_SUCCESS":{
             if(!state.epics[action.id]){
                 return {...state, fetching: false, fetched: true, epics: {...state.epics, [action.id]: action.json}}
             }
             return {...state, fetching: false, fetched: true}
         }
-        case "GET_ALL_ISSUES_SUCCESS":{
-            return {...state, fetching: false, fetched: true, json: action.json}
+
+        case "GET_ALL_EPICS_SUCCESS":{
+            return {...state, fetching: false, fetched: true, allEpics: action.json}
         }
+
+        case "GET_STORY_SUCCESS":{
+            if(!state.allStories[action.id]){
+                return {...state, fetching: false, fetched: true, allStories: {...state.allStories, [action.id]: action.json}}
+            }
+            return {...state, fetching: false, fetched: true}
+        }
+
+        case "GET_STORIES_EPIC_SUCCESS":{
+            if(!state.storiesByEpics[action.id]){
+                return {...state, fetching: false, fetched: true, storiesByEpics: {...state.storiesByEpics, [action.id]: action.json}}
+            }
+            return {...state, fetching: false, fetched: true}
+        }
+
+        
+
+        /*
         case "GET_RAPIDVIEWS_SUCCESS":{
             return {...state, fetching: false, fetched: true, json: action.json}
         }
@@ -36,15 +59,14 @@ export default function reducer(state=store, action){
                 issuesBySprints: [...state.issuesBySprints, action.json.contents.completedIssues.concat(action.json.contents.issuesNotCompletedInCurrentSprint)],
                 json: action.json}
         }
-        case "GET_ALL_EPICS_SUCCESS":{
-            return {...state, fetching: false, fetched: true, json: action.json}
+
         }
         case "GET_ISSUES_EPIC_SUCCESS":{
             return {...state, fetching: false, fetched: true, json: action.json}
         }
         case "ERROR":{
             return {...state, fetching: false, error: action.error}
-        }
+        }*/
     }
     return state;
 }

@@ -2,29 +2,57 @@ import axios from 'axios';
 
 var API_SERVER = "http://localhost:3000";
 
-export function getIssue(issueId){
+export function reRender(){
     return function(dispatch){
-        axios.get(API_SERVER+"/getIssue/"+issueId)
+        dispatch({type: "RE-RENDER"})
+    }
+}
+
+export function getEpic(epicId){
+    return function(dispatch){
+        axios.get(API_SERVER+"/getEpic/"+epicId)
         .then((response)=>{
-            dispatch({type: "GET_ISSUE_SUCCESS", id: issueId, json: response.data})
+            dispatch({type: "GET_EPIC_SUCCESS", id: epicId, json: response.data})
         }).catch((err)=>{
             dispatch({type: "ERROR", error: err})
         })
     }
 }
 
-export function getAllIssues(projectId){
+export function getAllEpics(projectId){
     return function(dispatch){
-        axios.get(API_SERVER+"/getAllIssues/"+projectId)
+        axios.get(API_SERVER+"/getAllEpics/"+projectId)
         .then((response)=>{
-            dispatch({type: "GET_ALL_ISSUES_SUCCESS", json: response.data})
+            dispatch({type: "GET_ALL_EPICS_SUCCESS", json: response.data})
         }).catch((err)=>{
             dispatch({type: "ERROR", error: err})
         })
     }
 }
 
-export function getAllRapidViews(){
+export function getStory(storyId){
+    return function(dispatch){
+        axios.get(API_SERVER+"/getEpic/"+storyId)
+        .then((response)=>{
+            dispatch({type: "GET_STORY_SUCCESS", id: storyId, json: response.data})
+        }).catch((err)=>{
+            dispatch({type: "ERROR", error: err})
+        })
+    }
+}
+
+export function getStoriesByEpic(epicId){
+    return function(dispatch){
+        axios.get(API_SERVER+"/getStoriesByEpic/"+epicId)
+        .then((response)=>{
+            dispatch({type: "GET_STORIES_EPIC_SUCCESS", id: epicId, json: response.data})
+        }).catch((err)=>{
+            dispatch({type: "ERROR", error: err})
+        })
+    }
+}
+
+/*export function getAllRapidViews(){
     return function(dispatch){
         axios.get(API_SERVER+"/getRapidviews/")
         .then((response)=>{
@@ -55,26 +83,4 @@ export function getIssuesBySprint(rapidViewId, sprintId){
             dispatch({type: "ERROR", error: err})
         })
     }
-}
-
-export function getAllEpics(projectId){
-    return function(dispatch){
-        axios.get(API_SERVER+"/getAllEpics/"+projectId)
-        .then((response)=>{
-            dispatch({type: "GET_ALL_EPICS_SUCCESS", json: response.data})
-        }).catch((err)=>{
-            dispatch({type: "ERROR", error: err})
-        })
-    }
-}
-
-export function getIssueByEpic(epicId){
-    return function(dispatch){
-        axios.get(API_SERVER+"/getIssuesByEpic/"+epicId)
-        .then((response)=>{
-            dispatch({type: "GET_ISSUES_EPIC_SUCCESS", json: response.data})
-        }).catch((err)=>{
-            dispatch({type: "ERROR", error: err})
-        })
-    }
-}
+}*/

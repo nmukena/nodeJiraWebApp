@@ -7,7 +7,7 @@ import store from "../store.js"
 
 @connect((store)=>{
     return {
-        data: store.json,
+        data: store.allEpics,
         state: store
     };
 })
@@ -33,7 +33,7 @@ export default class AllEpics extends React.Component {
         if (this.props.data.issues){
             var epics = this.props.data.issues
             for (var i = 0; i<epics.length; i++){
-                this.props.dispatch(actions.getIssue(epics[i].key))
+                this.props.dispatch(actions.getEpic(epics[i].key))
             }
             if(this.props.state.epics&&epics.length == Object.keys(this.props.state.epics).length){
                 var displayEpics = epics.map(epic => {
@@ -52,7 +52,7 @@ export default class AllEpics extends React.Component {
         
                 )
             }
-        }else if (this.props.data){
+        }else if (!this.props.data){
             return(
                 <div className="epic-row-sprint">
                     Epics failed to load
