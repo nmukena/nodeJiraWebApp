@@ -28,14 +28,14 @@ export default class Story extends React.Component {
 				This story is not available.
 				</div>
 			);	
-		} else if (stories) {
-			const storyDict = allStories[this.props.storyId].issues[0].fields
+		} else if (stories[this.props.storyId]) {
+            const storyFields = stories[this.props.storyId].issues[0].fields
 			return(
 			<div>
-				<span>Story {storyDict.key} </span><br/>
-				<span>{storyDict.summary}</span><br/>
-				<span>Status: {storyDict.status.name} </span><br/>
-                <span>Story Points: {storyDict.customfield_10200} </span><br/>
+				<span>Story {this.props.storyId} </span><br/>
+				<span>{storyFields.summary}</span><br/>
+				<span>Status: {storyFields.status.name} </span><br/>
+                <span>Story Points: {storyFields.customfield_10200} </span><br/>
 			</div>);
 		} else {
 			return(

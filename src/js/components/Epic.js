@@ -5,16 +5,21 @@ import store from "../store.js"
 
 
 @connect((store)=>{
-    return {
-		data: store,
-    };
-})
+		return {
+			data: store,
+		};
+	}, 
+)
 
 export default class Epic extends React.Component {
 
 
     constructor(props){
 		super(props)
+	}
+
+	displayStories(epicId){
+		this.props.dispatch(actions.displayStories(epicId))
 	}
 
     render(){
@@ -32,10 +37,13 @@ export default class Epic extends React.Component {
 			const epicsDict = epics[this.props.issueId].issues[0].fields
 			return(
 			<div>
-				<span>Epic {epicsDict.key} </span><br/>
+				<span>Epic {this.props.issueId} </span><br/>
 				<span>{epicsDict.summary}</span><br/>
 				<span>Target completion: {epicsDict.customfield_10501.value} </span><br/>
 				<span>Scrum Team: {epicsDict.customfield_10500.value} </span><br/>
+				<button onClick={()=>this.displayStories(this.props.issueId)}>
+                    Display Stories
+                </button>
 			</div>);
 		} else {
 			return(

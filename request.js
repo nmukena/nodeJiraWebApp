@@ -42,7 +42,7 @@ app.get("/getEpic/:issueNumber", function(req, res)  {
 
 app.get("/getStory/:issueNumber", function(req, res)  {
     options.uri = URL+"/rest/api/2/search?jql=issue%3D%22"+req.params.issueNumber
-    +"%22&fields=summary,status";
+    +"%22&fields=summary,status,customfield_10200";
     request(options, function(error, response, body) {
         if (error) {
             res.send(error)

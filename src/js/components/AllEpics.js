@@ -29,7 +29,6 @@ export default class AllEpics extends React.Component {
     }
 
     render(){
-        var epics
         if (this.props.data.issues){
             var epics = this.props.data.issues
             for (var i = 0; i<epics.length; i++){
@@ -49,7 +48,6 @@ export default class AllEpics extends React.Component {
                     <div className="epic-row-sprint">
                             {displayEpics}
                     </div>
-        
                 )
             }
         }else if (!this.props.data){
@@ -57,14 +55,12 @@ export default class AllEpics extends React.Component {
                 <div className="epic-row-sprint">
                     Epics failed to load
                 </div>
-    
             )
         }
         return(
             <div className="epic-row-sprint">
                 Wait for it...
             </div>
-
         )
     }
 }

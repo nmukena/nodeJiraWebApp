@@ -1,4 +1,6 @@
 var store = {
+    view: "Epics",
+    epicView: "",
     render: 0, 
     projectId:"GTMP",
     currentRapidView: 4,
@@ -41,6 +43,14 @@ export default function reducer(state=store, action){
                 return {...state, fetching: false, fetched: true, storiesByEpics: {...state.storiesByEpics, [action.id]: action.json}}
             }
             return {...state, fetching: false, fetched: true}
+        }
+
+        case "DISPLAY_STORIES":{
+            return {...state, view: "Stories", epicView: action.epicView}
+        }
+
+        case "DISPLAY_EPICS":{
+            return {...state, view: "Epics", epicView: ""}
         }
 
         

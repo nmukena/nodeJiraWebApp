@@ -18,23 +18,46 @@ import Footer from "./Footer";
 
 export default class Layout extends React.Component {
 
-    render(){
-        return(
+    constructor(props){
+        super(props)
+    }
+    
+    displayEpics(){
+        this.props.dispatch(actions.displayEpics())
+    }
 
-        <div>
-            <div>
-                <Header />
-            </div>
-            <div>
-                <AllEpics projectId = {"GTMP"}/>
-            </div>
-            <div>
-                <AllStoriesByEpic epicId = {"GTMP-2"}/>
-            </div>
-            <div>
-                <Footer />
-            </div>
-        </div>
-        );
-};
+    render(){
+        if(this.props.data.view=="Epics"){
+            return(
+                <div>
+                    <div>
+                        <Header />
+                    </div>
+                    <div>
+                        <AllEpics projectId = {"GTMP"}/>
+                    </div>
+                    <div>
+                        <Footer />
+                    </div>
+                </div>
+            );
+        }else if(this.props.data.view=="Stories"){
+            return(
+                <div>
+                    <div>
+                        <Header />
+                    </div>
+                    <div>
+                        <AllStoriesByEpic epicId = {this.props.data.epicView}/>
+                        <button onClick={()=>this.displayEpics()}>
+                                Back to Epics!
+                        </button>
+                    </div>
+                    <div>
+                        <Footer />
+                    </div>
+                </div>
+            );
+        }
+    };
 }

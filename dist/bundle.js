@@ -844,6 +844,8 @@ exports.getEpic = getEpic;
 exports.getAllEpics = getAllEpics;
 exports.getStory = getStory;
 exports.getStoriesByEpic = getStoriesByEpic;
+exports.displayStories = displayStories;
+exports.displayEpics = displayEpics;
 
 var _axios = __webpack_require__(81);
 
@@ -881,7 +883,7 @@ function getAllEpics(projectId) {
 
 function getStory(storyId) {
     return function (dispatch) {
-        _axios2.default.get(API_SERVER + "/getEpic/" + storyId).then(function (response) {
+        _axios2.default.get(API_SERVER + "/getStory/" + storyId).then(function (response) {
             dispatch({ type: "GET_STORY_SUCCESS", id: storyId, json: response.data });
         }).catch(function (err) {
             dispatch({ type: "ERROR", error: err });
@@ -896,6 +898,18 @@ function getStoriesByEpic(epicId) {
         }).catch(function (err) {
             dispatch({ type: "ERROR", error: err });
         });
+    };
+}
+
+function displayStories(epicId) {
+    return function (dispatch) {
+        dispatch({ type: "DISPLAY_STORIES", epicView: epicId });
+    };
+}
+
+function displayEpics() {
+    return function (dispatch) {
+        dispatch({ type: "DISPLAY_EPICS" });
     };
 }
 
@@ -24304,39 +24318,70 @@ var Layout = (_dec = (0, _reactRedux.connect)(function (store) {
 }), _dec(_class = function (_React$Component) {
     _inherits(Layout, _React$Component);
 
-    function Layout() {
+    function Layout(props) {
         _classCallCheck(this, Layout);
 
-        return _possibleConstructorReturn(this, (Layout.__proto__ || Object.getPrototypeOf(Layout)).apply(this, arguments));
+        return _possibleConstructorReturn(this, (Layout.__proto__ || Object.getPrototypeOf(Layout)).call(this, props));
     }
 
     _createClass(Layout, [{
+        key: "displayEpics",
+        value: function displayEpics() {
+            this.props.dispatch(actions.displayEpics());
+        }
+    }, {
         key: "render",
         value: function render() {
-            return _react2.default.createElement(
-                "div",
-                null,
-                _react2.default.createElement(
+            var _this2 = this;
+
+            if (this.props.data.view == "Epics") {
+                return _react2.default.createElement(
                     "div",
                     null,
-                    _react2.default.createElement(_Header2.default, null)
-                ),
-                _react2.default.createElement(
+                    _react2.default.createElement(
+                        "div",
+                        null,
+                        _react2.default.createElement(_Header2.default, null)
+                    ),
+                    _react2.default.createElement(
+                        "div",
+                        null,
+                        _react2.default.createElement(_AllEpics2.default, { projectId: "GTMP" })
+                    ),
+                    _react2.default.createElement(
+                        "div",
+                        null,
+                        _react2.default.createElement(_Footer2.default, null)
+                    )
+                );
+            } else if (this.props.data.view == "Stories") {
+                return _react2.default.createElement(
                     "div",
                     null,
-                    _react2.default.createElement(_AllEpics2.default, { projectId: "GTMP" })
-                ),
-                _react2.default.createElement(
-                    "div",
-                    null,
-                    _react2.default.createElement(_AllStoriesByEpic2.default, { epicId: "GTMP-2" })
-                ),
-                _react2.default.createElement(
-                    "div",
-                    null,
-                    _react2.default.createElement(_Footer2.default, null)
-                )
-            );
+                    _react2.default.createElement(
+                        "div",
+                        null,
+                        _react2.default.createElement(_Header2.default, null)
+                    ),
+                    _react2.default.createElement(
+                        "div",
+                        null,
+                        _react2.default.createElement(_AllStoriesByEpic2.default, { epicId: this.props.data.epicView }),
+                        _react2.default.createElement(
+                            "button",
+                            { onClick: function onClick() {
+                                    return _this2.displayEpics();
+                                } },
+                            "Back to Epics!"
+                        )
+                    ),
+                    _react2.default.createElement(
+                        "div",
+                        null,
+                        _react2.default.createElement(_Footer2.default, null)
+                    )
+                );
+            }
         }
     }]);
 
@@ -25480,6 +25525,8 @@ exports.default = reducer;
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var store = {
+    view: "Epics",
+    epicView: "",
     render: 0,
     projectId: "GTMP",
     currentRapidView: 4,
@@ -25529,6 +25576,16 @@ function reducer() {
                     return _extends({}, state, { fetching: false, fetched: true, storiesByEpics: _extends({}, state.storiesByEpics, _defineProperty({}, action.id, action.json)) });
                 }
                 return _extends({}, state, { fetching: false, fetched: true });
+            }
+
+        case "DISPLAY_STORIES":
+            {
+                return _extends({}, state, { view: "Stories", epicView: action.epicView });
+            }
+
+        case "DISPLAY_EPICS":
+            {
+                return _extends({}, state, { view: "Epics", epicView: "" });
             }
 
         /*
@@ -26412,8 +26469,14 @@ var Epic = (_dec = (0, _reactRedux.connect)(function (store) {
 	}
 
 	_createClass(Epic, [{
+		key: "displayStories",
+		value: function displayStories(epicId) {
+			this.props.dispatch(actions.displayStories(epicId));
+		}
+	}, {
 		key: "render",
 		value: function render() {
+			var _this2 = this;
 
 			var epics = this.props.data.epics;
 
@@ -26440,7 +26503,7 @@ var Epic = (_dec = (0, _reactRedux.connect)(function (store) {
 						"span",
 						null,
 						"Epic ",
-						epicsDict.key,
+						this.props.issueId,
 						" "
 					),
 					_react2.default.createElement("br", null),
@@ -26465,7 +26528,14 @@ var Epic = (_dec = (0, _reactRedux.connect)(function (store) {
 						epicsDict.customfield_10500.value,
 						" "
 					),
-					_react2.default.createElement("br", null)
+					_react2.default.createElement("br", null),
+					_react2.default.createElement(
+						"button",
+						{ onClick: function onClick() {
+								return _this2.displayStories(_this2.props.issueId);
+							} },
+						"Display Stories"
+					)
 				);
 			} else {
 				return _react2.default.createElement(
@@ -26547,16 +26617,15 @@ var AllStoriesByEpic = (_dec = (0, _reactRedux.connect)(function (store) {
         var _this = _possibleConstructorReturn(this, (AllStoriesByEpic.__proto__ || Object.getPrototypeOf(AllStoriesByEpic)).call(this, props));
 
         _this.props.dispatch(actions.getStoriesByEpic(_this.props.epicId));
+        _this.displayStories = [];
         return _this;
     }
 
     _createClass(AllStoriesByEpic, [{
         key: "shouldComponentUpdate",
         value: function shouldComponentUpdate() {
-            if (this.props.data.issues && this.props.state.allStories[this.props.epicId]) {
-                if (this.props.data.issues.length == Object.keys(this.props.state.allStories[this.props.epicId]).length) {
-                    return false;
-                }
+            if (this.props.data[this.props.epicId] && this.displayStories.length == this.props.data[this.props.epicId].issues.length) {
+                return false;
             }
             return true;
         }
@@ -26569,24 +26638,22 @@ var AllStoriesByEpic = (_dec = (0, _reactRedux.connect)(function (store) {
                 for (var i = 0; i < stories.length; i++) {
                     this.props.dispatch(actions.getStory(stories[i].key));
                 }
-                if (this.props.state.allStories[this.props.epicId] && stories.length == Object.keys(this.props.state.allStories[this.props.epicId]).length) {
-                    var displayStories = stories.map(function (epic) {
-                        return _react2.default.createElement(
-                            "div",
-                            { key: epic.id, className: "epic-type" },
-                            _react2.default.createElement(
-                                _reactRedux.Provider,
-                                { store: _store2.default },
-                                _react2.default.createElement(_Story2.default, { storyId: epic.key })
-                            )
-                        );
-                    });
+                this.displayStories = stories.map(function (story) {
                     return _react2.default.createElement(
                         "div",
-                        { className: "epic-row-sprint" },
-                        displayStories
+                        { key: story.id, className: "epic-type" },
+                        _react2.default.createElement(
+                            _reactRedux.Provider,
+                            { store: _store2.default },
+                            _react2.default.createElement(_Story2.default, { storyId: story.key })
+                        )
                     );
-                }
+                });
+                return _react2.default.createElement(
+                    "div",
+                    { className: "epic-row-sprint" },
+                    this.displayStories
+                );
             } else if (!this.props.data) {
                 return _react2.default.createElement(
                     "div",
@@ -26679,8 +26746,8 @@ var Story = (_dec = (0, _reactRedux.connect)(function (store) {
 					_react2.default.createElement("br", null),
 					"This story is not available."
 				);
-			} else if (stories) {
-				var storyDict = allStories[this.props.storyId].issues[0].fields;
+			} else if (stories[this.props.storyId]) {
+				var storyFields = stories[this.props.storyId].issues[0].fields;
 				return _react2.default.createElement(
 					"div",
 					null,
@@ -26688,21 +26755,21 @@ var Story = (_dec = (0, _reactRedux.connect)(function (store) {
 						"span",
 						null,
 						"Story ",
-						storyDict.key,
+						this.props.storyId,
 						" "
 					),
 					_react2.default.createElement("br", null),
 					_react2.default.createElement(
 						"span",
 						null,
-						storyDict.summary
+						storyFields.summary
 					),
 					_react2.default.createElement("br", null),
 					_react2.default.createElement(
 						"span",
 						null,
 						"Status: ",
-						storyDict.status.name,
+						storyFields.status.name,
 						" "
 					),
 					_react2.default.createElement("br", null),
@@ -26710,7 +26777,7 @@ var Story = (_dec = (0, _reactRedux.connect)(function (store) {
 						"span",
 						null,
 						"Story Points: ",
-						storyDict.customfield_10200,
+						storyFields.customfield_10200,
 						" "
 					),
 					_react2.default.createElement("br", null)
