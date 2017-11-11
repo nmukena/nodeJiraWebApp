@@ -26372,7 +26372,6 @@ var AllEpics = (_dec = (0, _reactRedux.connect)(function (store) {
     }, {
         key: "render",
         value: function render() {
-            var epics;
             if (this.props.data.issues) {
                 var epics = this.props.data.issues;
                 for (var i = 0; i < epics.length; i++) {
