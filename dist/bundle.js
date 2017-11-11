@@ -737,103 +737,6 @@ exports.default = (0, _redux.createStore)(_getAllIssuesReducer2.default, middlew
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/*
-object-assign
-(c) Sindre Sorhus
-@license MIT
-*/
-
-
-/* eslint-disable no-unused-vars */
-var getOwnPropertySymbols = Object.getOwnPropertySymbols;
-var hasOwnProperty = Object.prototype.hasOwnProperty;
-var propIsEnumerable = Object.prototype.propertyIsEnumerable;
-
-function toObject(val) {
-	if (val === null || val === undefined) {
-		throw new TypeError('Object.assign cannot be called with null or undefined');
-	}
-
-	return Object(val);
-}
-
-function shouldUseNative() {
-	try {
-		if (!Object.assign) {
-			return false;
-		}
-
-		// Detect buggy property enumeration order in older V8 versions.
-
-		// https://bugs.chromium.org/p/v8/issues/detail?id=4118
-		var test1 = new String('abc');  // eslint-disable-line no-new-wrappers
-		test1[5] = 'de';
-		if (Object.getOwnPropertyNames(test1)[0] === '5') {
-			return false;
-		}
-
-		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
-		var test2 = {};
-		for (var i = 0; i < 10; i++) {
-			test2['_' + String.fromCharCode(i)] = i;
-		}
-		var order2 = Object.getOwnPropertyNames(test2).map(function (n) {
-			return test2[n];
-		});
-		if (order2.join('') !== '0123456789') {
-			return false;
-		}
-
-		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
-		var test3 = {};
-		'abcdefghijklmnopqrst'.split('').forEach(function (letter) {
-			test3[letter] = letter;
-		});
-		if (Object.keys(Object.assign({}, test3)).join('') !==
-				'abcdefghijklmnopqrst') {
-			return false;
-		}
-
-		return true;
-	} catch (err) {
-		// We don't expect any of the above to throw, but better to be safe.
-		return false;
-	}
-}
-
-module.exports = shouldUseNative() ? Object.assign : function (target, source) {
-	var from;
-	var to = toObject(target);
-	var symbols;
-
-	for (var s = 1; s < arguments.length; s++) {
-		from = Object(arguments[s]);
-
-		for (var key in from) {
-			if (hasOwnProperty.call(from, key)) {
-				to[key] = from[key];
-			}
-		}
-
-		if (getOwnPropertySymbols) {
-			symbols = getOwnPropertySymbols(from);
-			for (var i = 0; i < symbols.length; i++) {
-				if (propIsEnumerable.call(from, symbols[i])) {
-					to[symbols[i]] = from[symbols[i]];
-				}
-			}
-		}
-	}
-
-	return to;
-};
-
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
 
 
 Object.defineProperty(exports, "__esModule", {
@@ -945,6 +848,103 @@ export function getIssuesBySprint(rapidViewId, sprintId){
         })
     }
 }*/
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/*
+object-assign
+(c) Sindre Sorhus
+@license MIT
+*/
+
+
+/* eslint-disable no-unused-vars */
+var getOwnPropertySymbols = Object.getOwnPropertySymbols;
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+var propIsEnumerable = Object.prototype.propertyIsEnumerable;
+
+function toObject(val) {
+	if (val === null || val === undefined) {
+		throw new TypeError('Object.assign cannot be called with null or undefined');
+	}
+
+	return Object(val);
+}
+
+function shouldUseNative() {
+	try {
+		if (!Object.assign) {
+			return false;
+		}
+
+		// Detect buggy property enumeration order in older V8 versions.
+
+		// https://bugs.chromium.org/p/v8/issues/detail?id=4118
+		var test1 = new String('abc');  // eslint-disable-line no-new-wrappers
+		test1[5] = 'de';
+		if (Object.getOwnPropertyNames(test1)[0] === '5') {
+			return false;
+		}
+
+		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
+		var test2 = {};
+		for (var i = 0; i < 10; i++) {
+			test2['_' + String.fromCharCode(i)] = i;
+		}
+		var order2 = Object.getOwnPropertyNames(test2).map(function (n) {
+			return test2[n];
+		});
+		if (order2.join('') !== '0123456789') {
+			return false;
+		}
+
+		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
+		var test3 = {};
+		'abcdefghijklmnopqrst'.split('').forEach(function (letter) {
+			test3[letter] = letter;
+		});
+		if (Object.keys(Object.assign({}, test3)).join('') !==
+				'abcdefghijklmnopqrst') {
+			return false;
+		}
+
+		return true;
+	} catch (err) {
+		// We don't expect any of the above to throw, but better to be safe.
+		return false;
+	}
+}
+
+module.exports = shouldUseNative() ? Object.assign : function (target, source) {
+	var from;
+	var to = toObject(target);
+	var symbols;
+
+	for (var s = 1; s < arguments.length; s++) {
+		from = Object(arguments[s]);
+
+		for (var key in from) {
+			if (hasOwnProperty.call(from, key)) {
+				to[key] = from[key];
+			}
+		}
+
+		if (getOwnPropertySymbols) {
+			symbols = getOwnPropertySymbols(from);
+			for (var i = 0; i < symbols.length; i++) {
+				if (propIsEnumerable.call(from, symbols[i])) {
+					to[symbols[i]] = from[symbols[i]];
+				}
+			}
+		}
+	}
+
+	return to;
+};
+
 
 /***/ }),
 /* 9 */
@@ -2813,7 +2813,7 @@ _reactDom2.default.render(_react2.default.createElement(
  This source code is licensed under the MIT license found in the
  LICENSE file in the root directory of this source tree.
 */
-var f=__webpack_require__(7),p=__webpack_require__(9);__webpack_require__(4);var r=__webpack_require__(3);
+var f=__webpack_require__(8),p=__webpack_require__(9);__webpack_require__(4);var r=__webpack_require__(3);
 function t(a){for(var b=arguments.length-1,d="Minified React error #"+a+"; visit http://facebook.github.io/react/docs/error-decoder.html?invariant\x3d"+a,e=0;e<b;e++)d+="\x26args[]\x3d"+encodeURIComponent(arguments[e+1]);b=Error(d+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings.");b.name="Invariant Violation";b.framesToPop=1;throw b;}
 var u={isMounted:function(){return!1},enqueueForceUpdate:function(){},enqueueReplaceState:function(){},enqueueSetState:function(){}};function v(a,b,d){this.props=a;this.context=b;this.refs=p;this.updater=d||u}v.prototype.isReactComponent={};v.prototype.setState=function(a,b){"object"!==typeof a&&"function"!==typeof a&&null!=a?t("85"):void 0;this.updater.enqueueSetState(this,a,b,"setState")};v.prototype.forceUpdate=function(a){this.updater.enqueueForceUpdate(this,a,"forceUpdate")};
 function w(a,b,d){this.props=a;this.context=b;this.refs=p;this.updater=d||u}function x(){}x.prototype=v.prototype;var y=w.prototype=new x;y.constructor=w;f(y,v.prototype);y.isPureReactComponent=!0;function z(a,b,d){this.props=a;this.context=b;this.refs=p;this.updater=d||u}var A=z.prototype=new x;A.constructor=z;f(A,v.prototype);A.unstable_isAsyncReactComponent=!0;A.render=function(){return this.props.children};
@@ -2850,7 +2850,7 @@ if (process.env.NODE_ENV !== "production") {
 
 'use strict';
 
-var objectAssign$1 = __webpack_require__(7);
+var objectAssign$1 = __webpack_require__(8);
 var require$$0 = __webpack_require__(10);
 var emptyObject = __webpack_require__(9);
 var invariant = __webpack_require__(4);
@@ -4596,7 +4596,7 @@ if (process.env.NODE_ENV === 'production') {
  LICENSE file in the root directory of this source tree.
  Modernizr 3.0.0pre (Custom Build) | MIT
 */
-var aa=__webpack_require__(1);__webpack_require__(4);var l=__webpack_require__(13),n=__webpack_require__(7),ba=__webpack_require__(19),ca=__webpack_require__(3),da=__webpack_require__(9),ea=__webpack_require__(20),fa=__webpack_require__(21),ha=__webpack_require__(22),ia=__webpack_require__(23);
+var aa=__webpack_require__(1);__webpack_require__(4);var l=__webpack_require__(13),n=__webpack_require__(8),ba=__webpack_require__(19),ca=__webpack_require__(3),da=__webpack_require__(9),ea=__webpack_require__(20),fa=__webpack_require__(21),ha=__webpack_require__(22),ia=__webpack_require__(23);
 function w(a){for(var b=arguments.length-1,c="Minified React error #"+a+"; visit http://facebook.github.io/react/docs/error-decoder.html?invariant\x3d"+a,d=0;d<b;d++)c+="\x26args[]\x3d"+encodeURIComponent(arguments[d+1]);b=Error(c+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings.");b.name="Invariant Violation";b.framesToPop=1;throw b;}aa?void 0:w("227");
 function ja(a){switch(a){case "svg":return"http://www.w3.org/2000/svg";case "math":return"http://www.w3.org/1998/Math/MathML";default:return"http://www.w3.org/1999/xhtml"}}
 var ka={Namespaces:{html:"http://www.w3.org/1999/xhtml",mathml:"http://www.w3.org/1998/Math/MathML",svg:"http://www.w3.org/2000/svg"},getIntrinsicNamespace:ja,getChildNamespace:function(a,b){return null==a||"http://www.w3.org/1999/xhtml"===a?ja(b):"http://www.w3.org/2000/svg"===a&&"foreignObject"===b?"http://www.w3.org/1999/xhtml":a}},la=null,oa={};
@@ -4924,7 +4924,7 @@ if (process.env.NODE_ENV !== "production") {
 var react = __webpack_require__(1);
 var invariant = __webpack_require__(4);
 var ExecutionEnvironment = __webpack_require__(13);
-var _assign = __webpack_require__(7);
+var _assign = __webpack_require__(8);
 var EventListener = __webpack_require__(19);
 var require$$0 = __webpack_require__(10);
 var hyphenateStyleName = __webpack_require__(46);
@@ -22365,7 +22365,7 @@ module.exports = performance || {};
 var emptyFunction = __webpack_require__(3);
 var invariant = __webpack_require__(4);
 var warning = __webpack_require__(10);
-var assign = __webpack_require__(7);
+var assign = __webpack_require__(8);
 
 var ReactPropTypesSecret = __webpack_require__(12);
 var checkPropTypes = __webpack_require__(11);
@@ -24275,7 +24275,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(5);
 
-var _actions = __webpack_require__(8);
+var _actions = __webpack_require__(7);
 
 var actions = _interopRequireWildcard(_actions);
 
@@ -24293,11 +24293,11 @@ var _AllEpics = __webpack_require__(111);
 
 var _AllEpics2 = _interopRequireDefault(_AllEpics);
 
-var _AllStoriesByEpic = __webpack_require__(113);
+var _AllStoriesByEpic = __webpack_require__(114);
 
 var _AllStoriesByEpic2 = _interopRequireDefault(_AllStoriesByEpic);
 
-var _Footer = __webpack_require__(115);
+var _Footer = __webpack_require__(116);
 
 var _Footer2 = _interopRequireDefault(_Footer);
 
@@ -24345,7 +24345,7 @@ var Layout = (_dec = (0, _reactRedux.connect)(function (store) {
                     ),
                     _react2.default.createElement(
                         "div",
-                        null,
+                        { className: "main-layout" },
                         _react2.default.createElement(_AllEpics2.default, { projectId: "GTMP" })
                     ),
                     _react2.default.createElement(
@@ -24365,7 +24365,7 @@ var Layout = (_dec = (0, _reactRedux.connect)(function (store) {
                     ),
                     _react2.default.createElement(
                         "div",
-                        null,
+                        { className: "main-layout" },
                         _react2.default.createElement(_AllStoriesByEpic2.default, { epicId: this.props.data.epicView }),
                         _react2.default.createElement(
                             "button",
@@ -25522,6 +25522,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 exports.default = reducer;
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var store = {
@@ -25530,6 +25532,7 @@ var store = {
     render: 0,
     projectId: "GTMP",
     currentRapidView: 4,
+    epicByTeam: {},
     sprintIds: [],
     currentSprintDetails: 2,
     storiesByEpics: {},
@@ -25552,7 +25555,14 @@ function reducer() {
         case "GET_EPIC_SUCCESS":
             {
                 if (!state.epics[action.id]) {
-                    return _extends({}, state, { fetching: false, fetched: true, epics: _extends({}, state.epics, _defineProperty({}, action.id, action.json)) });
+                    var team = action.json.issues[0].fields.customfield_10500.value;
+                    if (!state.epicByTeam[team]) {
+                        var list = [];
+                    } else {
+                        var list = state.epicByTeam[team];
+                    }
+                    return _extends({}, state, { fetching: false, fetched: true, epics: _extends({}, state.epics, _defineProperty({}, action.id, action.json)),
+                        epicByTeam: _extends({}, state.epicByTeam, _defineProperty({}, team, [].concat(_toConsumableArray(list), [action.json]))) });
                 }
                 return _extends({}, state, { fetching: false, fetched: true });
             }
@@ -26320,13 +26330,13 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(5);
 
-var _actions = __webpack_require__(8);
+var _actions = __webpack_require__(7);
 
 var actions = _interopRequireWildcard(_actions);
 
-var _Epic = __webpack_require__(112);
+var _Team = __webpack_require__(112);
 
-var _Epic2 = _interopRequireDefault(_Epic);
+var _Team2 = _interopRequireDefault(_Team);
 
 var _store = __webpack_require__(6);
 
@@ -26345,6 +26355,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var AllEpics = (_dec = (0, _reactRedux.connect)(function (store) {
     return {
         data: store.allEpics,
+        teams: store.epicByTeam,
         state: store
     };
 }), _dec(_class = function (_React$Component) {
@@ -26377,34 +26388,29 @@ var AllEpics = (_dec = (0, _reactRedux.connect)(function (store) {
                 for (var i = 0; i < epics.length; i++) {
                     this.props.dispatch(actions.getEpic(epics[i].key));
                 }
-                if (this.props.state.epics && epics.length == Object.keys(this.props.state.epics).length) {
-                    var displayEpics = epics.map(function (epic) {
-                        return _react2.default.createElement(
-                            "div",
-                            { key: epic.id, className: "epic-type" },
-                            _react2.default.createElement(
-                                _reactRedux.Provider,
-                                { store: _store2.default },
-                                _react2.default.createElement(_Epic2.default, { issueId: epic.key })
-                            )
-                        );
-                    });
+                var teamNames = Object.keys(this.props.teams);
+                var displayTeams = teamNames.map(function (name) {
                     return _react2.default.createElement(
-                        "div",
-                        { className: "epic-row-sprint" },
-                        displayEpics
+                        _reactRedux.Provider,
+                        { store: _store2.default },
+                        _react2.default.createElement(_Team2.default, { teamName: name })
                     );
-                }
+                });
+                return _react2.default.createElement(
+                    "div",
+                    { className: "team-row" },
+                    displayTeams
+                );
             } else if (!this.props.data) {
                 return _react2.default.createElement(
                     "div",
-                    { className: "epic-row-sprint" },
+                    { className: "team-row" },
                     "Epics failed to load"
                 );
             }
             return _react2.default.createElement(
                 "div",
-                { className: "epic-row-sprint" },
+                { className: "team-row" },
                 "Wait for it..."
             );
         }
@@ -26416,6 +26422,99 @@ exports.default = AllEpics;
 
 /***/ }),
 /* 112 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _dec, _class;
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(5);
+
+var _actions = __webpack_require__(7);
+
+var actions = _interopRequireWildcard(_actions);
+
+var _Epic = __webpack_require__(113);
+
+var _Epic2 = _interopRequireDefault(_Epic);
+
+var _store = __webpack_require__(6);
+
+var _store2 = _interopRequireDefault(_store);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Team = (_dec = (0, _reactRedux.connect)(function (store) {
+    return {
+        teams: store.epicByTeam,
+        state: store
+    };
+}), _dec(_class = function (_React$Component) {
+    _inherits(Team, _React$Component);
+
+    function Team(props) {
+        _classCallCheck(this, Team);
+
+        return _possibleConstructorReturn(this, (Team.__proto__ || Object.getPrototypeOf(Team)).call(this, props));
+    }
+
+    _createClass(Team, [{
+        key: "render",
+        value: function render() {
+            var teams = this.props.teams;
+            if (teams[this.props.teamName]) {
+                var displayEpics = teams[this.props.teamName].map(function (json) {
+                    var epic = json.issues[0];
+                    return _react2.default.createElement(
+                        "div",
+                        { key: epic.id, className: "epic-type" },
+                        _react2.default.createElement(
+                            _reactRedux.Provider,
+                            { store: _store2.default },
+                            _react2.default.createElement(_Epic2.default, { issueId: epic.key })
+                        )
+                    );
+                });
+                return _react2.default.createElement(
+                    "div",
+                    { className: "team-type" },
+                    displayEpics
+                );
+            }
+            return _react2.default.createElement(
+                "div",
+                { className: "team-type" },
+                "Wait for it..."
+            );
+        }
+    }]);
+
+    return Team;
+}(_react2.default.Component)) || _class);
+exports.default = Team;
+
+/***/ }),
+/* 113 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26436,7 +26535,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(5);
 
-var _actions = __webpack_require__(8);
+var _actions = __webpack_require__(7);
 
 var actions = _interopRequireWildcard(_actions);
 
@@ -26559,7 +26658,7 @@ var Epic = (_dec = (0, _reactRedux.connect)(function (store) {
 exports.default = Epic;
 
 /***/ }),
-/* 113 */
+/* 114 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26580,11 +26679,11 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(5);
 
-var _actions = __webpack_require__(8);
+var _actions = __webpack_require__(7);
 
 var actions = _interopRequireWildcard(_actions);
 
-var _Story = __webpack_require__(114);
+var _Story = __webpack_require__(115);
 
 var _Story2 = _interopRequireDefault(_Story);
 
@@ -26673,7 +26772,7 @@ var AllStoriesByEpic = (_dec = (0, _reactRedux.connect)(function (store) {
 exports.default = AllStoriesByEpic;
 
 /***/ }),
-/* 114 */
+/* 115 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26694,7 +26793,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(5);
 
-var _actions = __webpack_require__(8);
+var _actions = __webpack_require__(7);
 
 var actions = _interopRequireWildcard(_actions);
 
@@ -26804,7 +26903,7 @@ var Story = (_dec = (0, _reactRedux.connect)(function (store) {
 exports.default = Story;
 
 /***/ }),
-/* 115 */
+/* 116 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

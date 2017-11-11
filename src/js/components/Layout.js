@@ -33,7 +33,7 @@ export default class Layout extends React.Component {
                     <div>
                         <Header />
                     </div>
-                    <div>
+                    <div className="main-layout">
                         <AllEpics projectId = {"GTMP"}/>
                     </div>
                     <div>
@@ -47,7 +47,7 @@ export default class Layout extends React.Component {
                     <div>
                         <Header />
                     </div>
-                    <div>
+                    <div className="main-layout">
                         <AllStoriesByEpic epicId = {this.props.data.epicView}/>
                         <button onClick={()=>this.displayEpics()}>
                                 Back to Epics!

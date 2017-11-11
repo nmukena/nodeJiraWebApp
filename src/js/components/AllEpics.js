@@ -2,12 +2,13 @@ import React from "react";
 import { connect } from "react-redux";
 import * as actions from "../actions/actions.js";
 import { Provider } from  "react-redux"
-import Epic from "./Epic"
+import Team from "./Team"
 import store from "../store.js"
 
 @connect((store)=>{
     return {
         data: store.allEpics,
+        teams: store.epicByTeam,
         state: store
     };
 })
@@ -34,31 +35,28 @@ export default class AllEpics extends React.Component {
             for (var i = 0; i<epics.length; i++){
                 this.props.dispatch(actions.getEpic(epics[i].key))
             }
-            if(this.props.state.epics&&epics.length == Object.keys(this.props.state.epics).length){
-                var displayEpics = epics.map(epic => {
-                    return (
-                        <div key={epic.id} className="epic-type">
-                            <Provider store={store}>
-                                <Epic issueId={epic.key}/>
-                            </Provider>
-                        </div>
-                    )
-                });
-                return(
-                    <div className="epic-row-sprint">
-                            {displayEpics}
-                    </div>
+            var teamNames = Object.keys(this.props.teams)
+            var displayTeams = teamNames.map(name => {
+                return (
+                    <Provider store={store}>
+                        <Team teamName={name}/>
+                    </Provider>
                 )
-            }
+            });
+            return(
+                <div className="team-row">
+                        {displayTeams}
+                </div>
+            )
         }else if (!this.props.data){
             return(
-                <div className="epic-row-sprint">
+                <div className="team-row">
                     Epics failed to load
                 </div>
             )
         }
         return(
-            <div className="epic-row-sprint">
+            <div className="team-row">
                 Wait for it...
             </div>
         )
