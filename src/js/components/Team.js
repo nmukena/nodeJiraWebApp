@@ -32,6 +32,9 @@ export default class Team extends React.Component {
             })
             return(
                 <div className="team-type">
+                    <div className="team-name">   
+                        {this.props.teamName}
+                    </div>
                         {displayEpics}
                 </div>
             )

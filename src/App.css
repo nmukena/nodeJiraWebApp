@@ -48,6 +48,7 @@ body{
 	justify-content: space-between;
 	letter-spacing: 5px;
 	font-weight: bold;
+	padding-top: 10px;
 }
 
 .sprint-date{
@@ -164,6 +165,40 @@ article p {
 
 /*End of List Issues*/
 /*End of Epic Styles*/
+
+/* Team Styles */
+
+.team-type{
+	display: flex;
+	width: 100%;
+
+}
+
+.team-name{
+	font-size: 16px;
+	font-weight: bold;
+	text-align: center;
+	width: 9.5%;
+	padding: 150px 0px;
+	margin-top: 10px;
+	background: white;
+	color: #51a087;
+}
+
+.epic-type{
+	width: 22%;
+	margin: 10px 0 0 8.5px;
+
+}
+
+.epic-type div{
+	background: #2C2C33;
+}
+
+button{
+	margin-bottom: 10px;
+}
+
 
 /*Footer Styles*/
 
