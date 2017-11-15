@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import * as actions from "../actions/actions.js";
 import { Provider } from  "react-redux"
 import Team from "./Team"
+import Date from "./Date"
 import store from "../store.js"
 
 @connect((store)=>{

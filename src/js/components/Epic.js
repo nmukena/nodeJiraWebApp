@@ -23,7 +23,7 @@ export default class Epic extends React.Component {
 	}
 
     render(){
-
+		console.log(store);
 		const epics = this.props.data.epics
 
 		if (this.error){

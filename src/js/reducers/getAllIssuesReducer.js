@@ -5,6 +5,7 @@ var store = {
     projectId:"GTMP",
     currentRapidView: 4,
     epicByTeam: {},
+    epicByDate: {},
     sprintIds : [],
     currentSprintDetails : 2,
     storiesByEpics: {},
@@ -23,14 +24,22 @@ export default function reducer(state=store, action){
 
         case "GET_EPIC_SUCCESS":{
             if(!state.epics[action.id]){
+                console.log(action.json.issues[0]);
                 var team = action.json.issues[0].fields.customfield_10500.value
+                var date = action.json.issues[0].fields.customfield_10501.value
+                console.log(date);
+                
                 if (!state.epicByTeam[team]){
                     var list = []
+                    var date = []
                 } else {
                     var list = state.epicByTeam[team]
+                    var date = state.epicByDate[date]
                 }
                 return {...state, fetching: false, fetched: true, epics: {...state.epics, [action.id]: action.json},
-                            epicByTeam: {...state.epicByTeam, [team]:[...list, action.json]}}
+                            epicByTeam: {...state.epicByTeam, [team]:[...list, action.json]}, 
+                            epicByDate: {...state.epicByDate, [date]:[...list, action.json]}
+                }
             }
             return {...state, fetching: false, fetched: true}
         }

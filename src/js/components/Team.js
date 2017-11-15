@@ -19,9 +19,6 @@ export default class Team extends React.Component {
 
     render(){
         var teams = this.props.teams
-        //console.log(this.props);
-        //if(this.props.)
-
 
         if (teams[this.props.teamName]){
             var displayEpics = teams[this.props.teamName].map(json => {
