@@ -60,7 +60,8 @@ export default class AllStoriesByEpic extends React.Component {
         }
         return(
             <div className="epic-row-sprint">
-                Wait for it...
+                <i class="fa fa-refresh fa-spin fa-5x fa-fw loading"> </i>
+                <p>Wait For It...</p>
             </div>
         )
     }

@@ -19,7 +19,7 @@ export function getEpic(epicId){
     }
 }
 
-export function getAllEpics(projectId){
+export function getAllEpics(projectId){ 
     return function(dispatch){
         axios.get(API_SERVER+"/getAllEpics/"+projectId)
         .then((response)=>{

@@ -9,56 +9,50 @@ body{
 	background: #3D3D43;
 	margin: 0 auto;
 	color: white;
-	width: 90%;
+	width: 100%;
+
 }
 
-#main-div{
+#main-layout{
 	text-align: center;
-	width: 100%;
 	margin: 0 auto;
 }
 
+
 /*Header Styles*/
+.col-pad{
+	padding:10px;
+	margin: 4px;
+}
+
 .label-column{
 	display: flex;
 	justify-content: space-between;
-	box-shadow: 2.5px 5px 5px black;
 	text-align: center;
 	margin-top: 5px;
 }
 
 .label-header{
-	width: 9.5%;
+	width: 100%;
 	flex-direction: row;
 	flex-wrap: wrap;
 	background: #5B5B60;
 	text-align: center;
-	box-shadow: 2.5px 5px 5px black;
 	justify-content: space-between;
 
 }
 
 .sprint-header{
-	width: 22%;
+	width: 100%;
 	flex-direction: row;
 	flex-wrap: wrap;
 	background: #5B5B60;
 	text-align: center;
-	box-shadow: 2.5px 5px 5px black;
 	justify-content: space-between;
 	letter-spacing: 5px;
 	font-weight: bold;
 	padding-top: 10px;
-}
-
-.sprint-date{
-	font-weight: 200px;
-	color: #74BEA7;
-	font-size: 12px;
-	letter-spacing: 1px;
-	padding-top: 5px;
-}
-
+} 
 
 h1{
 	font-size: 20px;
@@ -73,52 +67,8 @@ h1{
 }
 /*End of Header Styles*/
 
-/*Epic Styles*/
-.epic-sprint{
-	width: 90%;
-	margin-top: 10px;
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-}
 
-.epic-row{
-	text-align: left;
-	display: flex;
-	justify-content: space-between;
-
-}
-
-.epic-row .epic-type{
-	font-size: 14px;
-	text-align: center;
-	width: 9.5%;
-	padding: 150px 0px;
-	margin-top: 10px;
-	background: white;
-	color: black;
-	
-}
-
-.epic-row .epic-type span{
-	
-	color: #74BEA7;
-	font-size: 16px;
-	font-weight: bold;
-}
-
-.epic-sprint-one, .epic-sprint-two, .epic-sprint-three, .epic-sprint-four{
-	width: 24.5%;
-	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
-	background: black;
-	text-align: center;
-	font-weight: bold;
-}
-
-
-/*List Issues*/
+/*Epic Details*/
 .epic-details{
 	width: 50%;	
 }
@@ -140,31 +90,27 @@ h3{
 	margin: 0;
 }
 
-ul{
-	display: flex;
-	flex-wrap: wrap;
-	padding: 0;
-    list-style-type: none;
-}
-
-
 article{
 	background: #2C2C33;
-	padding: 5px;
 	margin: 5px;
 	font-size: 16px;
 }
 
-article p {
+article + p {
 	font-size: 12px;
-	color: black;
-	background: white;
-	padding: 5px;
-	margin: 0;
+	color: white;
+	margin: 5px;
 }
 
-/*End of List Issues*/
-/*End of Epic Styles*/
+button{
+	color: black;
+	background: #51a087;
+	border: 1px black;
+	margin: 5px;
+}
+
+/*End of Epic Details*/
+
 
 /* Team Styles */
 
@@ -178,7 +124,7 @@ article p {
 	font-size: 16px;
 	font-weight: bold;
 	text-align: center;
-	width: 9.5%;
+	width: 10%;
 	padding: 150px 0px;
 	margin-top: 10px;
 	background: white;
@@ -186,19 +132,38 @@ article p {
 }
 
 .epic-type{
-	width: 22%;
-	margin: 10px 0 0 8.5px;
-
+	margin: 10px 4px;
 }
 
 .epic-type div{
 	background: #2C2C33;
 }
 
-button{
-	margin-bottom: 10px;
+
+/* Spinner */
+
+i.loading{
+	color: #51a087;
+	font-size: 40px;
+
 }
 
+/* Spinner */
+
+/* Story Styles */
+
+
+.story-details{
+	
+	width: 100%;
+	color: #51a087;
+	background: black;
+	margin: 0 auto;
+	text-align: center;
+	font-size: 30px;
+}
+
+/* End of Story Styles */
 
 /*Footer Styles*/
 

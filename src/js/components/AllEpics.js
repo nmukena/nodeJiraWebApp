@@ -45,7 +45,7 @@ export default class AllEpics extends React.Component {
             });
             return(
                 <div className="team-row">
-                        {displayTeams}
+                    {displayTeams}
                 </div>
             )
         }else if (!this.props.data){
@@ -57,7 +57,8 @@ export default class AllEpics extends React.Component {
         }
         return(
             <div className="team-row">
-                Wait for it...
+                <i class="fa fa-refresh fa-spin fa-5x fa-fw loading"> </i>
+                <p>Wait For It...</p>
             </div>
         )
     }

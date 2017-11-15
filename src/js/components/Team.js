@@ -19,6 +19,10 @@ export default class Team extends React.Component {
 
     render(){
         var teams = this.props.teams
+        //console.log(this.props);
+        //if(this.props.)
+
+
         if (teams[this.props.teamName]){
             var displayEpics = teams[this.props.teamName].map(json => {
                 var epic = json.issues[0]
@@ -31,17 +35,20 @@ export default class Team extends React.Component {
                 )
             })
             return(
-                <div className="team-type">
-                    <div className="team-name">   
-                        {this.props.teamName}
+                <div>
+                    <div className="team-type">
+                        <div className="team-name">
+                            {this.props.teamName}
+                        </div>
+                            {displayEpics}
                     </div>
-                        {displayEpics}
                 </div>
             )
         }
         return(
             <div className="team-type">
-                    Wait for it...
+                    <i class="fa fa-refresh fa-spin fa-5x fa-fw loading"></i>
+                    <p>Wait For It...</p>
             </div>
         )
     }
