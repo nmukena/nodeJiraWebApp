@@ -10,7 +10,7 @@ var options = {rejectUnauthorized: this.strictSSL,
     uri: "", 
     method: 'GET',
     auth: {'user': 'samulai@deloitte.ca', 
-    'pass': '##XiuJin88'}
+    'pass': ''}
 };
 
 app.get('/', function(req, res) {
