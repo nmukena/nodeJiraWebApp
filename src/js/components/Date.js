@@ -18,9 +18,7 @@ export default class Date extends React.Component {
     }
 
     render(){
-
-
-//	{epicsDict.customfield_10501.value}
+        console.log(this.props);
 
         // if (teams[this.props.teamName]){
         //     var displayEpics = teams[this.props.teamName].map(json => {
@@ -45,10 +43,10 @@ export default class Date extends React.Component {
         //     )
         // }
 
-            // <div className="team-type">
-            //         <i class="fa fa-refresh fa-spin fa-5x fa-fw loading"></i>
-            //         <p>Wait For It...</p>
-            // </div>
+            <div className="team-type">
+                    <i class="fa fa-refresh fa-spin fa-5x fa-fw loading"></i>
+                    <p>Wait For It...</p>
+            </div>
         
     }
 }

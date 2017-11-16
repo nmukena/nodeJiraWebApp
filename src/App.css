@@ -150,6 +150,21 @@ i.loading{
 
 /* Spinner */
 
+.sprint-team{
+	width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    background: #5B5B60;
+    text-align: center;
+    justify-content: space-between;
+    letter-spacing: 5px;
+    font-weight: bold;
+	padding-top: 10px;
+	margin-top: 10px;
+}
+
+
+
 /* Story Styles */
 
 

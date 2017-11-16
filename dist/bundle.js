@@ -23543,7 +23543,7 @@ exports = module.exports = __webpack_require__(106)(undefined);
 
 
 // module
-exports.push([module.i, "article,aside,details,figcaption,figure,footer,header,hgroup,nav,section,summary{display:block;}audio,canvas,video{display:inline-block;}audio:not([controls]){display:none;height:0;}[hidden]{display:none;}html{font-family:sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;}a:focus{outline:thin dotted;}a:active,a:hover{outline:0;}h1{font-size:2em;}abbr[title]{border-bottom:1px dotted;}b,strong{font-weight:700;}dfn{font-style:italic;}mark{background:#ff0;color:#000;}code,kbd,pre,samp{font-family:monospace, serif;font-size:1em;}pre{white-space:pre-wrap;word-wrap:break-word;}q{quotes:\\201C \\201D \\2018 \\2019;}small{font-size:80%;}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline;}sup{top:-.5em;}sub{bottom:-.25em;}img{border:0;}svg:not(:root){overflow:hidden;}fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em;}button,input,select,textarea{font-family:inherit;font-size:100%;margin:0;}button,input{line-height:normal;}button,html input[type=button],/* 1 */\ninput[type=reset],input[type=submit]{-webkit-appearance:button;cursor:pointer;}button[disabled],input[disabled]{cursor:default;}input[type=checkbox],input[type=radio]{box-sizing:border-box;padding:0;}input[type=search]{-webkit-appearance:textfield;-moz-box-sizing:content-box;-webkit-box-sizing:content-box;box-sizing:content-box;}input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-search-decoration{-webkit-appearance:none;}textarea{overflow:auto;vertical-align:top;}table{border-collapse:collapse;border-spacing:0;}body,figure{margin:0;}legend,button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0;}\n\n.clearfix:after {visibility: hidden; display: block; font-size: 0; content: \" \"; clear: both; height: 0; }\n\n* { box-sizing: border-box; }\n\nbody{\n\tbackground: #3D3D43;\n\tmargin: 0 auto;\n\tcolor: white;\n\twidth: 100%;\n\n}\n\n#main-layout{\n\ttext-align: center;\n\tmargin: 0 auto;\n}\n\n\n/*Header Styles*/\n.col-pad{\n\tpadding:10px;\n\tmargin: 4px;\n}\n\n.label-column{\n\tdisplay: flex;\n\tjustify-content: space-between;\n\ttext-align: center;\n\tmargin-top: 5px;\n}\n\n.label-header{\n\twidth: 100%;\n\tflex-direction: row;\n\tflex-wrap: wrap;\n\tbackground: #5B5B60;\n\ttext-align: center;\n\tjustify-content: space-between;\n\n}\n\n.sprint-header{\n\twidth: 100%;\n\tflex-direction: row;\n\tflex-wrap: wrap;\n\tbackground: #5B5B60;\n\ttext-align: center;\n\tjustify-content: space-between;\n\tletter-spacing: 5px;\n\tfont-weight: bold;\n\tpadding-top: 10px;\n} \n\nh1{\n\tfont-size: 20px;\n\twidth: 100%;\n\tpadding: 10px;\n\tbackground: #2C2C33;\n\ttext-align: center;\n\tmargin: 0 auto;\n\tmargin-top: 20px;\n\tmargin-bottom: 10px;\n\tletter-spacing: 4px;\n}\n/*End of Header Styles*/\n\n\n/*Epic Details*/\n.epic-details{\n\twidth: 50%;\t\n}\n\nh2{\n\tpadding: 5 5 0 5;\n\tfont-size: 20px;\n\tbackground: #D0D2D3;\n\tcolor: black;\n\tborder-bottom: 8px solid #51a087;\n\tmargin: 0;\n}\n\nh3{\n\tpadding: 5px;\n\tfont-size: 14px;\n\tbackground: white;\n\tcolor: black;\n\tmargin: 0;\n}\n\narticle{\n\tbackground: #2C2C33;\n\tmargin: 5px;\n\tfont-size: 16px;\n}\n\narticle + p {\n\tfont-size: 12px;\n\tcolor: white;\n\tmargin: 5px;\n}\n\nbutton{\n\tcolor: black;\n\tbackground: #51a087;\n\tborder: 1px black;\n\tmargin: 5px;\n}\n\n/*End of Epic Details*/\n\n\n/* Team Styles */\n\n.team-type{\n\tdisplay: flex;\n\twidth: 100%;\n\n}\n\n.team-name{\n\tfont-size: 16px;\n\tfont-weight: bold;\n\ttext-align: center;\n\twidth: 10%;\n\tpadding: 150px 0px;\n\tmargin-top: 10px;\n\tbackground: white;\n\tcolor: #51a087;\n}\n\n.epic-type{\n\tmargin: 10px 4px;\n}\n\n.epic-type div{\n\tbackground: #2C2C33;\n}\n\n\n/* Spinner */\n\ni.loading{\n\tcolor: #51a087;\n\tfont-size: 40px;\n\n}\n\n/* Spinner */\n\n/* Story Styles */\n\n\n.story-details{\n\t\n\twidth: 100%;\n\tcolor: #51a087;\n\tbackground: black;\n\tmargin: 0 auto;\n\ttext-align: center;\n\tfont-size: 30px;\n}\n\n/* End of Story Styles */\n\n/*Footer Styles*/\n\n.footer{\n\tmargin: 15px;\n\n}\n", ""]);
+exports.push([module.i, "article,aside,details,figcaption,figure,footer,header,hgroup,nav,section,summary{display:block;}audio,canvas,video{display:inline-block;}audio:not([controls]){display:none;height:0;}[hidden]{display:none;}html{font-family:sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;}a:focus{outline:thin dotted;}a:active,a:hover{outline:0;}h1{font-size:2em;}abbr[title]{border-bottom:1px dotted;}b,strong{font-weight:700;}dfn{font-style:italic;}mark{background:#ff0;color:#000;}code,kbd,pre,samp{font-family:monospace, serif;font-size:1em;}pre{white-space:pre-wrap;word-wrap:break-word;}q{quotes:\\201C \\201D \\2018 \\2019;}small{font-size:80%;}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline;}sup{top:-.5em;}sub{bottom:-.25em;}img{border:0;}svg:not(:root){overflow:hidden;}fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em;}button,input,select,textarea{font-family:inherit;font-size:100%;margin:0;}button,input{line-height:normal;}button,html input[type=button],/* 1 */\ninput[type=reset],input[type=submit]{-webkit-appearance:button;cursor:pointer;}button[disabled],input[disabled]{cursor:default;}input[type=checkbox],input[type=radio]{box-sizing:border-box;padding:0;}input[type=search]{-webkit-appearance:textfield;-moz-box-sizing:content-box;-webkit-box-sizing:content-box;box-sizing:content-box;}input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-search-decoration{-webkit-appearance:none;}textarea{overflow:auto;vertical-align:top;}table{border-collapse:collapse;border-spacing:0;}body,figure{margin:0;}legend,button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0;}\n\n.clearfix:after {visibility: hidden; display: block; font-size: 0; content: \" \"; clear: both; height: 0; }\n\n* { box-sizing: border-box; }\n\nbody{\n\tbackground: #3D3D43;\n\tmargin: 0 auto;\n\tcolor: white;\n\twidth: 100%;\n\n}\n\n#main-layout{\n\ttext-align: center;\n\tmargin: 0 auto;\n}\n\n\n/*Header Styles*/\n.col-pad{\n\tpadding:10px;\n\tmargin: 4px;\n}\n\n.label-column{\n\tdisplay: flex;\n\tjustify-content: space-between;\n\ttext-align: center;\n\tmargin-top: 5px;\n}\n\n.label-header{\n\twidth: 100%;\n\tflex-direction: row;\n\tflex-wrap: wrap;\n\tbackground: #5B5B60;\n\ttext-align: center;\n\tjustify-content: space-between;\n\n}\n\n.sprint-header{\n\twidth: 100%;\n\tflex-direction: row;\n\tflex-wrap: wrap;\n\tbackground: #5B5B60;\n\ttext-align: center;\n\tjustify-content: space-between;\n\tletter-spacing: 5px;\n\tfont-weight: bold;\n\tpadding-top: 10px;\n} \n\nh1{\n\tfont-size: 20px;\n\twidth: 100%;\n\tpadding: 10px;\n\tbackground: #2C2C33;\n\ttext-align: center;\n\tmargin: 0 auto;\n\tmargin-top: 20px;\n\tmargin-bottom: 10px;\n\tletter-spacing: 4px;\n}\n/*End of Header Styles*/\n\n\n/*Epic Details*/\n.epic-details{\n\twidth: 50%;\t\n}\n\nh2{\n\tpadding: 5 5 0 5;\n\tfont-size: 20px;\n\tbackground: #D0D2D3;\n\tcolor: black;\n\tborder-bottom: 8px solid #51a087;\n\tmargin: 0;\n}\n\nh3{\n\tpadding: 5px;\n\tfont-size: 14px;\n\tbackground: white;\n\tcolor: black;\n\tmargin: 0;\n}\n\narticle{\n\tbackground: #2C2C33;\n\tmargin: 5px;\n\tfont-size: 16px;\n}\n\narticle + p {\n\tfont-size: 12px;\n\tcolor: white;\n\tmargin: 5px;\n}\n\nbutton{\n\tcolor: black;\n\tbackground: #51a087;\n\tborder: 1px black;\n\tmargin: 5px;\n}\n\n/*End of Epic Details*/\n\n\n/* Team Styles */\n\n.team-type{\n\tdisplay: flex;\n\twidth: 100%;\n\n}\n\n.team-name{\n\tfont-size: 16px;\n\tfont-weight: bold;\n\ttext-align: center;\n\twidth: 10%;\n\tpadding: 150px 0px;\n\tmargin-top: 10px;\n\tbackground: white;\n\tcolor: #51a087;\n}\n\n.epic-type{\n\tmargin: 10px 4px;\n}\n\n.epic-type div{\n\tbackground: #2C2C33;\n}\n\n\n/* Spinner */\n\ni.loading{\n\tcolor: #51a087;\n\tfont-size: 40px;\n\n}\n\n/* Spinner */\n\n.sprint-team{\n\twidth: 100%;\n    flex-direction: row;\n    flex-wrap: wrap;\n    background: #5B5B60;\n    text-align: center;\n    justify-content: space-between;\n    letter-spacing: 5px;\n    font-weight: bold;\n\tpadding-top: 10px;\n\tmargin-top: 10px;\n}\n\n\n\n/* Story Styles */\n\n\n.story-details{\n\t\n\twidth: 100%;\n\tcolor: #51a087;\n\tbackground: black;\n\tmargin: 0 auto;\n\ttext-align: center;\n\tfont-size: 30px;\n}\n\n/* End of Story Styles */\n\n/*Footer Styles*/\n\n.footer{\n\tmargin: 15px;\n\n}\n", ""]);
 
 // exports
 
@@ -24354,9 +24354,11 @@ var Team = (_dec = (0, _reactRedux.connect)(function (store) {
     _createClass(Team, [{
         key: "render",
         value: function render() {
+
             var teams = this.props.teams;
 
             if (teams[this.props.teamName]) {
+
                 var displayEpics = teams[this.props.teamName].map(function (json) {
                     var epic = json.issues[0];
                     return _react2.default.createElement(
@@ -24369,6 +24371,18 @@ var Team = (_dec = (0, _reactRedux.connect)(function (store) {
                         )
                     );
                 });
+                var teamEpicObj = displayEpics[0].props.children._owner.stateNode.props.teams;
+                var teamEpicArray = Object.keys(teamEpicObj).map(function (key) {
+                    return teamEpicObj[key];
+                });
+
+                for (var i = 0; i < teamEpicArray.length; i++) {
+                    console.log(teamEpicArray[i]);
+                    for (var x = 0; x < teamEpicArray[i].length; x++) {
+                        console.log(teamEpicArray[i][x]);
+                    }
+                }
+
                 return _react2.default.createElement(
                     "div",
                     null,
@@ -24377,13 +24391,35 @@ var Team = (_dec = (0, _reactRedux.connect)(function (store) {
                         { className: "team-type" },
                         _react2.default.createElement(
                             "div",
-                            { className: "team-name" },
+                            { className: "team-name col-1 col-pad" },
                             this.props.teamName
                         ),
-                        displayEpics
+                        _react2.default.createElement(
+                            "div",
+                            { id: "sprint1", className: "sprint-team col-2.75 col-pad" },
+                            displayEpics
+                        ),
+                        _react2.default.createElement(
+                            "div",
+                            { id: "sprint2", className: "sprint-team col-2.75 col-pad" },
+                            displayEpics
+                        ),
+                        _react2.default.createElement(
+                            "div",
+                            { id: "sprint3", className: "sprint-team col-2.75 col-pad" },
+                            displayEpics
+                        ),
+                        _react2.default.createElement(
+                            "div",
+                            { id: "sprint4", className: "sprint-team col-2.75 col-pad" },
+                            displayEpics
+                        )
                     )
                 );
             }
+
+            var date = '';
+
             return _react2.default.createElement(
                 "div",
                 { className: "team-type" },
@@ -24462,8 +24498,7 @@ var Date = (_dec = (0, _reactRedux.connect)(function (store) {
     _createClass(Date, [{
         key: "render",
         value: function render() {
-
-            //	{epicsDict.customfield_10501.value}
+            console.log(this.props);
 
             // if (teams[this.props.teamName]){
             //     var displayEpics = teams[this.props.teamName].map(json => {
@@ -24488,11 +24523,16 @@ var Date = (_dec = (0, _reactRedux.connect)(function (store) {
             //     )
             // }
 
-            // <div className="team-type">
-            //         <i class="fa fa-refresh fa-spin fa-5x fa-fw loading"></i>
-            //         <p>Wait For It...</p>
-            // </div>
-
+            _react2.default.createElement(
+                "div",
+                { className: "team-type" },
+                _react2.default.createElement("i", { className: "fa fa-refresh fa-spin fa-5x fa-fw loading" }),
+                _react2.default.createElement(
+                    "p",
+                    null,
+                    "Wait For It..."
+                )
+            );
         }
     }]);
 

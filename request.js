@@ -9,8 +9,8 @@ var URL = "https://mehran-development.atlassian.net"
 var options = {rejectUnauthorized: this.strictSSL, 
     uri: "", 
     method: 'GET',
-    auth: {'user': 'samulai@deloitte.ca', 
-    'pass': '##XiuJin88'}
+    auth: {'user': 'nmukena@deloitte.ca', 
+    'pass': 'I lift my eyes up.'}
 };
 
 app.get('/', function(req, res) {
