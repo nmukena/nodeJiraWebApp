@@ -62,13 +62,15 @@ app.get("/getAllIssues/:projectId", function(req, res)  {
     request(options, function(error, response, body) {
         if (error) {
             res.send(error)
+            console.log(error)
             return;
         }
         if (response.statusCode !== 200) {
             res.status(response.statusCode).send(error)
+            console.log(response.statusCode+error)
             return;
          }
-         res.json(JSON.parse(body));
+        res.json(JSON.parse(body));
         return;
     });
 });
@@ -129,13 +131,16 @@ app.get("/getAllEpics/:projectId/", function(req, res)  {
     request(options, function(error, response, body) {
         if (error) {
             res.send(error)
+            console.log("Error: "+error)
             return;
         }
         if (response.statusCode !== 200) {
             res.status(response.statusCode).send(error)
+            console.log("Status: "+response.statusCode+error)
             return;
          }
-         res.json(JSON.parse(body));
+        res.json(JSON.parse(body));
+        console.log(JSON.parse(body))
         return;
     });
 });

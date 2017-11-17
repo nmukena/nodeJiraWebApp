@@ -39,9 +39,11 @@ export default class AllEpics extends React.Component {
             var teamNames = Object.keys(this.props.teams)
             var displayTeams = teamNames.map(name => {
                 return (
-                    <Provider store={store}>
-                        <Team teamName={name}/>
-                    </Provider>
+                    <div key={name} className="team-type">
+                        <Provider store={store}>
+                            <Team teamName={name}/>
+                        </Provider>
+                    </div>
                 )
             });
             return(

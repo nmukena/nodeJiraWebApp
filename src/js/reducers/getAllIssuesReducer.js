@@ -5,8 +5,8 @@ var store = {
     projectId:"GTMP",
     currentRapidView: 4,
     epicByTeam: {},
-    epicByDate: {},
-    sprintIds : [],
+    targetByTeam: {},
+    target_completions : [],
     currentSprintDetails : 2,
     storiesByEpics: {},
     epics: {},
@@ -26,20 +26,30 @@ export default function reducer(state=store, action){
             if(!state.epics[action.id]){
                 console.log(action.json.issues[0]);
                 var team = action.json.issues[0].fields.customfield_10500.value
-                var date = action.json.issues[0].fields.customfield_10501.value
-                console.log(date);
-                
-                if (!state.epicByTeam[team]){
-                    var list = []
-                    var date = []
-                } else {
+                var target = action.json.issues[0].fields.customfield_10501.value
+                if(!state.target_completions.includes(target)){
+                    var target_completions = [...state.target_completions, target]
+                }else{
+                    var target_completions = state.target_completions 
+                }
+                                
+                target_completions.sort()
+                var list = {}
+                var epicsTarget = []
+                if (state.epicByTeam[team]){
                     var list = state.epicByTeam[team]
-                    var date = state.epicByDate[date]
+                    if (state.epicByTeam[team][target]){
+                        var epicsTarget = state.epicByTeam[team][target]
+                    }
+                } 
+                var targets = []
+                if (state.targetByTeam[team]){
+                    var targets = state.targetByTeam[team]
                 }
                 return {...state, fetching: false, fetched: true, epics: {...state.epics, [action.id]: action.json},
-                            epicByTeam: {...state.epicByTeam, [team]:[...list, action.json]}, 
-                            epicByDate: {...state.epicByDate, [date]:[...list, action.json]}
-                }
+                            epicByTeam: {...state.epicByTeam, [team]:{...list, [target]: [...epicsTarget, action.json]}}, target_completions: target_completions,
+                            targetByTeam: {...state.targetByTeam, [team]:[...targets, target]}
+                }           
             }
             return {...state, fetching: false, fetched: true}
         }

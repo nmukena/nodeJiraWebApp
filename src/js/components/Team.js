@@ -2,12 +2,13 @@ import React from "react";
 import { connect } from "react-redux";
 import * as actions from "../actions/actions.js";
 import { Provider } from  "react-redux"
-import Epic from "./Epic"
+import Target from "./Target"
 import store from "../store.js"
 
 @connect((store)=>{
     return {
         teams: store.epicByTeam,
+        targetCompletions: store.target_completions,
         state: store
     };
 })
@@ -22,59 +23,33 @@ export default class Team extends React.Component {
     render(){
 
         var teams = this.props.teams
-
-
-
-
-
+        var tCompletions = this.props.targetCompletions
+        var displayEpics = []
         if (teams[this.props.teamName]){
-
-            var displayEpics = teams[this.props.teamName].map(json => {
-                var epic = json.issues[0]
-                return (
-                    <div key={epic.id} className="epic-type">
-                        <Provider store={store}>
-                            <Epic issueId={epic.key}/>
-                        </Provider>
-                    </div>
-                )
-
-            }
-        )
-        var teamEpicObj = displayEpics[0].props.children._owner.stateNode.props.teams;
-        var teamEpicArray = Object.keys(teamEpicObj).map(function(key){
-            return teamEpicObj[key];
-        });
-
-        for (var i = 0; i < teamEpicArray.length; i++){
-            console.log(teamEpicArray[i]);
-            for(var x = 0; x < teamEpicArray[i].length; x++){
-                console.log(teamEpicArray[i][x]);
-            }
-        }
-
-
-
+            var displayTargets = tCompletions.map((item, i) => {
+                    if(teams[this.props.teamName][item]){
+                        return (
+                            <div key={item+i} className="target-type">
+                                <Provider store={store}>
+                                    <Target targetComp={item} teamName={this.props.teamName}/>
+                                </Provider>
+                            </div>
+                        )
+                    }else{
+                        return(
+                            <div key={item+i} className="target-type">
+                            </div>
+                        )
+                    }
+                }
+            )
             return(
-
                 <div>
-                     {/* {console.log(displayEpics[0].props.children._owner.stateNode.props.teams)} */}
-
-
-
-                    <div className="team-type">
+                    <div className="targets">
                         <div className="team-name col-1 col-pad">
                             {this.props.teamName}
                         </div>
-                            <div id="sprint1" className="sprint-team col-2.75 col-pad">
-                            {
-                                displayEpics
-                            }</div>
-                            <div id="sprint2"className="sprint-team col-2.75 col-pad">{displayEpics}</div>
-                            
-                            <div id="sprint3"className="sprint-team col-2.75 col-pad">{displayEpics}</div>
-                            <div id="sprint4"className="sprint-team col-2.75 col-pad">{displayEpics}</div>
-                            
+                        <div>{displayTargets}</div>   
                     </div>
                 </div>
             )
@@ -82,11 +57,8 @@ export default class Team extends React.Component {
 
         var date = '';
         
-        
-
         return(
-            <div className="team-type">
-                    <i class="fa fa-refresh fa-spin fa-5x fa-fw loading"></i>
+            <div className="target-type">
                     <p>Wait For It...</p>
             </div>
         )
