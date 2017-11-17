@@ -11,6 +11,7 @@ body{
 	color: white;
 	width: 100%;
 
+
 }
 
 #main-layout{
@@ -125,7 +126,7 @@ button{
 	font-weight: bold;
 	text-align: center;
 	width: 10%;
-	padding: 150px 0px;
+	padding: 80px 0px;
 	margin-top: 10px;
 	background: white;
 	color: #51a087;
@@ -185,4 +186,30 @@ i.loading{
 .footer{
 	margin: 15px;
 
+}
+
+
+.targets{
+	width: 100%;
+	display: flex;
+
+}
+.team-type {
+	width: 100%;
+	overflow: hidden;
+
+}
+.team-type > div{
+	width: 100%;
+}
+
+.displayTargets{
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	overflow: auto;
+}
+
+.target-type{
+	width: 100%;
 }

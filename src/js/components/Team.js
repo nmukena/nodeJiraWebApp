@@ -38,6 +38,7 @@ export default class Team extends React.Component {
                     }else{
                         return(
                             <div key={item+i} className="target-type">
+                                
                             </div>
                         )
                     }
@@ -49,7 +50,7 @@ export default class Team extends React.Component {
                         <div className="team-name col-1 col-pad">
                             {this.props.teamName}
                         </div>
-                        <div>{displayTargets}</div>   
+                        <div className="displayTargets">{displayTargets}</div>   
                     </div>
                 </div>
             )
