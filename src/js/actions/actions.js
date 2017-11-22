@@ -1,12 +1,8 @@
 import axios from 'axios';
+import api_server from '../API_SERVER';
 
-var API_SERVER = "http://localhost:3000";
+var API_SERVER = api_server();
 
-export function reRender(){
-    return function(dispatch){
-        dispatch({type: "RE-RENDER"})
-    }
-}
 
 export function getEpic(epicId){
     return function(dispatch){
@@ -63,36 +59,3 @@ export function displayEpics(){
         dispatch({type: "DISPLAY_EPICS"})
     }
 }
-
-/*export function getAllRapidViews(){
-    return function(dispatch){
-        axios.get(API_SERVER+"/getRapidviews/")
-        .then((response)=>{
-            dispatch({type: "GET_RAPIDVIEWS_SUCCESS", json: response.data})
-        }).catch((err)=>{
-            dispatch({type: "ERROR", error: err})
-        })
-    }
-}
-
-export function getAllSprints(rapidViewId){
-    return function(dispatch){
-        axios.get(API_SERVER+"/getSprints/"+rapidViewId)
-        .then((response)=>{
-            dispatch({type: "GET_ALL_SPRINTS_SUCCESS", json: response.data})
-        }).catch((err)=>{
-            dispatch({type: "ERROR", error: err})
-        })
-    }
-}
-
-export function getIssuesBySprint(rapidViewId, sprintId){
-    return function(dispatch){
-        axios.get(API_SERVER+"/getIssuesBySprint/"+rapidViewId+"/"+sprintId)
-        .then((response)=>{
-            dispatch({type: "GET_ISSUES_SPRINT_SUCCESS", json: response.data})
-        }).catch((err)=>{
-            dispatch({type: "ERROR", error: err})
-        })
-    }
-}*/

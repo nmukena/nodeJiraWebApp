@@ -31,16 +31,16 @@ export default class Story extends React.Component {
 			return(
 			<div>
 				<div className="story-details">
-					<span>Story {this.props.storyId} </span><br/>
-					<span>{storyFields.summary}</span><br/>
-					<span>Status: {storyFields.status.name} </span><br/>
-					<span>Story Points: {storyFields.customfield_10200} </span><br/>
+					<h2>Story {this.props.storyId} </h2>
+					<h3>{storyFields.summary}</h3>
+					<article>Status: {storyFields.status.name} </article>
+					<p>Story Points: {storyFields.customfield_10200} </p>
 				</div>
 			</div>);
 		} else {
 			return(
 				<div className="story-details">
-				<span>Story {this.props.storyId} </span><br/>
+				<h2>Story {this.props.storyId} </h2>
 				<i class="fa fa-refresh fa-spin fa-5x fa-fw loading"> </i>
                 <p>Wait For It...</p>
 				</div>

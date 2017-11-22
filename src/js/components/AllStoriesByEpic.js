@@ -45,9 +45,14 @@ export default class AllStoriesByEpic extends React.Component {
                 )
             });
             return(
+            <div>
+                <h1 class="col-12">
+                    Epic {this.props.epicId}
+                </h1>
                 <div className="epic-row-sprint">
                         {this.displayStories}
                 </div>
+            </div>
     
             )
         }else if (!this.props.data){
