@@ -3,14 +3,14 @@ import { connect } from "react-redux";
 import * as actions from "../actions/actions.js";
 import { Provider } from  "react-redux"
 import Team from "./Team"
-import Date from "./Date"
+import Header from "./Header";
 import store from "../store.js"
 
 @connect((store)=>{
     return {
-        data: store.allEpics,
-        teams: store.epicByTeam,
-        state: store
+        data: store.epics.allEpics,
+        teams: store.epics.epicByTeam,
+        state: store.epics
     };
 })
 

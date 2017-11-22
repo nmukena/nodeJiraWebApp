@@ -6,12 +6,11 @@ import store from "../store.js"
 
 @connect((store)=>{
     return {
-		data: store,
+		data: store.stories,
     };
 })
 
 export default class Story extends React.Component {
-
 
     constructor(props){
 		super(props)
@@ -20,7 +19,6 @@ export default class Story extends React.Component {
     render(){
 
 		const stories = this.props.data.allStories
-
 		if (this.error){
 			return(
 				<div className="story-details">
@@ -42,7 +40,7 @@ export default class Story extends React.Component {
 		} else {
 			return(
 				<div className="story-details">
-				<span>Epic {this.props.storyId} </span><br/>
+				<span>Story {this.props.storyId} </span><br/>
 				<i class="fa fa-refresh fa-spin fa-5x fa-fw loading"> </i>
                 <p>Wait For It...</p>
 				</div>

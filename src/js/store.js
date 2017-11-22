@@ -1,11 +1,15 @@
 import { applyMiddleware, createStore } from "redux"
-
+import { combineReducers } from "redux";
 import { createLogger } from "redux-logger"
 import thunk from "redux-thunk"
 import promise from "redux-promise-middleware"
 
-import reducer from "./reducers/getAllIssuesReducer"
+import epics from "./reducers/epicsReducer"
+import stories from "./reducers/storiesReducer"
+import views from "./reducers/viewsReducer"
+
+import reducers from "./reducers"
 
 const middleware = applyMiddleware(promise(), thunk, createLogger())
 
-export default createStore(reducer, middleware)
+export default createStore(reducers, middleware)

@@ -7,8 +7,8 @@ import store from "../store.js"
 
 @connect((store)=>{
     return {
-        data: store.storiesByEpics,
-        state: store
+        data: store.stories.storiesByEpics,
+        state: store.stories
     };
 })
 

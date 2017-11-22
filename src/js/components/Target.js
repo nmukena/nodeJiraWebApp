@@ -7,10 +7,10 @@ import store from "../store.js"
 
 @connect((store)=>{
     return {
-        teams: store.epicByTeam,
-        targetCompletions: store.target_completions,
-        targetByTeam: store.targetByTeam,
-        state: store
+        teams: store.epics.epicByTeam,
+        targetCompletions: store.epics.target_completions,
+        targetByTeam: store.epics.targetByTeam,
+        state: store.epics
     };
 })
 

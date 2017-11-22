@@ -12,7 +12,7 @@ import Footer from "./Footer";
 
 @connect((store)=>{
     return {
-        data: store,
+        data: store.views,
     };
 })
 
@@ -44,9 +44,6 @@ export default class Layout extends React.Component {
         }else if(this.props.data.view=="Stories"){
             return(
                 <div>
-                    <div>
-                        <Header />
-                    </div>
                     <div className="main-layout">
                         <AllStoriesByEpic epicId = {this.props.data.epicView}/>
                         <button onClick={()=>this.displayEpics()}>
