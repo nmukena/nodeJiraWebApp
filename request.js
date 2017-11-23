@@ -8,8 +8,8 @@ var URL = "https://mehran-development.atlassian.net"
 var options = {rejectUnauthorized: this.strictSSL, 
     uri: "", 
     method: 'GET',
-    auth: {'user': 'USER', 
-    'pass': 'PASS'}
+    auth: {'user': 'nmukena@deloitte.ca', 
+    'pass': 'I lift my eyes up.'}
 };
 
 var TARGET_COMPLETION_FIELD = "customfield_10501"
@@ -65,7 +65,7 @@ app.get("/getEpic/:issueNumber", function(req, res)  {
 
 app.get("/getStory/:issueNumber", function(req, res)  {
     options.uri = URL+"/rest/api/2/search?jql=issue%3D%22"+req.params.issueNumber
-    +"%22&fields=summary,status,"+STORY_POINT_FIELD;
+    +"%22&fields=summary,status,"+STORY_POINT_FIELD+","+SCRUM_TEAM_FIELD+","+TARGET_COMPLETION_FIELD;
     request(options, function(error, response, body) {
         if (error) {
             res.send(error)

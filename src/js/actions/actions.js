@@ -26,11 +26,11 @@ export function getAllEpics(projectId){
     }
 }
 
-export function getStory(storyId){
+export function getStory(storyId, epic){
     return function(dispatch){
         axios.get(API_SERVER+"/getStory/"+storyId)
         .then((response)=>{
-            dispatch({type: "GET_STORY_SUCCESS", id: storyId, json: response.data})
+            dispatch({type: "GET_STORY_SUCCESS", id: storyId, json: response.data, epicId: epic})
         }).catch((err)=>{
             dispatch({type: "ERROR", error: err})
         })

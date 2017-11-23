@@ -20,7 +20,6 @@ export default function reducer(state=store, action){
 
         case "GET_EPIC_SUCCESS":{
             if(!state.epics[action.id]){
-                console.log(action.json.issues[0]);
                 var team = "No Team Assigned"
                 if(action.json.issues[0].fields[state.SCRUM_TEAM_FIELD]){
                     var team = action.json.issues[0].fields[state.SCRUM_TEAM_FIELD].value

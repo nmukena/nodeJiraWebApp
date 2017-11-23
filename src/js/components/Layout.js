@@ -6,6 +6,7 @@ import store from "../store.js"
 
 import '../../App.css';
 import Header from "./Header";
+import SprintHeader from "./SprintHeader";
 import AllEpics from "./AllEpics";
 import AllStoriesByEpic from "./AllStoriesByEpic";
 import Footer from "./Footer";
@@ -44,6 +45,9 @@ export default class Layout extends React.Component {
         }else if(this.props.data.view=="Stories"){
             return(
                 <div>
+                    <div>
+                        <SprintHeader />
+                    </div>
                     <div className="main-layout">
                         <AllStoriesByEpic epicId = {this.props.data.epicView}/>
                         <button onClick={()=>this.displayEpics()}>

@@ -2,12 +2,13 @@ import React from "react";
 import { connect } from "react-redux";
 import * as actions from "../actions/actions.js";
 import { Provider } from  "react-redux"
-import Story from "./Story"
+import Sprint from "./Sprint"
 import store from "../store.js"
 
 @connect((store)=>{
     return {
         data: store.stories.storiesByEpics,
+        targets: store.stories.storiesByTarget,
         state: store.stories
     };
 })
@@ -16,12 +17,12 @@ export default class AllStoriesByEpic extends React.Component {
     constructor(props){
         super(props)
         this.props.dispatch(actions.getStoriesByEpic(this.props.epicId))
-        this.displayStories = []
+        this.displayTargets = []
     }
 
     shouldComponentUpdate(){
-        if (this.props.data[this.props.epicId]&&
-            this.displayStories.length==this.props.data[this.props.epicId].issues.length){
+        if (this.props.targets[this.props.epicId]&&
+            this.displayTargets.length==Object.keys(this.props.targets[this.props.epicId]).length){
             return false
         }
         return true
@@ -33,28 +34,33 @@ export default class AllStoriesByEpic extends React.Component {
         if (this.props.data[this.props.epicId]){
             var stories = this.props.data[this.props.epicId].issues
             for (var i = 0; i<stories.length; i++){
-                this.props.dispatch(actions.getStory(stories[i].key))
+                this.props.dispatch(actions.getStory(stories[i].key, this.props.epicId))
             }
-            this.displayStories = stories.map(story => {
-                return (
-                    <div key={story.id} className="epic-type">
-                        <Provider store={store}>
-                            <Story storyId={story.key}/>
-                        </Provider>
+            var targetList = []
+            if(this.props.targets[this.props.epicId]){
+                targetList = Object.keys(this.props.targets[this.props.epicId]).sort()
+                this.displayTargets = targetList.map(target => {
+                    return (
+                        <div key={target}>
+                            <Provider store={store}>
+                                <Sprint target={target} epic={this.props.epicId}/>
+                            </Provider>
+                        </div>
+                    )
+                });
+                return(
+                <div>
+                    <div className="epic-row-sprint">
+                        <div className="team-type">
+                            <div className="displayTargets">
+                                {this.displayTargets}
+                            </div>
+                        </div>
                     </div>
-                )
-            });
-            return(
-            <div>
-                <h1 class="col-12">
-                    Epic {this.props.epicId}
-                </h1>
-                <div className="epic-row-sprint">
-                        {this.displayStories}
                 </div>
-            </div>
-    
-            )
+        
+                )
+            }
         }else if (!this.props.data){
             return(
                 <div className="epic-row-sprint">
