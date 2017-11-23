@@ -5,11 +5,15 @@ input[type=reset],input[type=submit]{-webkit-appearance:button;cursor:pointer;}b
 
 * { box-sizing: border-box; }
 
+html{
+	zoom: 45%;
+}
+
 body{
 	background: #3D3D43;
 	margin: 0 auto;
 	color: white;
-	width: 100%;
+	width: 140%;
 
 
 }
@@ -23,7 +27,7 @@ body{
 /*Header Styles*/
 .col-pad{
 	padding:10px;
-	margin: 4px;
+	margin: 10px;
 }
 
 .label-column{
@@ -56,9 +60,11 @@ body{
 } 
 
 h1{
-	font-size: 20px;
+	font-size: 30px;
 	width: 100%;
-	padding: 10px;
+	padding: 10px 0px;
+	margin-left: 10px;
+	margin-right: 10px;
 	background: #2C2C33;
 	text-align: center;
 	margin: 0 auto;
@@ -81,6 +87,7 @@ h2{
 	color: black;
 	border-bottom: 8px solid #51a087;
 	margin: 0;
+	margin-top: 10px;
 }
 
 h3{
@@ -92,7 +99,7 @@ h3{
 }
 
 article{
-	background: #2C2C33;
+	background: black;
 	margin: 5px;
 	font-size: 16px;
 }
@@ -126,27 +133,32 @@ button{
 	font-weight: bold;
 	text-align: center;
 	width: 10%;
-	padding: 80px 0px;
-	margin-top: 10px;
+	padding: 150px 0px;
+	margin-top: 10px 0px;
 	background: white;
 	color: #51a087;
 }
 
 .epic-type{
-	margin: 10px 4px;
+	margin: 20px;
+	padding: 5px;
 }
 
 .epic-type div{
-	background: #2C2C33;
+	background: black;
 }
 
 
 /* Spinner */
 
 i.loading{
+	margin-top: 40px;
 	color: #51a087;
-	font-size: 40px;
+	font-size: 150px !important;
+}
 
+i + p {
+	font-size: 40px;
 }
 
 /* Spinner */
@@ -212,4 +224,6 @@ i.loading{
 
 .target-type{
 	width: 100%;
+	margin: 10px 10px;
+	background: #2C2C33;
 }
