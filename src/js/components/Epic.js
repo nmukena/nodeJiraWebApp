@@ -41,7 +41,7 @@ export default class Epic extends React.Component {
 				<h3>{epicsDict.summary}</h3>
 				<article>Target completion: {epicsDict.customfield_10501.value} </article>
 				<p>Scrum Team: {epicsDict.customfield_10500.value }</p>
-				<button onClick={()=>this.displayStories(this.props.issueId)}>
+				<button class="button" onClick={()=>this.displayStories(this.props.issueId)}>
                     Display Stories
                 </button>
 			</div>);

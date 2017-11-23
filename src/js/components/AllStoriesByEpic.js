@@ -41,7 +41,7 @@ export default class AllStoriesByEpic extends React.Component {
                 targetList = Object.keys(this.props.targets[this.props.epicId]).sort()
                 this.displayTargets = targetList.map(target => {
                     return (
-                        <div key={target}>
+                        <div key={target} class="story-background col-2.75 col-pad">
                             <Provider store={store}>
                                 <Sprint target={target} epic={this.props.epicId}/>
                             </Provider>

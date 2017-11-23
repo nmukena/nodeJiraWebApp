@@ -50,7 +50,7 @@ export default class Layout extends React.Component {
                     </div>
                     <div className="main-layout">
                         <AllStoriesByEpic epicId = {this.props.data.epicView}/>
-                        <button onClick={()=>this.displayEpics()}>
+                        <button className="button-back" onClick={()=>this.displayEpics()}>
                                 Back to Epics!
                         </button>
                     </div>

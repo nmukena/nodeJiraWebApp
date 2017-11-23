@@ -13,7 +13,7 @@ body{
 	background: #3D3D43;
 	margin: 0 auto;
 	color: white;
-	width: 140%;
+	width: 100%;
 
 
 }
@@ -99,22 +99,43 @@ h3{
 }
 
 article{
+	width: 100%;
 	background: black;
-	margin: 5px;
 	font-size: 16px;
+	padding: 5px 0px;
 }
 
 article + p {
+	width: 100%;
 	font-size: 12px;
 	color: white;
-	margin: 5px;
+	margin-bottom: 0px;
+	padding: 5px 0px;
 }
 
-button{
+
+.button-back{
+	width: 5%;
+	background: #51a087;
+	color: black;
+	border: 1px black;
+	padding: 5px 0px;
+}
+
+.button{
+	width: 100%;
 	color: black;
 	background: #51a087;
 	border: 1px black;
-	margin: 5px;
+	padding: 5px 0px;
+
+}
+
+.button:hover{
+	color: black;
+	background: white;
+	border: 1px black;
+
 }
 
 /*End of Epic Details*/
@@ -140,12 +161,13 @@ button{
 }
 
 .epic-type{
+	
 	margin: 20px;
 	padding: 5px;
 }
 
 .epic-type div{
-	background: black;
+
 }
 
 
@@ -183,9 +205,8 @@ i + p {
 
 .story-details{
 	
-	width: 100%;
+	width: 33.33%;
 	color: #51a087;
-	background: black;
 	margin: 0 auto;
 	text-align: center;
 	font-size: 30px;
@@ -226,4 +247,24 @@ i + p {
 	width: 100%;
 	margin: 10px 10px;
 	background: #2C2C33;
+}
+
+.story-background{
+	width: 100%;
+	flex-direction: row;
+	flex-wrap: wrap;
+	background: #2C2C33;
+	text-align: center;
+	justify-content: space-between;
+	letter-spacing: 5px;
+	font-weight: bold;
+	padding-top: 10px;
+} 
+
+.story-details{
+	background: black;
+}
+
+.epic-type p {
+	background: black;
 }
