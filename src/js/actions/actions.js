@@ -1,7 +1,7 @@
 import axios from 'axios';
 import api_server from '../API_SERVER';
 
-var API_SERVER = api_server();
+var API_SERVER = 'http://18.221.174.71:3000';
 
 
 export function getEpic(epicId){

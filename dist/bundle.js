@@ -711,7 +711,7 @@ var _API_SERVER2 = _interopRequireDefault(_API_SERVER);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var API_SERVER = (0, _API_SERVER2.default)();
+var API_SERVER = 'http://18.221.174.71:3000';
 
 function getEpic(epicId) {
     return function (dispatch) {
@@ -23317,7 +23317,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = api_server;
 function api_server() {
-    return "http://localhost:3000";
+    return "http:/18.221.174.71:3000";
 }
 
 /***/ }),
