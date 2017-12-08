@@ -24211,7 +24211,8 @@ var SprintHeader = (_dec = (0, _reactRedux.connect)(function (store) {
                     _react2.default.createElement(
                         "h1",
                         { className: "col-12" },
-                        "Target MMF Completion Sprints"
+                        "Epic: ",
+                        this.props.views.epicView
                     ),
                     _react2.default.createElement(
                         "div",
