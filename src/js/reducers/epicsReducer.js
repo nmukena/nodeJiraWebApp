@@ -1,8 +1,8 @@
 var store = {
-    projectId:"GTMP",
+    projectId:"",
     epicByTeam: {},
-    TARGET_COMPLETION_FIELD: "customfield_10501",
-    SCRUM_TEAM_FIELD: "customfield_10500",
+    TARGET_COMPLETION_FIELD: "",
+    SCRUM_TEAM_FIELD: "",
     targetByTeam: {},
     target_completions : [],
     epics: {},
@@ -14,6 +14,15 @@ var store = {
 
 export default function reducer(state=store, action){
     switch (action.type){
+
+        case "CHANGE_CUSTOMFIELDS":{
+            return {...state, TARGET_COMPLETION_FIELD: action.target, SCRUM_TEAM_FIELD: action.team}
+        }
+
+        case "DISPLAY_EPICS":{
+            return {...state, projectId: action.projectId}
+        }
+
         case "GET_ALL_EPICS_SUCCESS":{
             return {...state, fetching: false, fetched: true, allEpics: action.json}
         }

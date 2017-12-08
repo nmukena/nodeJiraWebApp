@@ -3,13 +3,13 @@ var app = express();
 request = require('request');
 var path = require('path');
 
-var URL = "https://mehran-development.atlassian.net"
+var URL = ""
 
 var options = {rejectUnauthorized: this.strictSSL, 
     uri: "", 
     method: 'GET',
-    auth: {'user': 'nmukena@deloitte.ca', 
-    'pass': 'I lift my eyes up.'}
+    auth: {'user': '', 
+    'pass': ''}
 };
 
 var TARGET_COMPLETION_FIELD = "customfield_10501"
@@ -26,25 +26,28 @@ app.get('/bundle.js', function(req, res) {
     res.sendFile(path.join(__dirname + '/dist/bundle.js'));
 });
 
-app.get("setURL/:url",function(req, res){
-    URL = req.params.url
+app.get("/setURL/:url",function(req, res){
+    URL = new Buffer(req.params.url, 'hex').toString();
+    console.log("URL set!")
+    res.send("Done")
 })
 
-app.get("setUsername/:user",function(req, res){
-    options.auth.user = req.params.user
+app.get("/setCredentials/:user/:password",function(req, res){
+    options.auth.user = new Buffer(req.params.user, 'hex').toString();
+    options.auth.pass = new Buffer(req.params.password, 'hex').toString();
+    console.log("Credentials set!")
+    res.send("Done")
 })
 
-app.get("setPassword/:password",function(req, res){
-    options.auth.user = req.params.password
-})
 
-app.get("setTargetCompletionField/:field",function(req, res){
-    TARGET_COMPLETION_FIELD = req.params.field
-})
+app.get("/setCustomFields/:target/:team",function(req, res){
+    TARGET_COMPLETION_FIELD = req.params.target
+    SCRUM_TEAM_FIELD = req.params.team
+    console.log("Customfields set!")
+    res.send("Done")
+    return;
+});
 
-app.get("setScrumTeamField/:field",function(req, res){
-    SCRUM_TEAM_FIELD = req.params.field
-})
 
 app.get("/getEpic/:issueNumber", function(req, res)  {
         options.uri = URL+"/rest/api/2/search?jql=issue%3D%22"+req.params.issueNumber
@@ -184,5 +187,5 @@ app.get("/getStoriesByEpic/:epicId/", function(req, res)  {
 });
 
 app.listen(3000, function() {  
-    console.log("Request Server is running on http://localhost:3000");
+    console.log("Request Server is running on port 3000");
 });

@@ -10,10 +10,12 @@ import SprintHeader from "./SprintHeader";
 import AllEpics from "./AllEpics";
 import AllStoriesByEpic from "./AllStoriesByEpic";
 import Footer from "./Footer";
+import Index from "./Index"
 
 @connect((store)=>{
     return {
         data: store.views,
+        epics: store.epics,
     };
 })
 
@@ -23,8 +25,8 @@ export default class Layout extends React.Component {
         super(props)
     }
     
-    displayEpics(){
-        this.props.dispatch(actions.displayEpics())
+    displayEpics(project){
+        this.props.dispatch(actions.displayEpics(project))
     }
 
     render(){
@@ -35,7 +37,7 @@ export default class Layout extends React.Component {
                         <Header />
                     </div>
                     <div className="main-layout">
-                        <AllEpics projectId = {"GTMP"}/>
+                        <AllEpics projectId = {this.props.epics.projectId}/>
                     </div>
                     <div>
                         <Footer />
@@ -50,13 +52,30 @@ export default class Layout extends React.Component {
                     </div>
                     <div className="main-layout">
                         <AllStoriesByEpic epicId = {this.props.data.epicView}/>
-                        <button className="button-back" onClick={()=>this.displayEpics()}>
+                        <button className="button-back" onClick={()=>this.displayEpics(this.props.epics.projectId)}>
                                 Back to Epics!
                         </button>
                     </div>
                     <div>
                         <Footer />
                     </div>
+                </div>
+            );
+        }else if(this.props.data.view=="Index"){
+            return(
+                <div>
+                <div>
+                <h1 class="col-12">
+                Projer
+                </h1>
+                <h2 class="col-12">
+                Welcome to Projer, a Project Management and Planning Tool designed for Jira.
+                </h2>
+                </div>
+                <div>
+                    <p>Enter your Jira Project Details:</p>
+                    <Index />
+                </div>
                 </div>
             );
         }

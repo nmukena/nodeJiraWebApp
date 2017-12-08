@@ -1,5 +1,5 @@
 var store = {
-    view: "Epics",
+    view: "Index",
     epicView: "",
 }
 

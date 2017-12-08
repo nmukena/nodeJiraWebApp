@@ -1,8 +1,8 @@
 import axios from 'axios';
 import api_server from '../API_SERVER';
 
-var API_SERVER = 'http://18.221.174.71:3000';
-
+var API_SERVER = api_server();
+//var API_SERVER = 'http://18.221.174.71:3000';
 
 export function getEpic(epicId){
     return function(dispatch){
@@ -54,8 +54,42 @@ export function displayStories(epicId){
     }
 }
 
-export function displayEpics(){
+export function displayEpics(project){
     return function(dispatch){
-        dispatch({type: "DISPLAY_EPICS"})
+        dispatch({type: "DISPLAY_EPICS", projectId: project})
+    }
+}
+
+export function displayIndex(){
+    return function(dispatch){
+        dispatch({type: "DISPLAY_INDEXs"})
+    }
+}
+
+export function changeCustomFields(target_completion, scrum_team){
+    return function(dispatch){
+        axios.get(API_SERVER+"/setCustomFields/"+target_completion+"/"+scrum_team)
+        .then((response)=>{
+        }).catch((err)=>{
+        })
+        dispatch({type: "CHANGE_CUSTOMFIELDS", team: scrum_team, target: target_completion})
+    }  
+}
+
+export function setCredentials(user, pass){
+    return function(dispatch){
+        axios.get(API_SERVER+"/setCredentials/"+user+"/"+pass)
+        .then((response)=>{
+        }).catch((err)=>{
+        })
+    }
+}
+
+export function setURL(url){
+    return function(dispatch){
+        axios.get(API_SERVER+"/setURL/"+url)
+        .then((response)=>{
+        }).catch((err)=>{
+        })
     }
 }

@@ -36,7 +36,7 @@ export default class AllEpics extends React.Component {
             for (var i = 0; i<epics.length; i++){
                 this.props.dispatch(actions.getEpic(epics[i].key))
             }
-            var teamNames = Object.keys(this.props.teams)
+            var teamNames = Object.keys(this.props.teams).sort()
             var displayTeams = teamNames.map(name => {
                 return (
                     <div key={name} className="team-type">

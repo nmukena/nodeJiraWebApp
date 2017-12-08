@@ -24,6 +24,9 @@ export default class Header extends React.Component {
 		return (
 			<div>
 				<h1 class="col-12">
+					Projer
+				</h1>
+				<h1 class="col-12">
 					Target MMF Completion Sprints
 				</h1>
 				<div className="label-column">

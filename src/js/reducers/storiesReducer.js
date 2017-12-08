@@ -1,8 +1,8 @@
 var store = {
     storiesByEpics: {},
     allStories: {},
-    TARGET_COMPLETION_FIELD: "customfield_10501",
-    SCRUM_TEAM_FIELD: "customfield_10500",
+    TARGET_COMPLETION_FIELD: "",
+    SCRUM_TEAM_FIELD: "",
     storiesByTarget: {},
     fetching: true, 
     fetched: false, 
@@ -11,6 +11,10 @@ var store = {
 
 export default function reducer(state=store, action){
     switch (action.type){
+
+        case "CHANGE_CUSTOMFIELDS":{
+            return {...state, TARGET_COMPLETION_FIELD: action.target, SCRUM_TEAM_FIELD: action.team}
+        }
 
         case "GET_STORY_SUCCESS":{
             if(!state.allStories[action.id]){
