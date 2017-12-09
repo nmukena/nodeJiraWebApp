@@ -6,7 +6,7 @@ var store = {
 export default function reducer(state=store, action){
     switch (action.type){
 
-        case "INDEX":{
+        case "DISPLAY_INDEX":{
             return {...state, view: "Index", epicView: ""}
         }
 

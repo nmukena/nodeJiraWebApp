@@ -16,6 +16,7 @@ import Index from "./Index"
     return {
         data: store.views,
         epics: store.epics,
+        connection: store.connection
     };
 })
 
@@ -30,7 +31,16 @@ export default class Layout extends React.Component {
     }
 
     render(){
-        if(this.props.data.view=="Epics"){
+        if(this.props.connection.fetching){
+            return(
+                <div>
+                    <i class="fa fa-refresh fa-spin fa-5x fa-fw loading"> </i>
+                    <p>Wait For It...</p>
+                </div>
+            )
+
+        }
+        if (this.props.data.view=="Epics"){
             return(
                 <div>
                     <div>
@@ -44,7 +54,8 @@ export default class Layout extends React.Component {
                     </div>
                 </div>
             );
-        }else if(this.props.data.view=="Stories"){
+        }
+        if (this.props.data.view=="Stories"){
             return(
                 <div>
                     <div>

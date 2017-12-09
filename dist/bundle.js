@@ -688,10 +688,11 @@ function getEpic(epicId) {
 
 function getAllEpics(projectId) {
     return function (dispatch) {
+        dispatch({ type: "GET_ALL_EPICS" });
         _axios2.default.get(API_SERVER + "/getAllEpics/" + projectId).then(function (response) {
             dispatch({ type: "GET_ALL_EPICS_SUCCESS", json: response.data });
         }).catch(function (err) {
-            dispatch({ type: "ERROR", error: err });
+            dispatch({ type: "GET_ALL_EPICS_ERROR", code: err.response.status, text: err.response.statusText });
         });
     };
 }
@@ -711,7 +712,7 @@ function getStoriesByEpic(epicId) {
         _axios2.default.get(API_SERVER + "/getStoriesByEpic/" + epicId).then(function (response) {
             dispatch({ type: "GET_STORIES_EPIC_SUCCESS", id: epicId, json: response.data });
         }).catch(function (err) {
-            dispatch({ type: "ERROR", error: err });
+            dispatch({ type: "GET_STORIES_EPIC_ERROR", code: err.response.status, text: err.response.statusText });
         });
     };
 }
@@ -730,7 +731,7 @@ function displayEpics(project) {
 
 function displayIndex() {
     return function (dispatch) {
-        dispatch({ type: "DISPLAY_INDEXs" });
+        dispatch({ type: "DISPLAY_INDEX" });
     };
 }
 
@@ -1402,7 +1403,7 @@ module.exports = defaults;
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(109);
+var content = __webpack_require__(110);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -1410,7 +1411,7 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(111)(content, options);
+var update = __webpack_require__(112)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -2997,7 +2998,7 @@ function reducer() {
 
     switch (action.type) {
 
-        case "INDEX":
+        case "DISPLAY_INDEX":
             {
                 return _extends({}, state, { view: "Index", epicView: "" });
             }
@@ -22363,23 +22364,23 @@ var _Header = __webpack_require__(42);
 
 var _Header2 = _interopRequireDefault(_Header);
 
-var _SprintHeader = __webpack_require__(113);
+var _SprintHeader = __webpack_require__(114);
 
 var _SprintHeader2 = _interopRequireDefault(_SprintHeader);
 
-var _AllEpics = __webpack_require__(114);
+var _AllEpics = __webpack_require__(115);
 
 var _AllEpics2 = _interopRequireDefault(_AllEpics);
 
-var _AllStoriesByEpic = __webpack_require__(118);
+var _AllStoriesByEpic = __webpack_require__(119);
 
 var _AllStoriesByEpic2 = _interopRequireDefault(_AllStoriesByEpic);
 
-var _Footer = __webpack_require__(121);
+var _Footer = __webpack_require__(122);
 
 var _Footer2 = _interopRequireDefault(_Footer);
 
-var _Index = __webpack_require__(122);
+var _Index = __webpack_require__(123);
 
 var _Index2 = _interopRequireDefault(_Index);
 
@@ -22396,7 +22397,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Layout = (_dec = (0, _reactRedux.connect)(function (store) {
     return {
         data: store.views,
-        epics: store.epics
+        epics: store.epics,
+        connection: store.connection
     };
 }), _dec(_class = function (_React$Component) {
     _inherits(Layout, _React$Component);
@@ -22417,6 +22419,22 @@ var Layout = (_dec = (0, _reactRedux.connect)(function (store) {
         value: function render() {
             var _this2 = this;
 
+            if (this.props.connection.fetching) {
+                return _react2.default.createElement(
+                    "div",
+                    null,
+                    _react2.default.createElement(
+                        "i",
+                        { className: "fa fa-refresh fa-spin fa-5x fa-fw loading" },
+                        " "
+                    ),
+                    _react2.default.createElement(
+                        "p",
+                        null,
+                        "Wait For It..."
+                    )
+                );
+            }
             if (this.props.data.view == "Epics") {
                 return _react2.default.createElement(
                     "div",
@@ -22437,7 +22455,8 @@ var Layout = (_dec = (0, _reactRedux.connect)(function (store) {
                         _react2.default.createElement(_Footer2.default, null)
                     )
                 );
-            } else if (this.props.data.view == "Stories") {
+            }
+            if (this.props.data.view == "Stories") {
                 return _react2.default.createElement(
                     "div",
                     null,
@@ -23659,19 +23678,88 @@ var _viewsReducer = __webpack_require__(41);
 
 var _viewsReducer2 = _interopRequireDefault(_viewsReducer);
 
+var _connectionReducer = __webpack_require__(109);
+
+var _connectionReducer2 = _interopRequireDefault(_connectionReducer);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = (0, _redux.combineReducers)({
     epics: _epicsReducer2.default,
     stories: _storiesReducer2.default,
-    views: _viewsReducer2.default
+    views: _viewsReducer2.default,
+    connection: _connectionReducer2.default
 });
 
 /***/ }),
 /* 109 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(110)(undefined);
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+exports.default = reducer;
+var store = {
+    fetching: false,
+    fetched: false,
+    unauthorized: false,
+    unavailable: false
+};
+
+function reducer() {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : store;
+    var action = arguments[1];
+
+    switch (action.type) {
+
+        case "DISPLAY_EPICS":
+            {
+                return _extends({}, state, { unauthorized: false, unavailable: false });
+            }
+
+        case "GET_ALL_EPICS":
+            {
+                return _extends({}, state, { fetching: true });
+            }
+
+        case "GET_ALL_EPICS_SUCCESS":
+            {
+                return _extends({}, state, { fetched: true, unauthorized: false, fetching: false, unavailable: false });
+            }
+
+        case "GET_ALL_EPICS_ERROR":
+            {
+                switch (action.code) {
+
+                    case 401:
+                        {
+                            return _extends({}, state, { fetched: false, fetching: false, unauthorized: true });
+                        }
+
+                    case 404:
+                        {
+                            return _extends({}, state, { fetched: false, fetching: false, unavailable: true });
+                        }
+
+                }
+                return _extends({}, state, { fetched: false });
+            }
+
+    }
+    return state;
+}
+
+/***/ }),
+/* 110 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(111)(undefined);
 // imports
 
 
@@ -23682,7 +23770,7 @@ exports.push([module.i, "article,aside,details,figcaption,figure,footer,header,h
 
 
 /***/ }),
-/* 110 */
+/* 111 */
 /***/ (function(module, exports) {
 
 /*
@@ -23764,7 +23852,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 111 */
+/* 112 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -23810,7 +23898,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(112);
+var	fixUrls = __webpack_require__(113);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -24123,7 +24211,7 @@ function updateLink (link, options, obj) {
 
 
 /***/ }),
-/* 112 */
+/* 113 */
 /***/ (function(module, exports) {
 
 
@@ -24218,7 +24306,7 @@ module.exports = function (css) {
 
 
 /***/ }),
-/* 113 */
+/* 114 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24308,7 +24396,7 @@ var SprintHeader = (_dec = (0, _reactRedux.connect)(function (store) {
 exports.default = SprintHeader;
 
 /***/ }),
-/* 114 */
+/* 115 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24333,7 +24421,7 @@ var _actions = __webpack_require__(5);
 
 var actions = _interopRequireWildcard(_actions);
 
-var _Team = __webpack_require__(115);
+var _Team = __webpack_require__(116);
 
 var _Team2 = _interopRequireDefault(_Team);
 
@@ -24359,7 +24447,8 @@ var AllEpics = (_dec = (0, _reactRedux.connect)(function (store) {
     return {
         data: store.epics.allEpics,
         teams: store.epics.epicByTeam,
-        state: store.epics
+        state: store.epics,
+        connection: store.connection
     };
 }), _dec(_class = function (_React$Component) {
     _inherits(AllEpics, _React$Component);
@@ -24369,7 +24458,11 @@ var AllEpics = (_dec = (0, _reactRedux.connect)(function (store) {
 
         var _this = _possibleConstructorReturn(this, (AllEpics.__proto__ || Object.getPrototypeOf(AllEpics)).call(this, props));
 
-        _this.props.dispatch(actions.getAllEpics(_this.props.projectId));
+        if (_this.props.connection.unauthorized || _this.props.connection.unavailable) {
+            _this.props.dispatch(actions.displayIndex());
+        } else {
+            _this.props.dispatch(actions.getAllEpics(_this.props.projectId));
+        }
         return _this;
     }
 
@@ -24437,7 +24530,7 @@ var AllEpics = (_dec = (0, _reactRedux.connect)(function (store) {
 exports.default = AllEpics;
 
 /***/ }),
-/* 115 */
+/* 116 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24462,7 +24555,7 @@ var _actions = __webpack_require__(5);
 
 var actions = _interopRequireWildcard(_actions);
 
-var _Target = __webpack_require__(116);
+var _Target = __webpack_require__(117);
 
 var _Target2 = _interopRequireDefault(_Target);
 
@@ -24558,7 +24651,7 @@ var Team = (_dec = (0, _reactRedux.connect)(function (store) {
 exports.default = Team;
 
 /***/ }),
-/* 116 */
+/* 117 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24583,7 +24676,7 @@ var _actions = __webpack_require__(5);
 
 var actions = _interopRequireWildcard(_actions);
 
-var _Epic = __webpack_require__(117);
+var _Epic = __webpack_require__(118);
 
 var _Epic2 = _interopRequireDefault(_Epic);
 
@@ -24665,7 +24758,7 @@ var Target = (_dec = (0, _reactRedux.connect)(function (store) {
 exports.default = Target;
 
 /***/ }),
-/* 117 */
+/* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24805,7 +24898,7 @@ var Epic = (_dec = (0, _reactRedux.connect)(function (store) {
 exports.default = Epic;
 
 /***/ }),
-/* 118 */
+/* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24830,7 +24923,7 @@ var _actions = __webpack_require__(5);
 
 var actions = _interopRequireWildcard(_actions);
 
-var _Sprint = __webpack_require__(119);
+var _Sprint = __webpack_require__(120);
 
 var _Sprint2 = _interopRequireDefault(_Sprint);
 
@@ -24947,7 +25040,7 @@ var AllStoriesByEpic = (_dec = (0, _reactRedux.connect)(function (store) {
 exports.default = AllStoriesByEpic;
 
 /***/ }),
-/* 119 */
+/* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24972,7 +25065,7 @@ var _actions = __webpack_require__(5);
 
 var actions = _interopRequireWildcard(_actions);
 
-var _Story = __webpack_require__(120);
+var _Story = __webpack_require__(121);
 
 var _Story2 = _interopRequireDefault(_Story);
 
@@ -25059,7 +25152,7 @@ var Sprint = (_dec = (0, _reactRedux.connect)(function (store) {
 exports.default = Sprint;
 
 /***/ }),
-/* 120 */
+/* 121 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25197,7 +25290,7 @@ var Story = (_dec = (0, _reactRedux.connect)(function (store) {
 exports.default = Story;
 
 /***/ }),
-/* 121 */
+/* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25248,7 +25341,7 @@ var Footer = function (_React$Component) {
 exports.default = Footer;
 
 /***/ }),
-/* 122 */
+/* 123 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25301,12 +25394,21 @@ var Login = (_dec = (0, _reactRedux.connect)(function (store) {
     value: function render() {
       var _this2 = this;
 
-      var errorMessage = this.props.errorMessage;
-
+      var errorMessage = null;
+      if (this.props.data.connection.unauthorized) {
+        errorMessage = "The provided credentials are wrong. Please provide your correct Jira credentials";
+      } else if (this.props.data.connection.unavailable) {
+        errorMessage = "We were not able to establish a connection to the the Jira Project. Check your Jira url.";
+      }
 
       return _react2.default.createElement(
         "div",
         null,
+        errorMessage && _react2.default.createElement(
+          "p",
+          null,
+          errorMessage
+        ),
         "Jira Username: ",
         _react2.default.createElement("input", { type: "text", ref: "username", className: "form-control", placeholder: "Jira Username" }),
         "Jira Password: ",
@@ -25325,11 +25427,6 @@ var Login = (_dec = (0, _reactRedux.connect)(function (store) {
               return _this2.handleClick(event);
             }, className: "btn btn-primary" },
           "Login"
-        ),
-        errorMessage && _react2.default.createElement(
-          "p",
-          null,
-          errorMessage
         )
       );
     }
@@ -25351,10 +25448,10 @@ var Login = (_dec = (0, _reactRedux.connect)(function (store) {
   return Login;
 }(_react2.default.Component)) || _class);
 exports.default = Login;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(123).Buffer))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(124).Buffer))
 
 /***/ }),
-/* 123 */
+/* 124 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25368,9 +25465,9 @@ exports.default = Login;
 
 
 
-var base64 = __webpack_require__(124)
-var ieee754 = __webpack_require__(125)
-var isArray = __webpack_require__(126)
+var base64 = __webpack_require__(125)
+var ieee754 = __webpack_require__(126)
+var isArray = __webpack_require__(127)
 
 exports.Buffer = Buffer
 exports.SlowBuffer = SlowBuffer
@@ -27151,7 +27248,7 @@ function isnan (val) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
 
 /***/ }),
-/* 124 */
+/* 125 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27272,7 +27369,7 @@ function fromByteArray (uint8) {
 
 
 /***/ }),
-/* 125 */
+/* 126 */
 /***/ (function(module, exports) {
 
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
@@ -27362,7 +27459,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 
 
 /***/ }),
-/* 126 */
+/* 127 */
 /***/ (function(module, exports) {
 
 var toString = {}.toString;

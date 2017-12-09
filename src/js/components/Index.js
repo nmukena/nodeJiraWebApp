@@ -12,10 +12,18 @@ import * as actions from "../actions/actions.js";
 export default class Login extends React.Component {
 
   render() {
-    const { errorMessage } = this.props
+    var errorMessage = null
+    if (this.props.data.connection.unauthorized){
+      errorMessage = "The provided credentials are wrong. Please provide your correct Jira credentials"
+    } else if (this.props.data.connection.unavailable){
+      errorMessage = "We were not able to establish a connection to the the Jira Project. Check your Jira url."
+    }
 
     return (
       <div>
+        {errorMessage &&
+          <p>{errorMessage}</p>
+        }
         Jira Username: <input type='text' ref='username' className="form-control" placeholder='Jira Username'/>
         Jira Password: <input type='password' ref='password' className="form-control"  placeholder='Jira Password'/>
         Jira URL: <input type='text' ref='url' defaultValue='https://mehran-development.atlassian.net' className="form-control" placeholder='Jira URL'/>
@@ -25,9 +33,6 @@ export default class Login extends React.Component {
         <button onClick={(event) => this.handleClick(event)} className="btn btn-primary">
           Login
         </button>
-        {errorMessage &&
-          <p>{errorMessage}</p>
-        }
       </div>
     )
   }

@@ -156,7 +156,7 @@ app.get("/getAllEpics/:projectId/", function(req, res)  {
     "fields=summary,key";
     request(options, function(error, response, body) {
         if (error) {
-            res.send(error)
+            res.status(404).send(error)
             console.log("Error: "+error)
             return;
         }

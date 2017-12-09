@@ -10,14 +10,19 @@ import store from "../store.js"
     return {
         data: store.epics.allEpics,
         teams: store.epics.epicByTeam,
-        state: store.epics
+        state: store.epics,
+        connection: store.connection
     };
 })
 
 export default class AllEpics extends React.Component {
     constructor(props){
         super(props)
-        this.props.dispatch(actions.getAllEpics(this.props.projectId))
+        if (this.props.connection.unauthorized||this.props.connection.unavailable){
+            this.props.dispatch(actions.displayIndex())
+        }else{
+            this.props.dispatch(actions.getAllEpics(this.props.projectId))
+        }
     }
 
     shouldComponentUpdate(){

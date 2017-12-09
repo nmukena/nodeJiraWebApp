@@ -17,11 +17,12 @@ export function getEpic(epicId){
 
 export function getAllEpics(projectId){ 
     return function(dispatch){
+        dispatch({type: "GET_ALL_EPICS"})
         axios.get(API_SERVER+"/getAllEpics/"+projectId)
         .then((response)=>{
             dispatch({type: "GET_ALL_EPICS_SUCCESS", json: response.data})
         }).catch((err)=>{
-            dispatch({type: "ERROR", error: err})
+            dispatch({type: "GET_ALL_EPICS_ERROR", code: err.response.status, text: err.response.statusText})
         })
     }
 }
@@ -43,7 +44,7 @@ export function getStoriesByEpic(epicId){
         .then((response)=>{
             dispatch({type: "GET_STORIES_EPIC_SUCCESS", id: epicId, json: response.data})
         }).catch((err)=>{
-            dispatch({type: "ERROR", error: err})
+            dispatch({type: "GET_STORIES_EPIC_ERROR", code: err.response.status, text: err.response.statusText})
         })
     }
 }
@@ -62,7 +63,7 @@ export function displayEpics(project){
 
 export function displayIndex(){
     return function(dispatch){
-        dispatch({type: "DISPLAY_INDEXs"})
+        dispatch({type: "DISPLAY_INDEX"})
     }
 }
 
