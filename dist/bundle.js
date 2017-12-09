@@ -3083,7 +3083,7 @@ var Header = (_dec = (0, _reactRedux.connect)(function (store) {
 				_react2.default.createElement(
 					"h1",
 					{ className: "col-12" },
-					"Projer"
+					"ProJER"
 				),
 				_react2.default.createElement(
 					"h1",
@@ -22493,7 +22493,7 @@ var Layout = (_dec = (0, _reactRedux.connect)(function (store) {
                         _react2.default.createElement(
                             "h1",
                             { className: "col-12" },
-                            "Projer"
+                            "ProJER"
                         ),
                         _react2.default.createElement(
                             "h2",
@@ -24372,7 +24372,7 @@ var SprintHeader = (_dec = (0, _reactRedux.connect)(function (store) {
                     _react2.default.createElement(
                         "h1",
                         { className: "col-12" },
-                        "Projer"
+                        "ProJER"
                     ),
                     _react2.default.createElement(
                         "h1",

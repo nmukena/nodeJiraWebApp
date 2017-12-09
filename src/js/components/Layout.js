@@ -77,7 +77,7 @@ export default class Layout extends React.Component {
                 <div>
                 <div>
                 <h1 class="col-12">
-                Projer
+                    ProJER
                 </h1>
                 <h2 class="col-12">
                 Welcome to Projer, a Project Management and Planning Tool designed for Jira.
