@@ -16,7 +16,7 @@ export default class Login extends React.Component {
     if (this.props.data.connection.unauthorized){
       errorMessage = "The provided credentials are wrong. Please provide your correct Jira credentials"
     } else if (this.props.data.connection.unavailable){
-      errorMessage = "We were not able to establish a connection to the the Jira Project. Check your Jira url."
+      errorMessage = "We were not able to establish a connection to the Jira Project. Check your Jira url."
     }
 
     return (

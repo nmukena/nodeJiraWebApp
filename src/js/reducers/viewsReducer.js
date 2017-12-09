@@ -10,6 +10,10 @@ export default function reducer(state=store, action){
             return {...state, view: "Index", epicView: ""}
         }
 
+        case "GET_ALL_EPICS_ERROR":{
+            return {...state, view: "Index", epicView: ""}
+        }
+
         case "DISPLAY_STORIES":{
             return {...state, view: "Stories", epicView: action.epicView}
         }

@@ -27,7 +27,7 @@ export default class Header extends React.Component {
 					ProJER
 				</h1>
 				<h1 class="col-12">
-					Target MMF Completion Sprints
+					Project: {this.props.data.projectId}
 				</h1>
 				<div className="label-column">
 					<div className="label-header col-1 col-pad">Target Completion</div>

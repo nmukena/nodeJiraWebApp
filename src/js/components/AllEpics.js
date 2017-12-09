@@ -18,11 +18,7 @@ import store from "../store.js"
 export default class AllEpics extends React.Component {
     constructor(props){
         super(props)
-        if (this.props.connection.unauthorized||this.props.connection.unavailable){
-            this.props.dispatch(actions.displayIndex())
-        }else{
-            this.props.dispatch(actions.getAllEpics(this.props.projectId))
-        }
+        this.props.dispatch(actions.getAllEpics(this.props.projectId))
     }
 
     shouldComponentUpdate(){

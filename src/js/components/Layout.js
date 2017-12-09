@@ -31,15 +31,6 @@ export default class Layout extends React.Component {
     }
 
     render(){
-        if(this.props.connection.fetching){
-            return(
-                <div>
-                    <i class="fa fa-refresh fa-spin fa-5x fa-fw loading"> </i>
-                    <p>Wait For It...</p>
-                </div>
-            )
-
-        }
         if (this.props.data.view=="Epics"){
             return(
                 <div>

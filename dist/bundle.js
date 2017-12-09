@@ -3003,6 +3003,11 @@ function reducer() {
                 return _extends({}, state, { view: "Index", epicView: "" });
             }
 
+        case "GET_ALL_EPICS_ERROR":
+            {
+                return _extends({}, state, { view: "Index", epicView: "" });
+            }
+
         case "DISPLAY_STORIES":
             {
                 return _extends({}, state, { view: "Stories", epicView: action.epicView });
@@ -3088,7 +3093,8 @@ var Header = (_dec = (0, _reactRedux.connect)(function (store) {
 				_react2.default.createElement(
 					"h1",
 					{ className: "col-12" },
-					"Target MMF Completion Sprints"
+					"Project: ",
+					this.props.data.projectId
 				),
 				_react2.default.createElement(
 					"div",
@@ -22419,22 +22425,6 @@ var Layout = (_dec = (0, _reactRedux.connect)(function (store) {
         value: function render() {
             var _this2 = this;
 
-            if (this.props.connection.fetching) {
-                return _react2.default.createElement(
-                    "div",
-                    null,
-                    _react2.default.createElement(
-                        "i",
-                        { className: "fa fa-refresh fa-spin fa-5x fa-fw loading" },
-                        " "
-                    ),
-                    _react2.default.createElement(
-                        "p",
-                        null,
-                        "Wait For It..."
-                    )
-                );
-            }
             if (this.props.data.view == "Epics") {
                 return _react2.default.createElement(
                     "div",
@@ -24458,11 +24448,7 @@ var AllEpics = (_dec = (0, _reactRedux.connect)(function (store) {
 
         var _this = _possibleConstructorReturn(this, (AllEpics.__proto__ || Object.getPrototypeOf(AllEpics)).call(this, props));
 
-        if (_this.props.connection.unauthorized || _this.props.connection.unavailable) {
-            _this.props.dispatch(actions.displayIndex());
-        } else {
-            _this.props.dispatch(actions.getAllEpics(_this.props.projectId));
-        }
+        _this.props.dispatch(actions.getAllEpics(_this.props.projectId));
         return _this;
     }
 
