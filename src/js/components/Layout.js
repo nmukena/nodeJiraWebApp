@@ -30,6 +30,10 @@ export default class Layout extends React.Component {
         this.props.dispatch(actions.displayEpics(project))
     }
 
+    displayIndex(){
+        this.props.dispatch(actions.displayIndex())
+    }
+
     render(){
         if (this.props.data.view=="Epics"){
             return(
@@ -43,6 +47,9 @@ export default class Layout extends React.Component {
                     <div>
                         <Footer />
                     </div>
+                    <button className="button-back" onClick={()=>this.displayIndex()}>
+                                Back to Index!
+                    </button>
                 </div>
             );
         }
@@ -54,10 +61,10 @@ export default class Layout extends React.Component {
                     </div>
                     <div className="main-layout">
                         <AllStoriesByEpic epicId = {this.props.data.epicView}/>
-                        <button className="button-back" onClick={()=>this.displayEpics(this.props.epics.projectId)}>
-                                Back to Epics!
-                        </button>
                     </div>
+                    <button className="button-back" onClick={()=>this.displayEpics(this.props.epics.projectId)}>
+                                Back to Epics!
+                    </button>
                     <div>
                         <Footer />
                     </div>

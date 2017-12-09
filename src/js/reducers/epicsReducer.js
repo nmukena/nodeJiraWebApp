@@ -15,6 +15,22 @@ var store = {
 export default function reducer(state=store, action){
     switch (action.type){
 
+        case "DISPLAY_INDEX":{
+            return {
+                projectId:"",
+                epicByTeam: {},
+                TARGET_COMPLETION_FIELD: "",
+                SCRUM_TEAM_FIELD: "",
+                targetByTeam: {},
+                target_completions : [],
+                epics: {},
+                allEpics: {}, 
+                fetching: true, 
+                fetched: false, 
+                error: null,
+            }
+        }
+
         case "CHANGE_CUSTOMFIELDS":{
             return {...state, TARGET_COMPLETION_FIELD: action.target, SCRUM_TEAM_FIELD: action.team}
         }

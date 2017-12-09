@@ -1,19 +1,30 @@
 var store = {
     fetching: false,
-    fetched: false,
+    fetched: true,
     unauthorized: false,
-    unavailable: false
+    unavailable: false,
+    bad_request: false,
 }
 
 export default function reducer(state=store, action){
     switch (action.type){
 
+        case "DISPLAY_INDEX":{
+            return {
+                fetching: false,
+                fetched: true,
+                unauthorized: false,
+                unavailable: false,
+                bad_request: false,
+            }
+        }
+
         case "DISPLAY_EPICS":{
-            return {...state, unauthorized: false, unavailable: false}
+            return {...state, unauthorized: false, unavailable: false, bad_request: false }
         }
 
         case "GET_ALL_EPICS":{
-            return {...state, fetching: true}
+            return {...state, fetching: true, fetched: false}
         }
 
         case "GET_ALL_EPICS_SUCCESS":{
@@ -29,6 +40,10 @@ export default function reducer(state=store, action){
 
                 case 404: {
                     return {...state, fetched: false, fetching: false, unavailable: true }
+                }
+
+                case 400: {
+                    return {...state, fetched: false, fetching: false, bad_request: true }
                 }
 
             }
