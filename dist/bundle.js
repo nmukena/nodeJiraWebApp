@@ -32271,6 +32271,7 @@ var Epic = (_dec = (0, _reactRedux.connect)(function (store) {
 			var _this2 = this;
 
 			console.log(_store2.default);
+			var data = this.props.data;
 			var epics = this.props.data.epics;
 
 			if (this.error) {
@@ -32289,6 +32290,14 @@ var Epic = (_dec = (0, _reactRedux.connect)(function (store) {
 				);
 			} else if (epics) {
 				var epicsDict = epics[this.props.issueId].issues[0].fields;
+				var target = "Not Specified";
+				var team = "Not Specified";
+				if (epicsDict[data.TARGET_COMPLETION_FIELD]) {
+					target = epicsDict[data.TARGET_COMPLETION_FIELD].value;
+				}
+				if (epicsDict[data.SCRUM_TEAM_FIELD]) {
+					team = epicsDict[data.SCRUM_TEAM_FIELD].value;
+				}
 				return _react2.default.createElement(
 					"div",
 					null,
@@ -32308,14 +32317,14 @@ var Epic = (_dec = (0, _reactRedux.connect)(function (store) {
 						"article",
 						null,
 						"Target completion: ",
-						epicsDict.customfield_10501.value,
+						target,
 						" "
 					),
 					_react2.default.createElement(
 						"p",
 						null,
 						"Scrum Team: ",
-						epicsDict.customfield_10500.value
+						team
 					),
 					_react2.default.createElement(
 						"button",
@@ -32425,41 +32434,43 @@ var AllStoriesByEpic = (_dec = (0, _reactRedux.connect)(function (store) {
 
             var stories;
             if (this.props.data[this.props.epicId]) {
-                var stories = this.props.data[this.props.epicId].issues;
-                for (var i = 0; i < stories.length; i++) {
-                    this.props.dispatch(actions.getStory(stories[i].key, this.props.epicId));
-                }
-                var targetList = [];
-                if (this.props.targets[this.props.epicId]) {
-                    targetList = Object.keys(this.props.targets[this.props.epicId]).sort();
-                    this.displayTargets = targetList.map(function (target) {
+                if (stories = this.props.data[this.props.epicId].issues) {
+                    var stories = this.props.data[this.props.epicId].issues;
+                    for (var i = 0; i < stories.length; i++) {
+                        this.props.dispatch(actions.getStory(stories[i].key, this.props.epicId));
+                    }
+                    var targetList = [];
+                    if (this.props.targets[this.props.epicId]) {
+                        targetList = Object.keys(this.props.targets[this.props.epicId]).sort();
+                        this.displayTargets = targetList.map(function (target) {
+                            return _react2.default.createElement(
+                                "div",
+                                { key: target, className: "story-background col-2.75 col-pad" },
+                                _react2.default.createElement(
+                                    _reactRedux.Provider,
+                                    { store: _store2.default },
+                                    _react2.default.createElement(_Sprint2.default, { target: target, epic: _this2.props.epicId })
+                                )
+                            );
+                        });
                         return _react2.default.createElement(
                             "div",
-                            { key: target, className: "story-background col-2.75 col-pad" },
-                            _react2.default.createElement(
-                                _reactRedux.Provider,
-                                { store: _store2.default },
-                                _react2.default.createElement(_Sprint2.default, { target: target, epic: _this2.props.epicId })
-                            )
-                        );
-                    });
-                    return _react2.default.createElement(
-                        "div",
-                        null,
-                        _react2.default.createElement(
-                            "div",
-                            { className: "epic-row-sprint" },
+                            null,
                             _react2.default.createElement(
                                 "div",
-                                { className: "team-type" },
+                                { className: "epic-row-sprint" },
                                 _react2.default.createElement(
                                     "div",
-                                    { className: "displayTargets" },
-                                    this.displayTargets
+                                    { className: "team-type" },
+                                    _react2.default.createElement(
+                                        "div",
+                                        { className: "displayTargets" },
+                                        this.displayTargets
+                                    )
                                 )
                             )
-                        )
-                    );
+                        );
+                    }
                 }
             } else if (!this.props.data) {
                 return _react2.default.createElement(
@@ -32479,7 +32490,7 @@ var AllStoriesByEpic = (_dec = (0, _reactRedux.connect)(function (store) {
                 _react2.default.createElement(
                     "p",
                     null,
-                    "Wait For It..."
+                    "No stories found yet..."
                 )
             );
         }

@@ -32,34 +32,36 @@ export default class AllStoriesByEpic extends React.Component {
     render(){
         var stories
         if (this.props.data[this.props.epicId]){
-            var stories = this.props.data[this.props.epicId].issues
-            for (var i = 0; i<stories.length; i++){
-                this.props.dispatch(actions.getStory(stories[i].key, this.props.epicId))
-            }
-            var targetList = []
-            if(this.props.targets[this.props.epicId]){
-                targetList = Object.keys(this.props.targets[this.props.epicId]).sort()
-                this.displayTargets = targetList.map(target => {
-                    return (
-                        <div key={target} class="story-background col-2.75 col-pad">
-                            <Provider store={store}>
-                                <Sprint target={target} epic={this.props.epicId}/>
-                            </Provider>
-                        </div>
-                    )
-                });
-                return(
-                <div>
-                    <div className="epic-row-sprint">
-                        <div className="team-type">
-                            <div className="displayTargets">
-                                {this.displayTargets}
+            if (stories = this.props.data[this.props.epicId].issues){
+                var stories = this.props.data[this.props.epicId].issues
+                for (var i = 0; i<stories.length; i++){
+                    this.props.dispatch(actions.getStory(stories[i].key, this.props.epicId))
+                }
+                var targetList = []
+                if(this.props.targets[this.props.epicId]){
+                    targetList = Object.keys(this.props.targets[this.props.epicId]).sort()
+                    this.displayTargets = targetList.map(target => {
+                        return (
+                            <div key={target} class="story-background col-2.75 col-pad">
+                                <Provider store={store}>
+                                    <Sprint target={target} epic={this.props.epicId}/>
+                                </Provider>
+                            </div>
+                        )
+                    });
+                    return(
+                    <div>
+                        <div className="epic-row-sprint">
+                            <div className="team-type">
+                                <div className="displayTargets">
+                                    {this.displayTargets}
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-        
-                )
+            
+                    )
+                }
             }
         }else if (!this.props.data){
             return(
@@ -72,7 +74,7 @@ export default class AllStoriesByEpic extends React.Component {
         return(
             <div className="epic-row-sprint">
                 <i class="fa fa-refresh fa-spin fa-5x fa-fw loading"> </i>
-                <p>Wait For It...</p>
+                <p>No stories found yet...</p>
             </div>
         )
     }
