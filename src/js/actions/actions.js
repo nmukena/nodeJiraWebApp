@@ -6,6 +6,7 @@ var API_SERVER = api_server();
 
 export function getEpic(epicId){
     return function(dispatch){
+        dispatch({type: "GET_EPIC"})
         axios.get(API_SERVER+"/getEpic/"+epicId)
         .then((response)=>{
             dispatch({type: "GET_EPIC_SUCCESS", id: epicId, json: response.data})

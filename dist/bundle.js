@@ -722,6 +722,7 @@ var API_SERVER = (0, _API_SERVER2.default)();
 
 function getEpic(epicId) {
     return function (dispatch) {
+        dispatch({ type: "GET_EPIC" });
         _axios2.default.get(API_SERVER + "/getEpic/" + epicId).then(function (response) {
             dispatch({ type: "GET_EPIC_SUCCESS", id: epicId, json: response.data });
         }).catch(function (err) {
@@ -3380,8 +3381,8 @@ var store = {
     target_completions: [],
     epics: {},
     allEpics: {},
-    fetching: true,
-    fetched: false,
+    fetching: false,
+    fetched: true,
     error: null
 };
 
@@ -3402,8 +3403,8 @@ function reducer() {
                     target_completions: [],
                     epics: {},
                     allEpics: {},
-                    fetching: true,
-                    fetched: false,
+                    fetching: false,
+                    fetched: true,
                     error: null
                 };
             }
@@ -3415,50 +3416,52 @@ function reducer() {
 
         case "DISPLAY_EPICS":
             {
-                return _extends({}, state, { projectId: action.projectId });
+                return _extends({}, state, { fetching: true, fetched: false, projectId: action.projectId });
             }
 
         case "GET_ALL_EPICS_SUCCESS":
             {
-                return _extends({}, state, { fetching: false, fetched: true, allEpics: action.json });
+                return _extends({}, state, { allEpics: action.json });
             }
 
         case "GET_EPIC_SUCCESS":
             {
-                if (!state.epics[action.id]) {
-                    var team = "No Team Assigned";
-                    if (action.json.issues[0].fields[state.SCRUM_TEAM_FIELD]) {
-                        var team = action.json.issues[0].fields[state.SCRUM_TEAM_FIELD].value;
-                    }
-                    var target = "No Completion Date";
-                    if (action.json.issues[0].fields[state.TARGET_COMPLETION_FIELD]) {
-                        var target = action.json.issues[0].fields[state.TARGET_COMPLETION_FIELD].value;
-                    }
-                    if (!state.target_completions.includes(target)) {
-                        var target_completions = [].concat(_toConsumableArray(state.target_completions), [target]);
-                    } else {
-                        var target_completions = state.target_completions;
-                    }
-
-                    target_completions.sort();
-                    var list = {};
-                    var epicsTarget = [];
-                    if (state.epicByTeam[team]) {
-                        var list = state.epicByTeam[team];
-                        if (state.epicByTeam[team][target]) {
-                            var epicsTarget = state.epicByTeam[team][target];
+                if (state.fetching) {
+                    if (!state.epics[action.id]) {
+                        var team = "No Team Assigned";
+                        if (action.json.issues[0].fields[state.SCRUM_TEAM_FIELD]) {
+                            var team = action.json.issues[0].fields[state.SCRUM_TEAM_FIELD].value;
                         }
+                        var target = "No Completion Date";
+                        if (action.json.issues[0].fields[state.TARGET_COMPLETION_FIELD]) {
+                            var target = action.json.issues[0].fields[state.TARGET_COMPLETION_FIELD].value;
+                        }
+                        if (!state.target_completions.includes(target)) {
+                            var target_completions = [].concat(_toConsumableArray(state.target_completions), [target]);
+                        } else {
+                            var target_completions = state.target_completions;
+                        }
+
+                        target_completions.sort();
+                        var list = {};
+                        var epicsTarget = [];
+                        if (state.epicByTeam[team]) {
+                            var list = state.epicByTeam[team];
+                            if (state.epicByTeam[team][target]) {
+                                var epicsTarget = state.epicByTeam[team][target];
+                            }
+                        }
+                        var targets = [];
+                        if (state.targetByTeam[team]) {
+                            var targets = state.targetByTeam[team];
+                        }
+                        return _extends({}, state, { epics: _extends({}, state.epics, _defineProperty({}, action.id, action.json)),
+                            epicByTeam: _extends({}, state.epicByTeam, _defineProperty({}, team, _extends({}, list, _defineProperty({}, target, [].concat(_toConsumableArray(epicsTarget), [action.json]))))), target_completions: target_completions,
+                            targetByTeam: _extends({}, state.targetByTeam, _defineProperty({}, team, [].concat(_toConsumableArray(targets), [target])))
+                        });
                     }
-                    var targets = [];
-                    if (state.targetByTeam[team]) {
-                        var targets = state.targetByTeam[team];
-                    }
-                    return _extends({}, state, { fetching: false, fetched: true, epics: _extends({}, state.epics, _defineProperty({}, action.id, action.json)),
-                        epicByTeam: _extends({}, state.epicByTeam, _defineProperty({}, team, _extends({}, list, _defineProperty({}, target, [].concat(_toConsumableArray(epicsTarget), [action.json]))))), target_completions: target_completions,
-                        targetByTeam: _extends({}, state.targetByTeam, _defineProperty({}, team, [].concat(_toConsumableArray(targets), [target])))
-                    });
                 }
-                return _extends({}, state, { fetching: false, fetched: true });
+                return _extends({}, state);
             }
     }
     return state;
