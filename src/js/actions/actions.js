@@ -4,9 +4,11 @@ import api_server from '../API_SERVER';
 var API_SERVER = api_server();
 //var API_SERVER = 'http://18.221.174.71:3000';
 
+// A way to manage the API calls, and avoid multiple requests for the same information
+
 export function getEpic(epicId){
     return function(dispatch){
-        dispatch({type: "GET_EPIC"})
+        dispatch({type: "GET_EPIC", id: epicId})
         axios.get(API_SERVER+"/getEpic/"+epicId)
         .then((response)=>{
             dispatch({type: "GET_EPIC_SUCCESS", id: epicId, json: response.data})
@@ -16,7 +18,7 @@ export function getEpic(epicId){
     }
 }
 
-export function getAllEpics(projectId){ 
+export function getAllEpics(projectId){
     return function(dispatch){
         dispatch({type: "GET_ALL_EPICS"})
         axios.get(API_SERVER+"/getAllEpics/"+projectId)

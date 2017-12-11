@@ -720,9 +720,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var API_SERVER = (0, _API_SERVER2.default)();
 //var API_SERVER = 'http://18.221.174.71:3000';
 
+// A way to manage the API calls, and avoid multiple requests for the same information
+
 function getEpic(epicId) {
     return function (dispatch) {
-        dispatch({ type: "GET_EPIC" });
+        dispatch({ type: "GET_EPIC", id: epicId });
         _axios2.default.get(API_SERVER + "/getEpic/" + epicId).then(function (response) {
             dispatch({ type: "GET_EPIC_SUCCESS", id: epicId, json: response.data });
         }).catch(function (err) {
@@ -3421,12 +3423,13 @@ function reducer() {
 
         case "GET_ALL_EPICS_SUCCESS":
             {
-                return _extends({}, state, { allEpics: action.json });
+                return _extends({}, state, { fetching: true, fetched: false, allEpics: action.json });
             }
 
         case "GET_EPIC_SUCCESS":
             {
-                if (state.fetching) {
+                if (state.fetching && state.projectId == action.json.issues[0].fields.project.key) {
+                    //Check the epic belongs to the current project
                     if (!state.epics[action.id]) {
                         var team = "No Team Assigned";
                         if (action.json.issues[0].fields[state.SCRUM_TEAM_FIELD]) {
