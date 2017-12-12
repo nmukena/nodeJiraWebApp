@@ -28,13 +28,25 @@ export default class Login extends React.Component {
         {errorMessage &&
           <p>{errorMessage}</p>
         }
-        Jira Username: <input type='text' ref='username' className="form-control" placeholder='Jira Username'/>
-        Jira Password: <input type='password' ref='password' className="form-control"  placeholder='Jira Password'/>
-        Jira URL: <input type='text' ref='url' defaultValue='https://mehran-development.atlassian.net' className="form-control" placeholder='Jira URL'/>
-        Project ID: <input type='text' ref='project' defaultValue='GTMP' className="form-control" placeholder='Jira URL'/>
-        Target Completion Date Custom Field: <input type='text' ref='target_completion' defaultValue='customfield_10501' className="form-control"  placeholder='Target Completion CustomField'/>
-        Scrum Team Custom Field: <input type='text' ref='scrum_team' defaultValue='customfield_10500' className="form-control"  placeholder='Scrum Team Customfield'/>
-        <button onClick={(event) => this.handleClick(event)} className="btn btn-primary">
+        <div className="login-input">
+          <div>Jira Username: </div><input type='text' ref='username' className="form-control" placeholder='Jira Username'/>
+        </div>
+        <div className="login-input">
+          <div>Jira Password: </div><input type='password' ref='password' className="form-control"  placeholder='Jira Password'/>
+        </div>
+        <div className="login-input">
+          <div>Jira URL: </div><input type='text' ref='url' defaultValue='https://mehran-development.atlassian.net' className="form-control" placeholder='Jira URL'/>
+        </div>
+        <div className="login-input">
+          <div>Project ID: </div><input type='text' ref='project' defaultValue='GTMP' className="form-control" placeholder='Jira URL'/>
+        </div>
+        <div className="login-input">
+          <div>Target Completion Date Custom Field: </div><input type='text' ref='target_completion' defaultValue='customfield_10501' className="form-control"  placeholder='Target Completion CustomField'/>
+        </div>
+        <div className="login-input">
+          <div>Scrum Team Custom Field: </div><input type='text' ref='scrum_team' defaultValue='customfield_10500' className="form-control"  placeholder='Scrum Team Customfield'/>
+        </div>
+        <button onClick={(event) => this.handleClick(event)} className="login-button">
           Login
         </button>
       </div>

@@ -23,12 +23,12 @@ export default class Header extends React.Component {
 
 		return (
 			<div>
-				<h1 class="col-12">
-					ProJER
-				</h1>
-				<h1 class="col-12">
+				<div className="projer-head">
+					<div>ProJER By Deloitte</div>
+					<div className="projer-project">
 					Project: {this.props.data.projectId}
-				</h1>
+					</div>
+				</div>
 				<div className="label-column">
 					<div className="label-header col-1 col-pad">Target Completion</div>
 					{target_list}

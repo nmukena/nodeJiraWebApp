@@ -24,7 +24,7 @@ export default class SprintHeader extends React.Component {
             });
             return (
                 <div>
-                    <h1 class="col-12">
+                    <h1 class="projer-head">
 					    ProJER
 				    </h1>
                     <h1 class="col-12">
