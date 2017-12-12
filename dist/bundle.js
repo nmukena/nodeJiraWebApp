@@ -3670,15 +3670,19 @@ var Header = (_dec = (0, _reactRedux.connect)(function (store) {
 				"div",
 				null,
 				_react2.default.createElement(
-					"h1",
-					{ className: "col-12" },
-					"ProJER"
-				),
-				_react2.default.createElement(
-					"h1",
-					{ className: "col-12" },
-					"Project: ",
-					this.props.data.projectId
+					"div",
+					{ className: "projer-head" },
+					_react2.default.createElement(
+						"div",
+						null,
+						"ProJER By Deloitte"
+					),
+					_react2.default.createElement(
+						"div",
+						{ className: "projer-project" },
+						"Project: ",
+						this.props.data.projectId
+					)
 				),
 				_react2.default.createElement(
 					"div",
@@ -23049,19 +23053,19 @@ var Layout = (_dec = (0, _reactRedux.connect)(function (store) {
                         "div",
                         null,
                         _react2.default.createElement(
-                            "h1",
-                            { className: "col-12" },
-                            "ProJER"
+                            "div",
+                            { className: "projer projer-head" },
+                            "ProJER by Deloitte"
                         ),
                         _react2.default.createElement(
-                            "h2",
-                            { className: "col-12" },
-                            "Welcome to Projer, a Project Management and Planning Tool designed for Jira."
+                            "div",
+                            { className: "projer projer-welcome" },
+                            "Welcome to ProJER, a Project Management and Planning Tool designed for Jira."
                         )
                     ),
                     _react2.default.createElement(
                         "div",
-                        null,
+                        { className: "projer projer-detail" },
                         _react2.default.createElement(
                             "p",
                             null,
@@ -31221,7 +31225,7 @@ exports = module.exports = __webpack_require__(131)(undefined);
 
 
 // module
-exports.push([module.i, "article,aside,details,figcaption,figure,footer,header,hgroup,nav,section,summary{display:block;}audio,canvas,video{display:inline-block;}audio:not([controls]){display:none;height:0;}[hidden]{display:none;}html{font-family:sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;}a:focus{outline:thin dotted;}a:active,a:hover{outline:0;}h1{font-size:2em;}abbr[title]{border-bottom:1px dotted;}b,strong{font-weight:700;}dfn{font-style:italic;}mark{background:#ff0;color:#000;}code,kbd,pre,samp{font-family:monospace, serif;font-size:1em;}pre{white-space:pre-wrap;word-wrap:break-word;}q{quotes:\\201C \\201D \\2018 \\2019;}small{font-size:80%;}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline;}sup{top:-.5em;}sub{bottom:-.25em;}img{border:0;}svg:not(:root){overflow:hidden;}fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em;}button,input,select,textarea{font-family:inherit;font-size:100%;margin:0;}button,input{line-height:normal;}button,html input[type=button],/* 1 */\ninput[type=reset],input[type=submit]{-webkit-appearance:button;cursor:pointer;}button[disabled],input[disabled]{cursor:default;}input[type=checkbox],input[type=radio]{box-sizing:border-box;padding:0;}input[type=search]{-webkit-appearance:textfield;-moz-box-sizing:content-box;-webkit-box-sizing:content-box;box-sizing:content-box;}input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-search-decoration{-webkit-appearance:none;}textarea{overflow:auto;vertical-align:top;}table{border-collapse:collapse;border-spacing:0;}body,figure{margin:0;}legend,button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0;}\n\n.clearfix:after {visibility: hidden; display: block; font-size: 0; content: \" \"; clear: both; height: 0; }\n\n* { box-sizing: border-box; }\n\nhtml{\n\tzoom: 45%;\n}\n\nbody{\n\tbackground: #3D3D43;\n\tmargin: 0 auto;\n\tcolor: white;\n\twidth: 100%;\n\n\n}\n\n#main-layout{\n\ttext-align: center;\n\tmargin: 0 auto;\n}\n\n\n/*Header Styles*/\n.col-pad{\n\tpadding:10px;\n\tmargin: 10px;\n}\n\n.label-column{\n\tdisplay: flex;\n\tjustify-content: space-between;\n\ttext-align: center;\n\tmargin-top: 5px;\n}\n\n.label-header{\n\twidth: 100%;\n\tflex-direction: row;\n\tflex-wrap: wrap;\n\tbackground: #5B5B60;\n\ttext-align: center;\n\tjustify-content: space-between;\n\n}\n\n.sprint-header{\n\twidth: 100%;\n\tflex-direction: row;\n\tflex-wrap: wrap;\n\tbackground: #5B5B60;\n\ttext-align: center;\n\tjustify-content: space-between;\n\tletter-spacing: 5px;\n\tfont-weight: bold;\n\tpadding-top: 10px;\n} \n\nh1{\n\tfont-size: 30px;\n\twidth: 100%;\n\tpadding: 10px 0px;\n\tmargin-left: 10px;\n\tmargin-right: 10px;\n\tbackground: #2C2C33;\n\ttext-align: center;\n\tmargin: 0 auto;\n\tmargin-top: 20px;\n\tmargin-bottom: 10px;\n\tletter-spacing: 4px;\n}\n/*End of Header Styles*/\n\n\n/*Epic Details*/\n.epic-details{\n\twidth: 50%;\t\n}\n\nh2{\n\tpadding: 5 5 0 5;\n\tfont-size: 20px;\n\tbackground: #D0D2D3;\n\tcolor: black;\n\tborder-bottom: 8px solid #51a087;\n\tmargin: 0;\n\tmargin-top: 10px;\n}\n\nh3{\n\tpadding: 5px;\n\tfont-size: 14px;\n\tbackground: white;\n\tcolor: black;\n\tmargin: 0;\n}\n\narticle{\n\twidth: 100%;\n\tbackground: black;\n\tfont-size: 16px;\n\tpadding: 5px 0px;\n}\n\narticle + p {\n\twidth: 100%;\n\tfont-size: 12px;\n\tcolor: white;\n\tmargin-bottom: 0px;\n\tpadding: 5px 0px;\n}\n\n\n.button-back{\n\twidth: 5%;\n\tbackground: #51a087;\n\tcolor: black;\n\tborder: 1px black;\n\tpadding: 5px 0px;\n}\n\n.button{\n\twidth: 100%;\n\tcolor: black;\n\tbackground: #51a087;\n\tborder: 1px black;\n\tpadding: 5px 0px;\n\n}\n\n.button:hover{\n\tcolor: black;\n\tbackground: white;\n\tborder: 1px black;\n\n}\n\n/*End of Epic Details*/\n\n\n/* Team Styles */\n\n.team-type{\n\tdisplay: flex;\n\twidth: 100%;\n\n}\n\n.team-name{\n\tfont-size: 16px;\n\tfont-weight: bold;\n\ttext-align: center;\n\twidth: 10%;\n\tpadding: 150px 0px;\n\tmargin-top: 10px 0px;\n\tbackground: white;\n\tcolor: #51a087;\n}\n\n.epic-type{\n\t\n\tmargin: 20px;\n\tpadding: 5px;\n}\n\n.epic-type div{\n\n}\n\n\n/* Spinner */\n\ni.loading{\n\tmargin-top: 40px;\n\tcolor: #51a087;\n\tfont-size: 150px !important;\n}\n\ni + p {\n\tfont-size: 40px;\n}\n\n/* Spinner */\n\n.sprint-team{\n\twidth: 100%;\n    flex-direction: row;\n    flex-wrap: wrap;\n    background: #5B5B60;\n    text-align: center;\n    justify-content: space-between;\n    letter-spacing: 5px;\n    font-weight: bold;\n\tpadding-top: 10px;\n\tmargin-top: 10px;\n}\n\n\n\n/* Story Styles */\n\n\n.story-details{\n\t\n\twidth: 33.33%;\n\tcolor: #51a087;\n\tmargin: 0 auto;\n\ttext-align: center;\n\tfont-size: 30px;\n}\n\n/* End of Story Styles */\n\n/*Footer Styles*/\n\n.footer{\n\tmargin: 15px;\n\n}\n\n\n.targets{\n\twidth: 100%;\n\tdisplay: flex;\n\n}\n.team-type {\n\twidth: 100%;\n\toverflow: hidden;\n\n}\n.team-type > div{\n\twidth: 100%;\n}\n\n.displayTargets{\n\twidth: 100%;\n\tdisplay: flex;\n\tflex-direction: row;\n\toverflow: auto;\n}\n\n.target-type{\n\twidth: 100%;\n\tmargin: 10px 10px;\n\tbackground: #2C2C33;\n}\n\n.story-background{\n\twidth: 100%;\n\tflex-direction: row;\n\tflex-wrap: wrap;\n\tbackground: #2C2C33;\n\ttext-align: center;\n\tjustify-content: space-between;\n\tletter-spacing: 5px;\n\tfont-weight: bold;\n\tpadding-top: 10px;\n} \n\n.story-details{\n\tbackground: black;\n}\n\n.epic-type p {\n\tbackground: black;\n}", ""]);
+exports.push([module.i, "article,aside,details,figcaption,figure,footer,header,hgroup,nav,section,summary{display:block;}audio,canvas,video{display:inline-block;}audio:not([controls]){display:none;height:0;}[hidden]{display:none;}html{font-family:sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;}a:focus{outline:thin dotted;}a:active,a:hover{outline:0;}h1{font-size:2em;}abbr[title]{border-bottom:1px dotted;}b,strong{font-weight:700;}dfn{font-style:italic;}mark{background:#ff0;color:#000;}code,kbd,pre,samp{font-family:monospace, serif;font-size:1em;}pre{white-space:pre-wrap;word-wrap:break-word;}q{quotes:\\201C \\201D \\2018 \\2019;}small{font-size:80%;}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline;}sup{top:-.5em;}sub{bottom:-.25em;}img{border:0;}svg:not(:root){overflow:hidden;}fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em;}button,input,select,textarea{font-family:inherit;font-size:100%;margin:0;}button,input{line-height:normal;}button,html input[type=button],/* 1 */\ninput[type=reset],input[type=submit]{-webkit-appearance:button;cursor:pointer;}button[disabled],input[disabled]{cursor:default;}input[type=checkbox],input[type=radio]{box-sizing:border-box;padding:0;}input[type=search]{-webkit-appearance:textfield;-moz-box-sizing:content-box;-webkit-box-sizing:content-box;box-sizing:content-box;}input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-search-decoration{-webkit-appearance:none;}textarea{overflow:auto;vertical-align:top;}table{border-collapse:collapse;border-spacing:0;}body,figure{margin:0;}legend,button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0;}\n\n.clearfix:after {visibility: hidden; display: block; font-size: 0; content: \" \"; clear: both; height: 0; }\n\n* { box-sizing: border-box; }\n\nhtml{\n\tzoom: 45%;\n}\n\nbody{\n\tbackground: #3D3D43;\n\tmargin: 0 auto;\n\tcolor: white;\n\twidth: 100%;\n\n}\n\n#main-layout{\n\ttext-align: center;\n\tmargin: 0 auto;\n}\n\n\n\n\n/*Header Styles*/\n.col-pad{\n\tpadding:10px;\n\tmargin: 10px;\n}\n\n.label-column{\n\tdisplay: flex;\n\tjustify-content: space-between;\n\ttext-align: center;\n\tmargin-top: 5px;\n}\n\n.label-header{\n\twidth: 100%;\n\tflex-direction: row;\n\tflex-wrap: wrap;\n\tbackground: #5B5B60;\n\ttext-align: center;\n\tjustify-content: space-between;\n\n}\n\n.sprint-header{\n\twidth: 100%;\n\tflex-direction: row;\n\tflex-wrap: wrap;\n\tbackground: #5B5B60;\n\ttext-align: center;\n\tjustify-content: space-between;\n\tletter-spacing: 3px;\n\tfont-weight: bold;\n\tpadding-top: 10px;\n\tfont-size: 14px;\n} \n\nh1{\n\tfont-size: 30px;\n\twidth: 100%;\n\tpadding: 10px 0px;\n\tmargin-left: 10px;\n\tmargin-right: 10px;\n\tbackground: #2C2C33;\n\ttext-align: center;\n\tmargin: 0 auto;\n\tmargin-top: 20px;\n\tmargin-bottom: 10px;\n\tletter-spacing: 4px;\n}\n\n.projer{\n\tmargin: 0 auto;\n\ttext-align: center;\n}\n\n.projer-head{\n\tmargin-top: 10px;\n\tcolor:#51a087;\n\tfont-size: 48px;\n\tletter-spacing: 4px;\n\tfont-weight: bold;\n}\n\n.projer-head div{\n\n}\n\n.projer-project{\n\tcolor: white;\n\tmargin-top: 10px;\n\tfont-size: 48px;\n\tletter-spacing: 4px;\n\tfont-weight: bold;\n}\n\n.projer-welcome{\n\tfont-size: 30px;\n\tmargin-bottom: 20px;\n}\n\n.login-input{\n\twidth: 50%;\n\tmargin: 0 auto;\n\tdisplay: flex;\n\n}\n.login-input input{\n\tflex-wrap: wrap;\n\tfont-size: 40px;\n\theight: 80px;\n\tmargin: 10px 0px;\n}\n\n.login-input div{\n\tmargin: 35px 20px 25px 0px;\n\tfont-size: 24px;\n\tfont-weight: bold;\n\twidth: 50%;\n\ttext-align: right;\n}\n\n.login-button{\n\twidth: 10%;\n\tcolor: black;\n\tbackground: #51a087;\n\tmargin-top: 25px;\n\tpadding: 30px;\n\tborder: 1px black;\n\t\n\n}\n\n.login-button:hover{\n\tcolor: black;\n\tbackground: white;\n\tborder: 1px black;\n\n}\n\n/*End of Header Styles*/\n\n/* Input Form Styles */\n\n.form-control{\n\n}\n\n/* End of Input Form Styles */\n\n/*Epic Details*/\n.epic-details{\n\twidth: 50%;\t\n}\n\nh2{\n\tpadding: 5 5 0 5;\n\tfont-size: 20px;\n\tbackground: #D0D2D3;\n\tcolor: black;\n\tborder-bottom: 8px solid #51a087;\n\tmargin: 0;\n\tmargin-top: 10px;\n}\n\nh3{\n\tpadding: 5px;\n\tfont-size: 14px;\n\tbackground: white;\n\tcolor: black;\n\tmargin: 0;\n}\n\narticle{\n\twidth: 100%;\n\tbackground: black;\n\tfont-size: 16px;\n\tpadding: 5px 0px;\n}\n\narticle + p {\n\twidth: 100%;\n\tfont-size: 12px;\n\tcolor: white;\n\tmargin-bottom: 0px;\n\tpadding: 5px 0px;\n}\n\n\n.button-back{\n\twidth: 5%;\n\tbackground: #51a087;\n\tcolor: black;\n\tborder: 1px black;\n\tpadding: 5px 0px;\n}\n\n.button{\n\twidth: 100%;\n\tcolor: black;\n\tbackground: #51a087;\n\tborder: 1px black;\n\tpadding: 5px 0px;\n\n}\n\n.button:hover{\n\tcolor: black;\n\tbackground: white;\n\tborder: 1px black;\n\n}\n\n.epic-type{\n\t\n\tmargin: 20px;\n\tpadding: 5px;\n}\n\n.epic-type p {\n\tbackground: black;\n}\n\n/*End of Epic Details*/\n\n\n/* Team Styles */\n\n.team-type{\n\tdisplay: flex;\n\twidth: 100%;\n\toverflow: hidden;\n}\n\n.team-name{\n\tfont-size: 16px;\n\tfont-weight: bold;\n\ttext-align: center;\n\twidth: 10%;\n\tpadding: 150px 0px;\n\tmargin-top: 10px 0px;\n\tbackground: white;\n\tcolor: #51a087;\n}\n\n\n.team-type > div{\n\twidth: 100%;\n}\n\n\n\n/* Spinner */\n\ni.loading{\n\tmargin-top: 40px;\n\tcolor: #51a087;\n\tfont-size: 150px !important;\n}\n\ni + p {\n\tfont-size: 40px;\n}\n\n/* Spinner */\n\n.sprint-team{\n\twidth: 100%;\n    flex-direction: row;\n    flex-wrap: wrap;\n    background: #5B5B60;\n    text-align: center;\n    justify-content: space-between;\n    letter-spacing: 5px;\n    font-weight: bold;\n\tpadding-top: 10px;\n\tmargin-top: 10px;\n}\n\n\n\n/* Story Styles */\n\n\n.story-details{\n\tbackground: black;\n\twidth: 33.33%;\n\tcolor: #51a087;\n\tmargin: 0 auto;\n\ttext-align: center;\n\tfont-size: 30px;\n}\n\n.story-background{\n\twidth: 100%;\n\tflex-direction: row;\n\tflex-wrap: wrap;\n\tbackground: #2C2C33;\n\ttext-align: center;\n\tjustify-content: space-between;\n\tletter-spacing: 5px;\n\tfont-weight: bold;\n\tpadding-top: 10px;\n} \n\n\n/* End of Story Styles */\n\n/* Target Styles */\n.targets{\n\twidth: 100%;\n\tdisplay: flex;\n\n}\n\n.displayTargets{\n\twidth: 100%;\n\tdisplay: flex;\n\tflex-direction: row;\n\toverflow: auto;\n}\n\n.target-type{\n\twidth: 100%;\n\tmargin: 10px 10px;\n\tbackground: #2C2C33;\n}\n\n/* End of Target Styles */\n\n/*Footer Styles*/\n\n.footer{\n\tmargin: 15px;\n\n}\n", ""]);
 
 // exports
 
@@ -31828,7 +31832,7 @@ var SprintHeader = (_dec = (0, _reactRedux.connect)(function (store) {
                     null,
                     _react2.default.createElement(
                         "h1",
-                        { className: "col-12" },
+                        { className: "projer-head" },
                         "ProJER"
                     ),
                     _react2.default.createElement(
@@ -32877,23 +32881,71 @@ var Login = (_dec = (0, _reactRedux.connect)(function (store) {
           null,
           errorMessage
         ),
-        "Jira Username: ",
-        _react2.default.createElement("input", { type: "text", ref: "username", className: "form-control", placeholder: "Jira Username" }),
-        "Jira Password: ",
-        _react2.default.createElement("input", { type: "password", ref: "password", className: "form-control", placeholder: "Jira Password" }),
-        "Jira URL: ",
-        _react2.default.createElement("input", { type: "text", ref: "url", defaultValue: "https://mehran-development.atlassian.net", className: "form-control", placeholder: "Jira URL" }),
-        "Project ID: ",
-        _react2.default.createElement("input", { type: "text", ref: "project", defaultValue: "GTMP", className: "form-control", placeholder: "Jira URL" }),
-        "Target Completion Date Custom Field: ",
-        _react2.default.createElement("input", { type: "text", ref: "target_completion", defaultValue: "customfield_10501", className: "form-control", placeholder: "Target Completion CustomField" }),
-        "Scrum Team Custom Field: ",
-        _react2.default.createElement("input", { type: "text", ref: "scrum_team", defaultValue: "customfield_10500", className: "form-control", placeholder: "Scrum Team Customfield" }),
+        _react2.default.createElement(
+          "div",
+          { className: "login-input" },
+          _react2.default.createElement(
+            "div",
+            null,
+            "Jira Username: "
+          ),
+          _react2.default.createElement("input", { type: "text", ref: "username", className: "form-control", placeholder: "Jira Username" })
+        ),
+        _react2.default.createElement(
+          "div",
+          { className: "login-input" },
+          _react2.default.createElement(
+            "div",
+            null,
+            "Jira Password: "
+          ),
+          _react2.default.createElement("input", { type: "password", ref: "password", className: "form-control", placeholder: "Jira Password" })
+        ),
+        _react2.default.createElement(
+          "div",
+          { className: "login-input" },
+          _react2.default.createElement(
+            "div",
+            null,
+            "Jira URL: "
+          ),
+          _react2.default.createElement("input", { type: "text", ref: "url", defaultValue: "https://mehran-development.atlassian.net", className: "form-control", placeholder: "Jira URL" })
+        ),
+        _react2.default.createElement(
+          "div",
+          { className: "login-input" },
+          _react2.default.createElement(
+            "div",
+            null,
+            "Project ID: "
+          ),
+          _react2.default.createElement("input", { type: "text", ref: "project", defaultValue: "GTMP", className: "form-control", placeholder: "Jira URL" })
+        ),
+        _react2.default.createElement(
+          "div",
+          { className: "login-input" },
+          _react2.default.createElement(
+            "div",
+            null,
+            "Target Completion Date Custom Field: "
+          ),
+          _react2.default.createElement("input", { type: "text", ref: "target_completion", defaultValue: "customfield_10501", className: "form-control", placeholder: "Target Completion CustomField" })
+        ),
+        _react2.default.createElement(
+          "div",
+          { className: "login-input" },
+          _react2.default.createElement(
+            "div",
+            null,
+            "Scrum Team Custom Field: "
+          ),
+          _react2.default.createElement("input", { type: "text", ref: "scrum_team", defaultValue: "customfield_10500", className: "form-control", placeholder: "Scrum Team Customfield" })
+        ),
         _react2.default.createElement(
           "button",
           { onClick: function onClick(event) {
               return _this2.handleClick(event);
-            }, className: "btn btn-primary" },
+            }, className: "login-button" },
           "Login"
         )
       );

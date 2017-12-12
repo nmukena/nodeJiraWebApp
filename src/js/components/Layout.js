@@ -73,18 +73,18 @@ export default class Layout extends React.Component {
         }else if(this.props.data.view=="Index"){
             return(
                 <div>
-                <div>
-                <h1 class="col-12">
-                    ProJER
-                </h1>
-                <h2 class="col-12">
-                Welcome to Projer, a Project Management and Planning Tool designed for Jira.
-                </h2>
-                </div>
-                <div>
-                    <p>Enter your Jira Project Details:</p>
-                    <Index />
-                </div>
+                    <div>
+                    <div class="projer projer-head">
+                        ProJER by Deloitte
+                    </div>
+                    <div class="projer projer-welcome">
+                        Welcome to ProJER, a Project Management and Planning Tool designed for Jira.
+                    </div>
+                    </div>
+                    <div class="projer projer-detail">
+                        <p>Enter your Jira Project Details:</p>
+                        <Index />
+                    </div>
                 </div>
             );
         }
