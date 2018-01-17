@@ -75,6 +75,7 @@ export function changeCustomFields(target_completion, scrum_team){
         axios.get(API_SERVER+"/setCustomFields/"+target_completion+"/"+scrum_team)
         .then((response)=>{
         }).catch((err)=>{
+            dispatch({type: "ERROR", error: err})
         })
         dispatch({type: "CHANGE_CUSTOMFIELDS", team: scrum_team, target: target_completion})
     }  
@@ -85,6 +86,7 @@ export function setCredentials(user, pass){
         axios.get(API_SERVER+"/setCredentials/"+user+"/"+pass)
         .then((response)=>{
         }).catch((err)=>{
+            dispatch({type: "ERROR", error: err})
         })
     }
 }
@@ -94,6 +96,7 @@ export function setURL(url){
         axios.get(API_SERVER+"/setURL/"+url)
         .then((response)=>{
         }).catch((err)=>{
+            dispatch({type: "ERROR", error: err})
         })
     }
 }
