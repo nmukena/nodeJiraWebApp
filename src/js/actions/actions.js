@@ -4,8 +4,10 @@ import api_server from '../API_SERVER';
 var API_SERVER = api_server();
 //var API_SERVER = 'http://18.221.174.71:3000';
 
-// A way to manage the API calls, and avoid multiple requests for the same information
+//Manage the API calls, and avoid multiple requests for the same information
+//Remember all 
 
+//Get Epics - http://localhost:3000/getEpic/GTMP-36
 export function getEpic(epicId){
     return function(dispatch){
         dispatch({type: "GET_EPIC", id: epicId})
@@ -18,6 +20,7 @@ export function getEpic(epicId){
     }
 }
 
+//Get All Epics - http://localhost:3000/getAllEpics/10102
 export function getAllEpics(projectId){
     return function(dispatch){
         dispatch({type: "GET_ALL_EPICS"})
@@ -30,6 +33,7 @@ export function getAllEpics(projectId){
     }
 }
 
+//Get Individual Story - http://localhost:3000/getStory/GTMP-12
 export function getStory(storyId, epic){
     return function(dispatch){
         axios.get(API_SERVER+"/getStory/"+storyId)
@@ -41,6 +45,7 @@ export function getStory(storyId, epic){
     }
 }
 
+//Get Stories by Epic http://localhost:3000/getStoriesByEpic/GTMP-19
 export function getStoriesByEpic(epicId){
     return function(dispatch){
         axios.get(API_SERVER+"/getStoriesByEpic/"+epicId)
@@ -51,6 +56,7 @@ export function getStoriesByEpic(epicId){
         })
     }
 }
+
 
 export function displayStories(epicId){
     return function(dispatch){
