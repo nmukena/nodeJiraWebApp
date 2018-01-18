@@ -43,6 +43,10 @@ export default function reducer(state=store, action){
             return {...state, fetching: true, fetched: false, allEpics: action.json}
         }
 
+        case "SET_PROJECT":{
+            return {...state, projectId: action.id}
+        }
+
         case "GET_EPIC_SUCCESS":{
             if (state.fetching&&state.projectId==action.json.issues[0].fields.project.key){ //Check the epic belongs to the current project
                 if(!state.epics[action.id]){

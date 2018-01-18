@@ -76,6 +76,13 @@ export function displayIndex(){
     }
 }
 
+export function configureCapacity(){
+    return function(dispatch){
+        dispatch({type: "CAPACITY_CONFIG"})
+    }
+}
+
+
 export function changeCustomFields(target_completion, scrum_team){
     return function(dispatch){
         axios.get(API_SERVER+"/setCustomFields/"+target_completion+"/"+scrum_team)
@@ -104,5 +111,17 @@ export function setURL(url){
         }).catch((err)=>{
             dispatch({type: "ERROR", error: err})
         })
+    }
+}
+
+export function setProject(projectId){
+    return function(dispatch){
+        dispatch({type: "SET_PROJECT", id: projectId})
+    }
+}
+
+export function setTeamCapacities(team, target){
+    return function(dispatch){
+        dispatch({type:"ENTER_TEAM_CAPACITY", team: team, target: target})
     }
 }

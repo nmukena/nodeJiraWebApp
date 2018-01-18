@@ -21,7 +21,14 @@ export default function reducer(state=store, action){
         case "DISPLAY_EPICS":{
             return {...state, view: "Epics", epicView: ""}
         }
+
+        case "CAPACITY_CONFIG":{
+            return {...state, view: "Capacity_Config", epicView: ""}
+        }
         
+        case "PRIORITY_CONFIG":{
+            return {...state, view: "Priority_Config", epicView: ""}
+        }      
     }
     return state;
 }

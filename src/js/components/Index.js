@@ -66,6 +66,7 @@ export default class Login extends React.Component {
     this.props.dispatch(actions.setURL(url))
     this.props.dispatch(actions.setCredentials(user,pass))
     this.props.dispatch(actions.changeCustomFields(this.refs.target_completion.value.trim(), this.refs.scrum_team.value.trim()))
-    this.props.dispatch(actions.displayEpics(this.refs.project.value.trim()))
+    this.props.dispatch(actions.setProject(this.refs.project.value.trim()))
+    this.props.dispatch(actions.configureCapacity())
   }
 }

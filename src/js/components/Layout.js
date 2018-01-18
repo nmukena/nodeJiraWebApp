@@ -10,7 +10,8 @@ import SprintHeader from "./SprintHeader";
 import AllEpics from "./AllEpics";
 import AllStoriesByEpic from "./AllStoriesByEpic";
 import Footer from "./Footer";
-import Index from "./Index"
+import Index from "./Index";
+import CapacityConfig from "./CapacityConfig";
 
 @connect((store)=>{
     return {
@@ -87,6 +88,25 @@ export default class Layout extends React.Component {
                     </div>
                 </div>
             );
+        }else if(this.props.data.view=="Capacity_Config"){
+            return(
+                <div>
+                    <div>
+                    <div class="projer projer-head">
+                        ProJER by Deloitte
+                    </div>
+                    <div class="projer projer-welcome">
+                        Welcome to ProJER, a Project Management and Planning Tool designed for Jira.
+                    </div>
+                    </div>
+                    <div class="projer projer-detail">
+                        <p>Enter your Teams Capacity:</p>
+                        <CapacityConfig />
+                    </div>
+                </div>
+            )
+        }else if(this.props.data.view=="Priority_Config"){
+            
         }
     };
 }
