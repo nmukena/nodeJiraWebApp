@@ -711,6 +711,7 @@ exports.changeCustomFields = changeCustomFields;
 exports.setCredentials = setCredentials;
 exports.setURL = setURL;
 exports.setProject = setProject;
+exports.setTeamCapacities = setTeamCapacities;
 
 var _axios = __webpack_require__(91);
 
@@ -826,6 +827,12 @@ function setURL(url) {
 function setProject(projectId) {
     return function (dispatch) {
         dispatch({ type: "SET_PROJECT", id: projectId });
+    };
+}
+
+function setTeamCapacities(team, target) {
+    return function (dispatch) {
+        dispatch({ type: "ENTER_TEAM_CAPACITY", team: team, target: target });
     };
 }
 
@@ -31387,7 +31394,11 @@ function reducer() {
             }
 
         case "ENTER_TEAM_CAPACITY":
-            {}
+            {
+                var teams_capacity = state.teams_capacities;
+                teams_capacity[action.team][action.target];
+                return _extends({}, state, { teams_capacities: teams_capacity });
+            }
     }
     return state;
 }
