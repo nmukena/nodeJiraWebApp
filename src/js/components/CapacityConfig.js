@@ -30,6 +30,22 @@ export default class CapacityConfig extends React.Component {
         return true
     }
 
+    displayEpics(project){
+        this.props.dispatch(actions.displayEpics(project))
+    }
+
+    displayIndex(){
+        this.props.dispatch(actions.displayIndex())
+    }
+
+    setTeamCapacities(team, target, capacity){
+        this.props.dispatch(actions.setTeamCapacities(team, target, capacity))
+    }
+
+    logDatabase(state){
+        this.props.dispatch(actions.logDatabase(state))
+    }
+
     render(){
         if (this.props.data.issues){
             var epics = this.props.data.issues
@@ -44,7 +60,7 @@ export default class CapacityConfig extends React.Component {
                     return (
                         <td key={target}>Capacity: 
                         <input type='text' style={{color: 'black'}} ref={name+target} defaultValue={this.props.capacity.teams_capacities[name][target]}/>
-                        <button type="button">
+                        <button type="button" onClick={()=>this.setTeamCapacities(name, target, this.refs[name+target].value.trim())}>
                             <font color="black">Submit</font>
                         </button>
                         </td>
@@ -70,8 +86,18 @@ export default class CapacityConfig extends React.Component {
                         </tbody>
                     </table>
                     <div className="login-button-container">
-                        <div onClick={(event) => this.handleClick(event)} className="login-button">
-                            Next
+                        <div onClick={()=>this.displayEpics(this.props.state.projectId)} className="login-button">
+                            See Epics!
+                        </div>
+                    </div>
+                    <div className="login-button-container">
+                        <div onClick={()=>this.logDatabase(this.props.capacity)} className="login-button">
+                            Submit Capacities!
+                        </div>
+                    </div>
+                    <div className="login-button-container">
+                        <div onClick={()=>this.displayIndex()} className="login-button">
+                            Back to Index!
                         </div>
                     </div>
                 </div>
@@ -93,5 +119,5 @@ export default class CapacityConfig extends React.Component {
     handleClick(event) {
         // Encrypt 
         this.props.dispatch(actions.displayEpics(this.props.state.projectId))
-      }
+    }
 }

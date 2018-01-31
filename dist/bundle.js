@@ -707,11 +707,11 @@ exports.displayStories = displayStories;
 exports.displayEpics = displayEpics;
 exports.displayIndex = displayIndex;
 exports.configureCapacity = configureCapacity;
-exports.changeCustomFields = changeCustomFields;
 exports.setCredentials = setCredentials;
 exports.setURL = setURL;
 exports.setProject = setProject;
 exports.setTeamCapacities = setTeamCapacities;
+exports.logDatabase = logDatabase;
 
 var _axios = __webpack_require__(91);
 
@@ -799,15 +799,6 @@ function configureCapacity() {
     };
 }
 
-function changeCustomFields(target_completion, scrum_team) {
-    return function (dispatch) {
-        _axios2.default.get(API_SERVER + "/setCustomFields/" + target_completion + "/" + scrum_team).then(function (response) {}).catch(function (err) {
-            dispatch({ type: "ERROR", error: err });
-        });
-        dispatch({ type: "CHANGE_CUSTOMFIELDS", team: scrum_team, target: target_completion });
-    };
-}
-
 function setCredentials(user, pass) {
     return function (dispatch) {
         _axios2.default.get(API_SERVER + "/setCredentials/" + user + "/" + pass).then(function (response) {}).catch(function (err) {
@@ -816,9 +807,15 @@ function setCredentials(user, pass) {
     };
 }
 
-function setURL(url) {
+function setURL(url, projectId, target_completion, scrum_team) {
     return function (dispatch) {
-        _axios2.default.get(API_SERVER + "/setURL/" + url).then(function (response) {}).catch(function (err) {
+        _axios2.default.get(API_SERVER + "/setURL/" + url + "/" + projectId).then(function (response) {
+            dispatch({ type: "LOAD_CAPACITY", capacity: response.data });
+            _axios2.default.get(API_SERVER + "/setCustomFields/" + target_completion + "/" + scrum_team).then(function (response) {}).catch(function (err) {
+                dispatch({ type: "ERROR", error: err });
+            });
+            dispatch({ type: "CHANGE_CUSTOMFIELDS", team: scrum_team, target: target_completion });
+        }).catch(function (err) {
             dispatch({ type: "ERROR", error: err });
         });
     };
@@ -830,9 +827,20 @@ function setProject(projectId) {
     };
 }
 
-function setTeamCapacities(team, target) {
+function setTeamCapacities(team, target, capacity) {
     return function (dispatch) {
-        dispatch({ type: "ENTER_TEAM_CAPACITY", team: team, target: target });
+        dispatch({ type: "ENTER_TEAM_CAPACITY", team: team, target: target, capacity: capacity });
+    };
+}
+
+function logDatabase(state) {
+    return function (dispatch) {
+        dispatch({ type: "LOG_DATABASE" });
+        _axios2.default.post(API_SERVER + "/logDatabase/", state).then(function (response) {
+            dispatch({ type: "LOG_DATABASE_SUCCESS" });
+        }).catch(function (err) {
+            dispatch({ type: "ERROR", error: err });
+        });
     };
 }
 
@@ -31328,7 +31336,7 @@ var store = {
     target_completions: [],
     teams: [],
     teams_capacities: {},
-    projectId: "GTMP"
+    projectId: ""
 };
 
 function reducer() {
@@ -31342,6 +31350,11 @@ function reducer() {
                 return _extends({}, state, { TARGET_COMPLETION_FIELD: action.target, SCRUM_TEAM_FIELD: action.team });
             }
 
+        case "SET_PROJECT":
+            {
+                return _extends({}, state, { projectId: action.id });
+            }
+
         case "GET_ALL_EPICS_SUCCESS":
             {
                 return _extends({}, state, { fetching: true, fetched: false });
@@ -31349,7 +31362,7 @@ function reducer() {
 
         case "GET_EPIC_SUCCESS":
             {
-                if (state.fetching && state.projectId == action.json.issues[0].fields.project.key) {
+                if (state.fetching && state.projectId == action.json.issues[0].fields.project.key && !state.configured) {
                     //Check the epic belongs to the current project
                     if (true) {
                         var team = "Default Team";
@@ -31391,13 +31404,29 @@ function reducer() {
                         });
                     }
                 }
+                return state;
             }
 
         case "ENTER_TEAM_CAPACITY":
             {
                 var teams_capacity = state.teams_capacities;
-                teams_capacity[action.team][action.target];
+                teams_capacity[action.team][action.target] = action.capacity;
                 return _extends({}, state, { teams_capacities: teams_capacity });
+            }
+
+        case "LOAD_CAPACITY":
+            {
+                return action.capacity;
+            }
+
+        case "LOG_DATABASE":
+            {
+                return _extends({}, state, { configured: true });
+            }
+
+        case "LOG_DATABASE_SUCCESS":
+            {
+                return _extends({}, state, { configured: true });
             }
     }
     return state;
@@ -33122,10 +33151,10 @@ var Login = (_dec = (0, _reactRedux.connect)(function (store) {
       var url = new Buffer(this.refs.url.value.trim()).toString('hex');
       var user = new Buffer(this.refs.username.value.trim()).toString('hex');
       var pass = new Buffer(this.refs.password.value.trim()).toString('hex');
+      var project = new Buffer(this.refs.project.value.trim()).toString('hex');
 
-      this.props.dispatch(actions.setURL(url));
+      this.props.dispatch(actions.setURL(url, project, this.refs.target_completion.value.trim(), this.refs.scrum_team.value.trim()));
       this.props.dispatch(actions.setCredentials(user, pass));
-      this.props.dispatch(actions.changeCustomFields(this.refs.target_completion.value.trim(), this.refs.scrum_team.value.trim()));
       this.props.dispatch(actions.setProject(this.refs.project.value.trim()));
       this.props.dispatch(actions.configureCapacity());
     }
@@ -35230,6 +35259,26 @@ var CapacityConfig = (_dec = (0, _reactRedux.connect)(function (store) {
             return true;
         }
     }, {
+        key: "displayEpics",
+        value: function displayEpics(project) {
+            this.props.dispatch(actions.displayEpics(project));
+        }
+    }, {
+        key: "displayIndex",
+        value: function displayIndex() {
+            this.props.dispatch(actions.displayIndex());
+        }
+    }, {
+        key: "setTeamCapacities",
+        value: function setTeamCapacities(team, target, capacity) {
+            this.props.dispatch(actions.setTeamCapacities(team, target, capacity));
+        }
+    }, {
+        key: "logDatabase",
+        value: function logDatabase(state) {
+            this.props.dispatch(actions.logDatabase(state));
+        }
+    }, {
         key: "render",
         value: function render() {
             var _this2 = this;
@@ -35251,7 +35300,9 @@ var CapacityConfig = (_dec = (0, _reactRedux.connect)(function (store) {
                             _react2.default.createElement("input", { type: "text", style: { color: 'black' }, ref: name + target, defaultValue: _this2.props.capacity.teams_capacities[name][target] }),
                             _react2.default.createElement(
                                 "button",
-                                { type: "button" },
+                                { type: "button", onClick: function onClick() {
+                                        return _this2.setTeamCapacities(name, target, _this2.refs[name + target].value.trim());
+                                    } },
                                 _react2.default.createElement(
                                     "font",
                                     { color: "black" },
@@ -35301,10 +35352,32 @@ var CapacityConfig = (_dec = (0, _reactRedux.connect)(function (store) {
                         { className: "login-button-container" },
                         _react2.default.createElement(
                             "div",
-                            { onClick: function onClick(event) {
-                                    return _this2.handleClick(event);
+                            { onClick: function onClick() {
+                                    return _this2.displayEpics(_this2.props.state.projectId);
                                 }, className: "login-button" },
-                            "Next"
+                            "See Epics!"
+                        )
+                    ),
+                    _react2.default.createElement(
+                        "div",
+                        { className: "login-button-container" },
+                        _react2.default.createElement(
+                            "div",
+                            { onClick: function onClick() {
+                                    return _this2.logDatabase(_this2.props.capacity);
+                                }, className: "login-button" },
+                            "Submit Capacities!"
+                        )
+                    ),
+                    _react2.default.createElement(
+                        "div",
+                        { className: "login-button-container" },
+                        _react2.default.createElement(
+                            "div",
+                            { onClick: function onClick() {
+                                    return _this2.displayIndex();
+                                }, className: "login-button" },
+                            "Back to Index!"
                         )
                     )
                 );

@@ -83,17 +83,6 @@ export function configureCapacity(){
 }
 
 
-export function changeCustomFields(target_completion, scrum_team){
-    return function(dispatch){
-        axios.get(API_SERVER+"/setCustomFields/"+target_completion+"/"+scrum_team)
-        .then((response)=>{
-        }).catch((err)=>{
-            dispatch({type: "ERROR", error: err})
-        })
-        dispatch({type: "CHANGE_CUSTOMFIELDS", team: scrum_team, target: target_completion})
-    }  
-}
-
 export function setCredentials(user, pass){
     return function(dispatch){
         axios.get(API_SERVER+"/setCredentials/"+user+"/"+pass)
@@ -104,10 +93,16 @@ export function setCredentials(user, pass){
     }
 }
 
-export function setURL(url){
+export function setURL(url, projectId, target_completion, scrum_team){
     return function(dispatch){
-        axios.get(API_SERVER+"/setURL/"+url)
+        axios.get(API_SERVER+"/setURL/"+url+"/"+projectId)
         .then((response)=>{
+            dispatch({type:"LOAD_CAPACITY", capacity: response.data})
+            axios.get(API_SERVER+"/setCustomFields/"+target_completion+"/"+scrum_team).then((response)=>{
+            }).catch((err)=>{
+                dispatch({type: "ERROR", error: err})
+            })
+            dispatch({type: "CHANGE_CUSTOMFIELDS", team: scrum_team, target: target_completion})
         }).catch((err)=>{
             dispatch({type: "ERROR", error: err})
         })
@@ -120,8 +115,20 @@ export function setProject(projectId){
     }
 }
 
-export function setTeamCapacities(team, target){
+export function setTeamCapacities(team, target, capacity){
     return function(dispatch){
-        dispatch({type:"ENTER_TEAM_CAPACITY", team: team, target: target})
+        dispatch({type:"ENTER_TEAM_CAPACITY", team: team, target: target, capacity: capacity})
+    }
+}
+
+export function logDatabase(state){
+    return function(dispatch){
+        dispatch({type: "LOG_DATABASE"})
+        axios.post(API_SERVER+"/logDatabase/", state)
+        .then((response)=>{
+            dispatch({type: "LOG_DATABASE_SUCCESS"})
+        }).catch((err)=>{
+            dispatch({type: "ERROR", error: err})
+        })
     }
 }

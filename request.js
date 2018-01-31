@@ -2,15 +2,30 @@ var express = require("express");
 var app = express();
 request = require('request');
 var path = require('path');
+var http = require('http');
+var mongoose = require('mongoose');
+var Account = require('./models/account');
+var bodyParser = require('body-parser');
+
+DB = mongoose.connect('mongodb://localhost/test', function(err, db) {
+    if (err) {
+        console.log('Unable to connect to the server. Please start the server. Error:', err);
+    } else {
+        console.log('Connected to Server successfully!');
+    }
+});
+
+app.use(bodyParser.json());
 
 var URL = ""
-
+var PROJECT = ""
 var options = {rejectUnauthorized: this.strictSSL, 
     uri: "", 
     method: 'GET',
     auth: {'user': '', 
     'pass': ''}
 };
+
 
 var TARGET_COMPLETION_FIELD = "customfield_10501"
 var SCRUM_TEAM_FIELD = "customfield_10500"
@@ -26,10 +41,44 @@ app.get('/bundle.js', function(req, res) {
     res.sendFile(path.join(__dirname + '/dist/bundle.js'));
 });
 
-app.get("/setURL/:url",function(req, res){
+app.get("/setURL/:url/:projectId",function(req, res){
     URL = new Buffer(req.params.url, 'hex').toString();
-    console.log("URL set!")
-    res.send("Done")
+    PROJECT = new Buffer(req.params.projectId, 'hex').toString();
+    Account.findOne({url: URL, project: PROJECT}, function(error, exist) {
+        if(exist && !error){
+            console.log("Capacity is configured!");
+            res.json(exist.state)
+        } else {
+            console.log("Capacity is not configured yet...");
+            Account.update({url: URL, project: PROJECT}, {$set: { state: {
+                TARGET_COMPLETION_FIELD: "",
+                SCRUM_TEAM_FIELD: "",
+                fetching: false,
+                fetched: true,
+                configured: false,
+                unauthorized: false,
+                unavailable: false,
+                bad_request: false,
+                sprint_number: 1,
+                target_completions: [],
+                teams: [],
+                teams_capacities : {},
+                projectId : "GTMP"
+            }}}, {upsert: true}, function (err) {
+                if (!err){
+                    console.log("Capacity is ready to be configured.")
+                    Account.findOne({url: URL, project: PROJECT}, function(err, doc){
+                        res.json(doc.state)
+                    })
+                } else{
+                    console.log("Error occurred while preparing the capacity to be configured: "+err)
+                    res.send(err)
+                }
+            });
+        }
+    });
+    console.log("URL and Project Id set!")
+
 })
 
 app.get("/setCredentials/:user/:password",function(req, res){
@@ -152,7 +201,8 @@ app.get("/getIssuesBySprint/:rapidViewId/:sprintId", function(req, res)  {
 });
 
 app.get("/getAllEpics/:projectId/", function(req, res)  {
-    options.uri = URL+"/rest/api/2/search?jql=project%3D%22"+req.params.projectId+"%22%20AND%20issuetype%3D%22Epic%22&"+
+    PROJECT = req.params.projectId
+    options.uri = URL+"/rest/api/2/search?jql=project%3D%22"+PROJECT+"%22%20AND%20issuetype%3D%22Epic%22&"+
     "fields=summary,key";
     request(options, function(error, response, body) {
         if (error) {
@@ -169,6 +219,17 @@ app.get("/getAllEpics/:projectId/", function(req, res)  {
         return;
     });
 });
+
+app.post("/logDatabase/",function(req, res){
+    Account.update({url: URL, project: PROJECT}, {$set: { state: req.body}}, function (err) {
+        if (err){
+            console.log(err);
+            res.send(err)
+        }
+    });
+    res.send("Database Updated!")
+    console.log("Database Updated!")
+})
 
 app.get("/getStoriesByEpic/:epicId/", function(req, res)  {
     options.uri = URL+"/rest/api/2/search?jql=%22Epic%20Link%22%3D"+req.params.epicId;

@@ -11,7 +11,7 @@ var store = {
     target_completions: [],
     teams: [],
     teams_capacities : {},
-    projectId : "GTMP"
+    projectId : ""
 }
 
 export default function reducer(state=store, action){
@@ -21,12 +21,16 @@ export default function reducer(state=store, action){
             return {...state, TARGET_COMPLETION_FIELD: action.target, SCRUM_TEAM_FIELD: action.team}
         }
 
+        case "SET_PROJECT":{
+            return {...state, projectId: action.id}
+        }
+
         case "GET_ALL_EPICS_SUCCESS":{
             return {...state, fetching: true, fetched: false}
         }
 
         case "GET_EPIC_SUCCESS":{
-            if (state.fetching&&state.projectId==action.json.issues[0].fields.project.key){ //Check the epic belongs to the current project
+            if (state.fetching&&state.projectId==action.json.issues[0].fields.project.key&&!state.configured){ //Check the epic belongs to the current project
                 if(true){
                     var team = "Default Team"
                     if(action.json.issues[0].fields[state.SCRUM_TEAM_FIELD]){
@@ -63,16 +67,29 @@ export default function reducer(state=store, action){
 
                     return {...state, teams: teams, 
                         target_completions: target_completions,
-                        teams_capacities: teams_capacity
-                    }
+                        teams_capacities: teams_capacity,
+                    };
                 }           
             }
+            return state;
         }
 
-        case "ENTER_TEAM_CAPACITY":{
+        case "ENTER_TEAM_CAPACITY": {
             var teams_capacity = state.teams_capacities
-            teams_capacity[action.team][action.target]
+            teams_capacity[action.team][action.target]=action.capacity
             return {...state, teams_capacities: teams_capacity}
+        }
+
+        case "LOAD_CAPACITY": {
+            return action.capacity
+        }
+
+        case "LOG_DATABASE":{
+            return {...state, configured: true}
+        }
+
+        case "LOG_DATABASE_SUCCESS":{
+            return {...state, configured: true};
         }
     }
     return state;

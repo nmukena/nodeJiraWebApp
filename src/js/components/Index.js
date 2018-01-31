@@ -62,10 +62,10 @@ export default class Login extends React.Component {
     var url = new Buffer(this.refs.url.value.trim()).toString('hex')
     var user = new Buffer(this.refs.username.value.trim()).toString('hex')
     var pass = new Buffer(this.refs.password.value.trim()).toString('hex')
+    var project = new Buffer(this.refs.project.value.trim()).toString('hex')
 
-    this.props.dispatch(actions.setURL(url))
+    this.props.dispatch(actions.setURL(url, project, this.refs.target_completion.value.trim(), this.refs.scrum_team.value.trim()))
     this.props.dispatch(actions.setCredentials(user,pass))
-    this.props.dispatch(actions.changeCustomFields(this.refs.target_completion.value.trim(), this.refs.scrum_team.value.trim()))
     this.props.dispatch(actions.setProject(this.refs.project.value.trim()))
     this.props.dispatch(actions.configureCapacity())
   }
