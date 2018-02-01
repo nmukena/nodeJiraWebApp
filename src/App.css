@@ -82,6 +82,7 @@ h1{
 
 .projer-head{
 	margin-top: 10px;
+	margin-left: 10px;
 	color:#51a087;
 	font-size: 48px;
 	letter-spacing: 4px;
@@ -253,6 +254,8 @@ article + p {
 	color: black;
 	border: 1px black;
 	padding: 5px 0px;
+	margin: 10px;
+	margin-bottom: 20px;
 }
 
 .button{
@@ -347,7 +350,7 @@ i + p {
 	width: 100%;
 	flex-direction: row;
 	flex-wrap: wrap;
-	background: #25313C;
+	background: #191926;
 	text-align: center;
 	justify-content: space-between;
 	letter-spacing: 5px;
@@ -374,7 +377,7 @@ i + p {
 .target-type{
 	width: 100%;
 	margin: 10px 10px;
-	background: #25313C;
+	background: #191926;
 
 }
 
