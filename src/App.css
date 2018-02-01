@@ -14,14 +14,14 @@ body{
 	margin: 0 auto;
 	color: white;
 	width: 100%;
-	font-family: 'Roboto', sans-serif;
+	font-family: 'Oswald', sans-serif;
+	letter-spacing: 3px;
 }
 
 #main-layout{
 	text-align: center;
 	margin: 0 auto;
 }
-
 
 /*Header Styles*/
 .col-pad{
@@ -43,7 +43,6 @@ body{
 	background: #5B5B60;
 	text-align: center;
 	justify-content: space-between;
-
 }
 
 .sprint-header{
@@ -64,7 +63,7 @@ h1{
 	padding: 10px 0px;
 	margin-left: 10px;
 	margin-right: 10px;
-	background: #2C2C33;
+	background: #25313C;
 	text-align: center;
 	margin: 0 auto;
 	margin-top: 20px;
@@ -88,7 +87,6 @@ h1{
 	letter-spacing: 4px;
 	font-weight: bold;
 }
-
 
 .projer-project{
 	color: white;
@@ -120,7 +118,6 @@ h1{
 	width: 75%;
 	display: flex;
 	margin: 0 auto;
-
 }
 
 .login-input-login{
@@ -136,7 +133,6 @@ h1{
 	margin: 10px 0px;
 	width: 80%;
 }
-
 
 .login-input div{
 	display: flex;
@@ -177,16 +173,12 @@ h1{
 	padding: 30px;
 	border: 1px black;
 	font-size: 24px;
-
-	
-
 }
 
 .login-button:hover{
 	color: black;
 	background: white;
 	border: 1px black;
-
 }
 
 /*End of Header Styles*/
@@ -201,7 +193,7 @@ h1{
 .form-control{
 	background: transparent;
 	border: none;
-	border-bottom: 1px solid #51a087;
+	border-bottom: 5px solid #51a087;
 }
 
 
@@ -276,11 +268,9 @@ article + p {
 	color: black;
 	background: white;
 	border: 1px black;
-
 }
 
 .epic-type{
-	
 	margin: 20px;
 	padding: 5px;
 }
@@ -311,12 +301,9 @@ article + p {
 	color: #51a087;
 }
 
-
 .team-type > div{
 	width: 100%;
 }
-
-
 
 /* Spinner */
 
@@ -345,10 +332,7 @@ i + p {
 	margin-top: 10px;
 }
 
-
-
 /* Story Styles */
-
 
 .story-details{
 	background: black;
@@ -363,14 +347,13 @@ i + p {
 	width: 100%;
 	flex-direction: row;
 	flex-wrap: wrap;
-	background: #2C2C33;
+	background: #25313C;
 	text-align: center;
 	justify-content: space-between;
 	letter-spacing: 5px;
 	font-weight: bold;
 	padding-top: 10px;
 } 
-
 
 /* End of Story Styles */
 
@@ -391,7 +374,7 @@ i + p {
 .target-type{
 	width: 100%;
 	margin: 10px 10px;
-	background: #0c0c11;
+	background: #25313C;
 
 }
 
@@ -401,5 +384,4 @@ i + p {
 
 .footer{
 	margin: 15px;
-
 }
