@@ -17,20 +17,21 @@ var store = {
 export default function reducer(state=store, action){
     switch (action.type){
 
-        case "CHANGE_CUSTOMFIELDS":{
+        case "CHANGE_CUSTOMFIELDS": {
             return {...state, TARGET_COMPLETION_FIELD: action.target, SCRUM_TEAM_FIELD: action.team}
         }
 
-        case "SET_PROJECT":{
+        case "SET_PROJECT": {
             return {...state, projectId: action.id}
         }
 
-        case "GET_ALL_EPICS_SUCCESS":{
+        case "GET_ALL_EPICS_SUCCESS": {
             return {...state, fetching: true, fetched: false}
         }
 
-        case "GET_EPIC_SUCCESS":{
-            if (state.fetching&&state.projectId==action.json.issues[0].fields.project.key&&!state.configured){ //Check the epic belongs to the current project
+        case "GET_EPIC_SUCCESS": {
+            if (state.fetching&&state.projectId==action.json.issues[0].fields.project.key&&!state.configured){ 
+                //Check the epic belongs to the current project
                 if(true){
                     var team = "Default Team"
                     if(action.json.issues[0].fields[state.SCRUM_TEAM_FIELD]){
@@ -84,12 +85,12 @@ export default function reducer(state=store, action){
             return action.capacity
         }
 
-        case "LOG_DATABASE":{
+        case "LOG_DATABASE": {
             return {...state, configured: true}
         }
 
-        case "LOG_DATABASE_SUCCESS":{
-            return {...state, configured: true};
+        case "LOG_DATABASE_SUCCESS": {
+            return {...state, configured: true}
         }
     }
     return state;

@@ -53,6 +53,7 @@
     "redux-persist-transform-filter": "0.0.16",
     "redux-promise-middleware": "^4.4.1",
     "redux-thunk": "^2.2.0",
+    "ssl-root-cas": "^1.2.5",
     "superagent": "^3.7.0",
     "webpack-config": "^7.5.0"
   },

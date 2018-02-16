@@ -82,6 +82,17 @@ export function configureCapacity(){
     }
 }
 
+export function loadCapacity(url, projectId){
+    return function(dispatch){
+        axios.get(API_SERVER+"/loadCapacity/"+url+"/"+projectId)
+        .then((response)=>{
+            dispatch({type:"LOAD_CAPACITY", capacity: response.data})
+        }).catch((err)=>{
+            dispatch({type: "ERROR", error: err})
+        })
+    }
+}
+
 
 export function setCredentials(user, pass){
     return function(dispatch){

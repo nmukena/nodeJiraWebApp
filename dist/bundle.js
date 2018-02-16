@@ -707,6 +707,7 @@ exports.displayStories = displayStories;
 exports.displayEpics = displayEpics;
 exports.displayIndex = displayIndex;
 exports.configureCapacity = configureCapacity;
+exports.loadCapacity = loadCapacity;
 exports.setCredentials = setCredentials;
 exports.setURL = setURL;
 exports.setProject = setProject;
@@ -796,6 +797,19 @@ function displayIndex() {
 function configureCapacity() {
     return function (dispatch) {
         dispatch({ type: "CAPACITY_CONFIG" });
+    };
+}
+
+function loadCapacity(url, projectId) {
+    return function (dispatch) {
+        _axios2.default.get(API_SERVER + "/loadCapacity/" + url + "/" + projectId).then(function (response) {
+            dispatch({ type: "LOAD_CAPACITY", capacity: response.data });
+            _axios2.default.get(API_SERVER + "/setCustomFields/" + target_completion + "/" + scrum_team).then(function (response) {}).catch(function (err) {
+                dispatch({ type: "ERROR", error: err });
+            });
+        }).catch(function (err) {
+            dispatch({ type: "ERROR", error: err });
+        });
     };
 }
 
@@ -23075,6 +23089,12 @@ var Layout = (_dec = (0, _reactRedux.connect)(function (store) {
             this.props.dispatch(actions.displayIndex());
         }
     }, {
+        key: "displayCapacityConfig",
+        value: function displayCapacityConfig(url, projectId) {
+            this.props.dispatch(actions.loadCapacity(url, projectId));
+            this.props.dispatch(actions.configureCapacity());
+        }
+    }, {
         key: "render",
         value: function render() {
             var _this2 = this;
@@ -23099,11 +23119,26 @@ var Layout = (_dec = (0, _reactRedux.connect)(function (store) {
                         _react2.default.createElement(_Footer2.default, null)
                     ),
                     _react2.default.createElement(
-                        "button",
-                        { className: "button-back", onClick: function onClick() {
-                                return _this2.displayIndex();
-                            } },
-                        "Back to Index!"
+                        "div",
+                        { className: "login-button-container" },
+                        _react2.default.createElement(
+                            "div",
+                            { onClick: function onClick() {
+                                    return _this2.displayCapacityConfig();
+                                }, className: "login-button" },
+                            "Configure Capacities!"
+                        )
+                    ),
+                    _react2.default.createElement(
+                        "div",
+                        { className: "login-button-container" },
+                        _react2.default.createElement(
+                            "div",
+                            { onClick: function onClick() {
+                                    return _this2.displayIndex();
+                                }, className: "login-button" },
+                            "Back to Index!"
+                        )
                     )
                 );
             }
@@ -33156,7 +33191,11 @@ var Login = (_dec = (0, _reactRedux.connect)(function (store) {
       this.props.dispatch(actions.setURL(url, project, this.refs.target_completion.value.trim(), this.refs.scrum_team.value.trim()));
       this.props.dispatch(actions.setCredentials(user, pass));
       this.props.dispatch(actions.setProject(this.refs.project.value.trim()));
-      this.props.dispatch(actions.configureCapacity());
+      if (!this.props.data.capacity.configured) {
+        this.props.dispatch(actions.configureCapacity());
+      } else {
+        this.props.dispatch(actions.displayEpics(this.refs.project.value.trim()));
+      }
     }
   }]);
 
@@ -35270,8 +35309,8 @@ var CapacityConfig = (_dec = (0, _reactRedux.connect)(function (store) {
         }
     }, {
         key: "setTeamCapacities",
-        value: function setTeamCapacities(team, target, capacity) {
-            this.props.dispatch(actions.setTeamCapacities(team, target, capacity));
+        value: function setTeamCapacities(team, target, event) {
+            this.props.dispatch(actions.setTeamCapacities(team, target, event.target.value));
         }
     }, {
         key: "logDatabase",
@@ -35297,18 +35336,7 @@ var CapacityConfig = (_dec = (0, _reactRedux.connect)(function (store) {
                             "td",
                             { key: target },
                             "Capacity:",
-                            _react2.default.createElement("input", { type: "text", style: { color: 'black' }, ref: name + target, defaultValue: _this2.props.capacity.teams_capacities[name][target] }),
-                            _react2.default.createElement(
-                                "button",
-                                { type: "button", onClick: function onClick() {
-                                        return _this2.setTeamCapacities(name, target, _this2.refs[name + target].value.trim());
-                                    } },
-                                _react2.default.createElement(
-                                    "font",
-                                    { color: "black" },
-                                    "Submit"
-                                )
-                            )
+                            _react2.default.createElement("input", { type: "text", style: { color: 'black' }, onChange: _this2.setTeamCapacities.bind(_this2, name, target), defaultValue: _this2.props.capacity.teams_capacities[name][target] })
                         );
                     });
                     return _react2.default.createElement(

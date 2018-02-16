@@ -38,8 +38,8 @@ export default class CapacityConfig extends React.Component {
         this.props.dispatch(actions.displayIndex())
     }
 
-    setTeamCapacities(team, target, capacity){
-        this.props.dispatch(actions.setTeamCapacities(team, target, capacity))
+    setTeamCapacities(team, target, event){
+        this.props.dispatch(actions.setTeamCapacities(team, target, event.target.value))
     }
 
     logDatabase(state){
@@ -59,10 +59,7 @@ export default class CapacityConfig extends React.Component {
                 var displayTargets = target_completions.map(target => {
                     return (
                         <td key={target}>Capacity: 
-                        <input type='text' style={{color: 'black'}} ref={name+target} defaultValue={this.props.capacity.teams_capacities[name][target]}/>
-                        <button type="button" onClick={()=>this.setTeamCapacities(name, target, this.refs[name+target].value.trim())}>
-                            <font color="black">Submit</font>
-                        </button>
+                        <input type='text' style={{color: 'black'}} onChange={this.setTeamCapacities.bind(this, name, target)} defaultValue={this.props.capacity.teams_capacities[name][target]}/>
                         </td>
                     )
                 })

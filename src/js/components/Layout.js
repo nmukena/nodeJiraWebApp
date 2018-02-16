@@ -35,6 +35,11 @@ export default class Layout extends React.Component {
         this.props.dispatch(actions.displayIndex())
     }
 
+    displayCapacityConfig(url, projectId){
+        this.props.dispatch(actions.loadCapacity(url, projectId))
+        this.props.dispatch(actions.configureCapacity())
+    }
+
     render(){
         if (this.props.data.view=="Epics"){
             return(
@@ -48,9 +53,16 @@ export default class Layout extends React.Component {
                     <div>
                         <Footer />
                     </div>
-                    <button className="button-back" onClick={()=>this.displayIndex()}>
-                                Back to Index!
-                    </button>
+                    <div className="login-button-container">
+                        <div onClick={()=>this.displayCapacityConfig()} className="login-button">
+                            Configure Capacities!
+                        </div>
+                    </div>
+                    <div className="login-button-container">
+                        <div onClick={()=>this.displayIndex()} className="login-button">
+                            Back to Index!
+                        </div>
+                    </div>
                 </div>
             );
         }
