@@ -1,21 +1,31 @@
+/**
+ * Stories Reducer
+ * Reducer responsible for maintaining the stories Sub-state.
+ */
 var store = {
-    storiesByEpics: {},
-    allStories: {},
+    storiesByEpics: {}, // Contains story details by epics
+    allStories: {}, // Contains all stories and their details
     TARGET_COMPLETION_FIELD: "",
     SCRUM_TEAM_FIELD: "",
-    storiesByTarget: {},
+    storiesByTarget: {}, // Stores story IDs by Epic by Target Completion Date
     fetching: true, 
     fetched: false, 
     error: null,
     }
 
+/**
+ * Reducer. Listens to Actions. Responds to specified Action by creating and returning a new State
+ * with modified information.
+ * @param {Object} state Current State
+ * @param {Object} action Last Triggered Action
+*/
 export default function reducer(state=store, action){
     switch (action.type){
         
         case "DISPLAY_INDEX":{
             return {
                 storiesByEpics: {},
-                allStories: {},
+                allStories: {}, 
                 TARGET_COMPLETION_FIELD: "",
                 SCRUM_TEAM_FIELD: "",
                 storiesByTarget: {},

@@ -1,3 +1,7 @@
+/**
+ * Persist Reducer. Maintains the state after refreshing.
+ */
+
 var store = {
     refreshed: 0
 }

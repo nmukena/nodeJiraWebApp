@@ -1,8 +1,22 @@
+/**
+ * Views Reducer
+ * Reducer responsible for maintaining the views Sub-state.
+ */
+
+/**
+  * The views sub-state, that serves as controller for views.
+*/ 
 var store = {
     view: "Index",
     epicView: "",
 }
 
+/**
+ * Reducer. Listens to Actions. Responds to specified Action by creating and returning a new State
+ * with modified information.
+ * @param {Object} state Current State
+ * @param {Object} action Last Triggered Action
+*/
 export default function reducer(state=store, action){
     switch (action.type){
 

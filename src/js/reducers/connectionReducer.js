@@ -1,3 +1,11 @@
+/**
+ * Capacity Reducer
+ * Reducer responsible for maintaining the connection Sub-state.
+ */
+
+/**
+  * The connection sub-state, that handles info on connection status.
+*/ 
 var store = {
     fetching: false,
     fetched: true,
@@ -6,6 +14,12 @@ var store = {
     bad_request: false,
 }
 
+/**
+ * Reducer. Listens to Actions. Responds to specified Action by creating and returning a new State
+ * with modified information.
+ * @param {Object} state Current State
+ * @param {Object} action Last Triggered Action
+ */
 export default function reducer(state=store, action){
     switch (action.type){
 

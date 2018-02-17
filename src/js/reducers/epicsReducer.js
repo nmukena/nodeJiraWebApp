@@ -1,21 +1,35 @@
+/**
+ * Epics Reducer
+ * Reducer responsible for maintaining the epics Sub-state.
+ */
+
+/**
+  * The epics sub-state
+*/ 
 var store = {
     projectId:"",
-    epicByTeam: {},
+    epicByTeam: {}, //Stores epics team by target completions. E.g. epicByTeam["Team A"]["Sprint 3 - Week 2"]
     TARGET_COMPLETION_FIELD: "",
     SCRUM_TEAM_FIELD: "",
-    targetByTeam: {},
-    target_completions : [],
-    epics: {},
-    allEpics: {}, 
+    targetByTeam: {}, // Stores target completions where a teams have deliverables
+    target_completions : [], // List of all the target completions
+    epics: {}, // Associated array containing epics and their details. E.g. epics["GTMP-1"] holds details of GTMP-1.
+    allEpics: {}, // JSON object received from "GET_ALL_EPICS_SUCCESS" action.
     fetching: false, 
     fetched: true, 
     error: null,
     }
 
+/**
+ * Reducer. Listens to Actions. Responds to specified Action by creating and returning a new State
+ * with modified information.
+ * @param {Object} state Current State
+ * @param {Object} action Last Triggered Action
+*/
 export default function reducer(state=store, action){
     switch (action.type){
-
         case "DISPLAY_INDEX":{
+            // When the the user goes back to the index clear all the epics
             return {
                 projectId:"",
                 epicByTeam: {},

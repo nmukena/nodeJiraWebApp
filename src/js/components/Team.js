@@ -19,9 +19,7 @@ export default class Team extends React.Component {
     }
 
 
-
     render(){
-
         var teams = this.props.teams
         var tCompletions = this.props.targetCompletions
         var displayEpics = []

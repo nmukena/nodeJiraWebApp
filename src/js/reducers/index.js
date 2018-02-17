@@ -1,5 +1,8 @@
-import { combineReducers } from "redux";
+/**
+ * Combination of all the reducers
+ */
 
+import { combineReducers } from "redux";
 import epics from "./epicsReducer"
 import stories from "./storiesReducer"
 import views from "./viewsReducer"
