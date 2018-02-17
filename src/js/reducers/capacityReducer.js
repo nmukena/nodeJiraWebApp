@@ -24,7 +24,7 @@ var store = {
 }
 
 /**
- * Reducer. Listens to Actions. Responds to specified Action by and returning creating a new State
+ * Reducer. Listens to Actions. Responds to specified Action by creating and returning a new State
  * with modified information.
  * @param {Object} state Current State
  * @param {Object} action Last Triggered Action
@@ -47,7 +47,7 @@ export default function reducer(state=store, action){
         }
 
         case "GET_EPIC_SUCCESS": {
-            // Sort every received Epic in by Team and Target Completion
+            // Sort every received Epic by Team and Target Completion
             if (state.fetching&&state.projectId==action.json.issues[0].fields.project.key&&!state.configured){ 
                 //Check the epic belongs to the current project
                 if(true){
