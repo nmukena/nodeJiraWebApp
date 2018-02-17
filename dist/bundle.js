@@ -699,6 +699,10 @@ module.exports = g;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.setCredentials = setCredentials;
+exports.setURL = setURL;
+exports.setProject = setProject;
+exports.setTeamCapacities = setTeamCapacities;
 exports.getEpic = getEpic;
 exports.getAllEpics = getAllEpics;
 exports.getStory = getStory;
@@ -708,10 +712,6 @@ exports.displayEpics = displayEpics;
 exports.displayIndex = displayIndex;
 exports.configureCapacity = configureCapacity;
 exports.loadCapacity = loadCapacity;
-exports.setCredentials = setCredentials;
-exports.setURL = setURL;
-exports.setProject = setProject;
-exports.setTeamCapacities = setTeamCapacities;
 exports.logDatabase = logDatabase;
 
 var _axios = __webpack_require__(91);
@@ -730,89 +730,14 @@ var API_SERVER = (0, _API_SERVER2.default)();
 //Manage the API calls, and avoid multiple requests for the same information
 //Remember all 
 
-//Get Epics - http://localhost:3000/getEpic/GTMP-36
-function getEpic(epicId) {
-    return function (dispatch) {
-        dispatch({ type: "GET_EPIC", id: epicId });
-        _axios2.default.get(API_SERVER + "/getEpic/" + epicId).then(function (response) {
-            dispatch({ type: "GET_EPIC_SUCCESS", id: epicId, json: response.data });
-        }).catch(function (err) {
-            dispatch({ type: "ERROR", error: err });
-        });
-    };
-}
-
-//Get All Epics - http://localhost:3000/getAllEpics/10102
-function getAllEpics(projectId) {
-    return function (dispatch) {
-        dispatch({ type: "GET_ALL_EPICS" });
-        _axios2.default.get(API_SERVER + "/getAllEpics/" + projectId).then(function (response) {
-            dispatch({ type: "GET_ALL_EPICS_SUCCESS", json: response.data });
-        }).catch(function (err) {
-            dispatch({ type: "GET_ALL_EPICS_ERROR", code: err.response.status, text: err.response.statusText });
-        });
-    };
-}
-
-//Get Individual Story - http://localhost:3000/getStory/GTMP-12
-function getStory(storyId, epic) {
-    return function (dispatch) {
-        _axios2.default.get(API_SERVER + "/getStory/" + storyId).then(function (response) {
-            dispatch({ type: "GET_STORY_SUCCESS", id: storyId, json: response.data, epicId: epic });
-        }).catch(function (err) {
-            dispatch({ type: "ERROR", error: err });
-        });
-    };
-}
-
-//Get Stories by Epic http://localhost:3000/getStoriesByEpic/GTMP-19
-function getStoriesByEpic(epicId) {
-    return function (dispatch) {
-        _axios2.default.get(API_SERVER + "/getStoriesByEpic/" + epicId).then(function (response) {
-            dispatch({ type: "GET_STORIES_EPIC_SUCCESS", id: epicId, json: response.data });
-        }).catch(function (err) {
-            dispatch({ type: "GET_STORIES_EPIC_ERROR", code: err.response.status, text: err.response.statusText });
-        });
-    };
-}
-
-function displayStories(epicId) {
-    return function (dispatch) {
-        dispatch({ type: "DISPLAY_STORIES", epicView: epicId });
-    };
-}
-
-function displayEpics(project) {
-    return function (dispatch) {
-        dispatch({ type: "DISPLAY_EPICS", projectId: project });
-    };
-}
-
-function displayIndex() {
-    return function (dispatch) {
-        dispatch({ type: "DISPLAY_INDEX" });
-    };
-}
-
-function configureCapacity() {
-    return function (dispatch) {
-        dispatch({ type: "CAPACITY_CONFIG" });
-    };
-}
-
-function loadCapacity(url, projectId) {
-    return function (dispatch) {
-        _axios2.default.get(API_SERVER + "/loadCapacity/" + url + "/" + projectId).then(function (response) {
-            dispatch({ type: "LOAD_CAPACITY", capacity: response.data });
-            _axios2.default.get(API_SERVER + "/setCustomFields/" + target_completion + "/" + scrum_team).then(function (response) {}).catch(function (err) {
-                dispatch({ type: "ERROR", error: err });
-            });
-        }).catch(function (err) {
-            dispatch({ type: "ERROR", error: err });
-        });
-    };
-}
-
+/**--------------------------------------------------------------------------------------------------------
+ * SETUP ACTIONS
+----------------------------------------------------------------------------------------------------------*/
+/**
+ * Requests server to set/update the current Jira instance credentials (Username and Password).
+ * @param {*} user Jira instance Username
+ * @param {*} pass Jira instance Password
+ */
 function setCredentials(user, pass) {
     return function (dispatch) {
         _axios2.default.get(API_SERVER + "/setCredentials/" + user + "/" + pass).then(function (response) {}).catch(function (err) {
@@ -821,6 +746,22 @@ function setCredentials(user, pass) {
     };
 }
 
+/**
+ * Requests server to set/update the current Jira instance URL, The current Project,
+ * and the current Scrum Team and Target Completion Date custom fields.
+ * Receives back the saved Team Capacities record saved in the DB.
+ * Triggers "LOAD_CAPACITY" action along with received Team Capacities record that notifies
+ * reducers to store the record OR Triggers action that notifies reducers of the error.
+ * Triggers "CHANGE_CUSTOMFIELDS" action along with current Scrum Team and Target Completion
+ * Date custom fields that notifies reducers to set/update that current custom field values.
+ * 
+ * This function really should not do so much. Need to shorten it later.
+ * 
+ * @param {*} url The current Jira instance URL.
+ * @param {*} projectId The current Project ID.
+ * @param {*} target_completion The current Scrum Team custom field.
+ * @param {*} scrum_team The current Target Completion Date custom field.
+ */
 function setURL(url, projectId, target_completion, scrum_team) {
     return function (dispatch) {
         _axios2.default.get(API_SERVER + "/setURL/" + url + "/" + projectId).then(function (response) {
@@ -835,18 +776,165 @@ function setURL(url, projectId, target_completion, scrum_team) {
     };
 }
 
+/**
+ * Triggers an action that notifies reducers to update the current Project.
+ * @param {string} projectId The ID of the current Project.
+ */
 function setProject(projectId) {
     return function (dispatch) {
         dispatch({ type: "SET_PROJECT", id: projectId });
     };
 }
 
+/**
+ * Triggers an action that notifies reducers to store a Capacity entry for a specific Team 
+ * during a specific Target Completion Date.
+ * @param {string} team The specific Team name.
+ * @param {string} target The Specific Target Completion Date.
+ * @param {string} capacity The Capacity entry.
+ */
 function setTeamCapacities(team, target, capacity) {
     return function (dispatch) {
         dispatch({ type: "ENTER_TEAM_CAPACITY", team: team, target: target, capacity: capacity });
     };
 }
 
+/**--------------------------------------------------------------------------------------------------------
+ * REQUEST ACTIONS
+----------------------------------------------------------------------------------------------------------*/
+
+/**
+ * Requests details of one specific Epic. 
+ * Triggers an action containing the response.
+ * @param {string} epicId The ID of the requested Epic.
+ */
+function getEpic(epicId) {
+    //Get Epics - http://localhost:3000/getEpic/GTMP-36
+    return function (dispatch) {
+        dispatch({ type: "GET_EPIC", id: epicId });
+        _axios2.default.get(API_SERVER + "/getEpic/" + epicId).then(function (response) {
+            dispatch({ type: "GET_EPIC_SUCCESS", id: epicId, json: response.data });
+        }).catch(function (err) {
+            dispatch({ type: "ERROR", error: err });
+        });
+    };
+}
+
+/**
+ * Requests the list of all Epics in one specific Project.
+ * Triggers an action containing the response.
+ * @param {string} projectId The ID of the specific Project.
+ */
+function getAllEpics(projectId) {
+    //Get All Epics - http://localhost:3000/getAllEpics/10102
+    return function (dispatch) {
+        dispatch({ type: "GET_ALL_EPICS" });
+        _axios2.default.get(API_SERVER + "/getAllEpics/" + projectId).then(function (response) {
+            dispatch({ type: "GET_ALL_EPICS_SUCCESS", json: response.data });
+        }).catch(function (err) {
+            dispatch({ type: "GET_ALL_EPICS_ERROR", code: err.response.status, text: err.response.statusText });
+        });
+    };
+}
+
+/**
+ * Requests one specific Story within one specified Epic.
+ * Triggers an action containing the response.
+ * @param {string} storyId The ID of the requested Story.
+ * @param {string} epic The ID of the specified Epic.
+ */
+function getStory(storyId, epic) {
+    //Get Individual Story - http://localhost:3000/getStory/GTMP-12
+    return function (dispatch) {
+        _axios2.default.get(API_SERVER + "/getStory/" + storyId).then(function (response) {
+            dispatch({ type: "GET_STORY_SUCCESS", id: storyId, json: response.data, epicId: epic });
+        }).catch(function (err) {
+            dispatch({ type: "ERROR", error: err });
+        });
+    };
+}
+
+/**
+ * Requests all the stories in one specific Epic.
+ * @param {string} epicId The ID of the specific Epic.
+ */
+function getStoriesByEpic(epicId) {
+    //Get Stories by Epic http://localhost:3000/getStoriesByEpic/GTMP-19
+    return function (dispatch) {
+        _axios2.default.get(API_SERVER + "/getStoriesByEpic/" + epicId).then(function (response) {
+            dispatch({ type: "GET_STORIES_EPIC_SUCCESS", id: epicId, json: response.data });
+        }).catch(function (err) {
+            dispatch({ type: "GET_STORIES_EPIC_ERROR", code: err.response.status, text: err.response.statusText });
+        });
+    };
+}
+
+/**--------------------------------------------------------------------------------------------------------
+ * VIEW CHANGE ACTIONS
+----------------------------------------------------------------------------------------------------------*/
+
+/**
+ * Triggers action that notifies reducers to display Stories of a specific Epic
+ * @param {string} epicId The ID of the specific Epic.
+ */
+function displayStories(epicId) {
+    return function (dispatch) {
+        dispatch({ type: "DISPLAY_STORIES", epicView: epicId });
+    };
+}
+
+/**
+ * Triggers action that notifies reducers to display all Epics of a specific Project
+ * @param {string} project The ID of the specific Project.
+ */
+function displayEpics(project) {
+    return function (dispatch) {
+        dispatch({ type: "DISPLAY_EPICS", projectId: project });
+    };
+}
+
+/**
+ * Triggers action that notifies reducers to display the Index.
+ */
+function displayIndex() {
+    return function (dispatch) {
+        dispatch({ type: "DISPLAY_INDEX" });
+    };
+}
+
+/**
+ * Triggers action that notifies reducers to display team capacities configuration page.
+ */
+function configureCapacity() {
+    return function (dispatch) {
+        dispatch({ type: "CAPACITY_CONFIG" });
+    };
+}
+
+/**--------------------------------------------------------------------------------------------------------
+ * DATABASE ACTIONS
+----------------------------------------------------------------------------------------------------------*/
+
+/**
+ * Loads team capacities associated to a specific Project from the database.
+ * Triggers action with the JSON object from the response or the error message.
+ * @param {string} url The Jira instance URL.
+ * @param {string} projectId The ID of the specific Project.
+ */
+function loadCapacity(url, projectId) {
+    return function (dispatch) {
+        _axios2.default.get(API_SERVER + "/loadCapacity/" + url + "/" + projectId).then(function (response) {
+            dispatch({ type: "LOAD_CAPACITY", capacity: response.data });
+        }).catch(function (err) {
+            dispatch({ type: "ERROR", error: err });
+        });
+    };
+}
+
+/**
+ * Saves the Team Capacities in the database.
+ * @param {Object} state The state containing the Team Capacity record.
+ */
 function logDatabase(state) {
     return function (dispatch) {
         dispatch({ type: "LOG_DATABASE" });
@@ -3431,28 +3519,41 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
+/**
+ * Epics Reducer
+ * Reducer responsible for maintaining the epics Sub-state.
+ */
+
+/**
+  * The epics sub-state
+*/
 var store = {
     projectId: "",
-    epicByTeam: {},
+    epicByTeam: {}, //Stores epics team by target completions. E.g. epicByTeam["Team A"]["Sprint 3 - Week 2"]
     TARGET_COMPLETION_FIELD: "",
     SCRUM_TEAM_FIELD: "",
-    targetByTeam: {},
-    target_completions: [],
-    epics: {},
-    allEpics: {},
+    targetByTeam: {}, // Stores target completions where a teams have deliverables
+    target_completions: [], // List of all the target completions
+    epics: {}, // Associated array containing epics and their details. E.g. epics["GTMP-1"] holds details of GTMP-1.
+    allEpics: {}, // JSON object received from "GET_ALL_EPICS_SUCCESS" action.
     fetching: false,
     fetched: true,
     error: null
-};
 
-function reducer() {
+    /**
+     * Reducer. Listens to Actions. Responds to specified Action by creating and returning a new State
+     * with modified information.
+     * @param {Object} state Current State
+     * @param {Object} action Last Triggered Action
+    */
+};function reducer() {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : store;
     var action = arguments[1];
 
     switch (action.type) {
-
         case "DISPLAY_INDEX":
             {
+                // When the the user goes back to the index clear all the epics
                 return {
                     projectId: "",
                     epicByTeam: {},
@@ -3551,18 +3652,31 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+/**
+ * Stories Reducer
+ * Reducer responsible for maintaining the stories Sub-state.
+ */
+
+/**
+  * The stories sub-state, that stores info on stories.
+*/
 var store = {
-    storiesByEpics: {},
-    allStories: {},
+    storiesByEpics: {}, // Contains story details by epics
+    allStories: {}, // Contains all stories and their details
     TARGET_COMPLETION_FIELD: "",
     SCRUM_TEAM_FIELD: "",
-    storiesByTarget: {},
+    storiesByTarget: {}, // Stores story IDs by Epic by Target Completion Date
     fetching: true,
     fetched: false,
     error: null
-};
 
-function reducer() {
+    /**
+     * Reducer. Listens to Actions. Responds to specified Action by creating and returning a new State
+     * with modified information.
+     * @param {Object} state Current State
+     * @param {Object} action Last Triggered Action
+    */
+};function reducer() {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : store;
     var action = arguments[1];
 
@@ -3636,12 +3750,25 @@ Object.defineProperty(exports, "__esModule", {
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 exports.default = reducer;
+/**
+ * Views Reducer
+ * Reducer responsible for maintaining the views Sub-state.
+ */
+
+/**
+  * The views sub-state, that serves as controller for views.
+*/
 var store = {
     view: "Index",
     epicView: ""
-};
 
-function reducer() {
+    /**
+     * Reducer. Listens to Actions. Responds to specified Action by creating and returning a new State
+     * with modified information.
+     * @param {Object} state Current State
+     * @param {Object} action Last Triggered Action
+    */
+};function reducer() {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : store;
     var action = arguments[1];
 
@@ -3724,6 +3851,17 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+/**
+ * Team component. Responsible for displaying the Target Completions Dates for one Team 
+ * and the Epics due in each of them.
+ */
+
+
+/**
+ * Connects to the Redux store and adds the epics substate (state attribute), 
+ * the info on teams (teams attribute), and target completion dates 
+ * (targetCompletion attribute) to the props of the component.
+ */
 var Team = (_dec = (0, _reactRedux.connect)(function (store) {
     return {
         teams: store.epics.epicByTeam,
@@ -3733,6 +3871,16 @@ var Team = (_dec = (0, _reactRedux.connect)(function (store) {
 }), _dec(_class = function (_React$Component) {
     _inherits(Team, _React$Component);
 
+    /**
+    * Component constructor that takes props, initiates and returns an instance of the
+    * Team component.
+    * @param {Object} props The props (parameters) used to initiate and return an instance 
+    * of the Team component.
+    * The props include: @param {string} teamName The name of the specific Team
+     *                    @param {Object} teams Object storing info on Teams, their Target Completion dates, and Epics
+     *                    @param {Object} targetCompletions List of all the Target Completion Dates of the Project
+    * 					  @param {Object} state The epics sub-state
+    */
     function Team(props) {
         _classCallCheck(this, Team);
 
@@ -23124,7 +23272,7 @@ var Layout = (_dec = (0, _reactRedux.connect)(function (store) {
                         _react2.default.createElement(
                             "div",
                             { onClick: function onClick() {
-                                    return _this2.displayCapacityConfig();
+                                    return _this2.displayCapacityConfig(_this2.props.epics.projectId);
                                 }, className: "login-button" },
                             "Configure Capacities!"
                         )
@@ -31258,7 +31406,9 @@ exports.default = (0, _redux.combineReducers)({
     connection: _connectionReducer2.default,
     capacity: _capacityReducer2.default,
     persist: _persistReducer2.default
-});
+}); /**
+     * Combination of all the reducers
+     */
 
 /***/ }),
 /* 128 */
@@ -31274,15 +31424,28 @@ Object.defineProperty(exports, "__esModule", {
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 exports.default = reducer;
+/**
+ * Capacity Reducer
+ * Reducer responsible for maintaining the connection Sub-state.
+ */
+
+/**
+  * The connection sub-state, that handles info on connection status.
+*/
 var store = {
     fetching: false,
     fetched: true,
     unauthorized: false,
     unavailable: false,
     bad_request: false
-};
 
-function reducer() {
+    /**
+     * Reducer. Listens to Actions. Responds to specified Action by creating and returning a new State
+     * with modified information.
+     * @param {Object} state Current State
+     * @param {Object} action Last Triggered Action
+     */
+};function reducer() {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : store;
     var action = arguments[1];
 
@@ -31358,9 +31521,17 @@ exports.default = reducer;
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
+/**
+ * Capacity Reducer
+ * Reducer responsible for maintaining the capacity Sub-state.
+ */
+
+/**
+  * The capacity sub-state
+*/
 var store = {
-    TARGET_COMPLETION_FIELD: "",
-    SCRUM_TEAM_FIELD: "",
+    TARGET_COMPLETION_FIELD: "", // The Target Completion Date custom field
+    SCRUM_TEAM_FIELD: "", // The Scrum Team custom field
     fetching: false,
     fetched: true,
     configured: false,
@@ -31368,35 +31539,44 @@ var store = {
     unavailable: false,
     bad_request: false,
     sprint_number: 1,
-    target_completions: [],
-    teams: [],
-    teams_capacities: {},
+    target_completions: [], // The list of all Target Completion Dates
+    teams: [], // The list of all the Scrum Team names
+    teams_capacities: {}, /* Stores capacities by Scrum Team by Target Completion Date. 
+                          E.g. teams_capacities["Team A"]["Sprint 1"] holds the capacity of Team A during Sprint 1.*/
     projectId: ""
-};
 
-function reducer() {
+    /**
+     * Reducer. Listens to Actions. Responds to specified Action by creating and returning a new State
+     * with modified information.
+     * @param {Object} state Current State
+     * @param {Object} action Last Triggered Action
+     */
+};function reducer() {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : store;
     var action = arguments[1];
 
     switch (action.type) {
-
         case "CHANGE_CUSTOMFIELDS":
             {
+                // Update custom fields when "CHANGE_CUSTOMFIELDS" action is triggered.
                 return _extends({}, state, { TARGET_COMPLETION_FIELD: action.target, SCRUM_TEAM_FIELD: action.team });
             }
 
         case "SET_PROJECT":
             {
+                // Update Project ID when "SET_PROJECT" action triggered.
                 return _extends({}, state, { projectId: action.id });
             }
 
         case "GET_ALL_EPICS_SUCCESS":
             {
+                // Indicate that Epics are being fetched
                 return _extends({}, state, { fetching: true, fetched: false });
             }
 
         case "GET_EPIC_SUCCESS":
             {
+                // Sort every received Epic by Team and Target Completion
                 if (state.fetching && state.projectId == action.json.issues[0].fields.project.key && !state.configured) {
                     //Check the epic belongs to the current project
                     if (true) {
@@ -31444,6 +31624,7 @@ function reducer() {
 
         case "ENTER_TEAM_CAPACITY":
             {
+                // Enter a Capacity Entry for team action.team during target completion date action.target
                 var teams_capacity = state.teams_capacities;
                 teams_capacity[action.team][action.target] = action.capacity;
                 return _extends({}, state, { teams_capacities: teams_capacity });
@@ -31451,16 +31632,19 @@ function reducer() {
 
         case "LOAD_CAPACITY":
             {
+                // Load the capacity stored in DB
                 return action.capacity;
             }
 
         case "LOG_DATABASE":
             {
+                // Save capacity
                 return _extends({}, state, { configured: true });
             }
 
         case "LOG_DATABASE_SUCCESS":
             {
+                // Indicate that the Capacity has been configured
                 return _extends({}, state, { configured: true });
             }
     }
@@ -31481,6 +31665,10 @@ Object.defineProperty(exports, "__esModule", {
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 exports.default = reducer;
+/**
+ * Persist Reducer. Maintains the state after refreshing.
+ */
+
 var store = {
     refreshed: 0
 };
@@ -32280,6 +32468,18 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+/**
+ * AllEpics component. Responsible for displaying all the Epics in a specific Project by
+ * the Teams they are assigned to and by the Target Completion Date they are supposed 
+ * to be completed by.
+ */
+
+
+/**
+ * Connects to the Redux store and adds the epics substate (state attribute), 
+ * the info on teams (teams attribute), and target completion dates 
+ * (targetCompletion attribute) to the props of the component.
+ */
 var AllEpics = (_dec = (0, _reactRedux.connect)(function (store) {
     return {
         data: store.epics.allEpics,
@@ -32290,6 +32490,16 @@ var AllEpics = (_dec = (0, _reactRedux.connect)(function (store) {
 }), _dec(_class = function (_React$Component) {
     _inherits(AllEpics, _React$Component);
 
+    /**
+     * Component constructor that takes props, initiates and returns the AllEpics instance
+     * which displays all the Epics for a specific Project.
+     * @param {Object} props
+    * The props include: @param {string} projectId The ID of the specific Project
+     *                    @param {Object} data JSON object containing all the Epics
+     *                    @param {Object} teams Object storing info on Teams, their Target Completion dates, and Epics
+     *                    @param {Object} state The epics sub-state
+    * 					  @param {Object} connection The connection sub-state
+     */
     function AllEpics(props) {
         _classCallCheck(this, AllEpics);
 
@@ -32298,6 +32508,16 @@ var AllEpics = (_dec = (0, _reactRedux.connect)(function (store) {
         _this.props.dispatch(actions.getAllEpics(_this.props.projectId));
         return _this;
     }
+
+    /**
+     * Helps avoid infinite loop. It prevents further updates as soon as all the epics 
+     * have been collected.
+     * this.props.data serves as the record of all the existing epics.
+     * this.props.state.epics is the record of all collected epic details that are received
+     * progressively. As soon as they match, this component should stop changing to prevent
+     * infinite loops.
+     */
+
 
     _createClass(AllEpics, [{
         key: "shouldComponentUpdate",
@@ -32406,6 +32626,17 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+/**
+ * Target component. Responsible for displaying the Epics for one Target Completion date for 
+ * one Team.
+ */
+
+
+/**
+ * Connects to the Redux store and adds the epics substate (state attribute), 
+ * the info on teams (teams attribute), target completion dates (targetCompletion attribute), 
+ * and target completion dates by teams (targetByTeam attribute) to the props of the component.
+ */
 var Target = (_dec = (0, _reactRedux.connect)(function (store) {
     return {
         teams: store.epics.epicByTeam,
@@ -32416,6 +32647,17 @@ var Target = (_dec = (0, _reactRedux.connect)(function (store) {
 }), _dec(_class = function (_React$Component) {
     _inherits(Target, _React$Component);
 
+    /**
+     * Component constructor that takes props, initiates and returns an instance of the
+     * Target component.
+     * @param {Object} props The props (parameters) used to initiate and return an instance 
+     * of the Target component.
+     * The props include: @param {string} teamName The name of the specific Team
+        *                    @param {string} targetComp The name of the Target Completion Date ("Sprint 1 - Week 2")
+        *                    @param {Object} teams Object storing info on Teams, their Target Completion dates, and Epics
+        *                    @param {list} targetCompletions List of all the Target Completion Dates of the Project
+     * 					  @param {Object} state The epics sub-state
+     */
     function Target(props) {
         _classCallCheck(this, Target);
 
@@ -32425,7 +32667,6 @@ var Target = (_dec = (0, _reactRedux.connect)(function (store) {
     _createClass(Target, [{
         key: "render",
         value: function render() {
-
             var teams = this.props.teams;
             var target_completion = this.props.targetComp;
             if (teams[this.props.teamName][target_completion]) {
@@ -32509,6 +32750,15 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+/**
+ * Epic component. Responsible for displaying the information a specific Epic.
+ */
+
+
+/**
+ * Connects to the Redux store and adds the epics substate to the props of
+ * the component, in the data attribute.
+ */
 var Epic = (_dec = (0, _reactRedux.connect)(function (store) {
 	return {
 		data: store.epics
@@ -32516,11 +32766,26 @@ var Epic = (_dec = (0, _reactRedux.connect)(function (store) {
 }), _dec(_class = function (_React$Component) {
 	_inherits(Epic, _React$Component);
 
+	/**
+  * Component constructor that takes props, initiates and returns an instance of the
+  * Epic component.
+  * @param {Object} props The props (parameters) used to initiate and return an instance 
+  * of the Epic component.
+  * The props include: @param {string} issueId The ID of the specific Epic 
+  * 					  @param {Object} data The epics sub-state
+  */
 	function Epic(props) {
 		_classCallCheck(this, Epic);
 
 		return _possibleConstructorReturn(this, (Epic.__proto__ || Object.getPrototypeOf(Epic)).call(this, props));
 	}
+
+	/**
+  * Fires the "DISPLAY_STORIES" action to display the stories of one specific Epic (see 
+  * action.js).
+  * @param {string} epicId The ID of the specific Epic
+  */
+
 
 	_createClass(Epic, [{
 		key: "displayStories",

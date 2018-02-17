@@ -2,6 +2,10 @@
  * Stories Reducer
  * Reducer responsible for maintaining the stories Sub-state.
  */
+
+/**
+  * The stories sub-state, that stores info on stories.
+*/ 
 var store = {
     storiesByEpics: {}, // Contains story details by epics
     allStories: {}, // Contains all stories and their details

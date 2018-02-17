@@ -54,7 +54,7 @@ export default class Layout extends React.Component {
                         <Footer />
                     </div>
                     <div className="login-button-container">
-                        <div onClick={()=>this.displayCapacityConfig()} className="login-button">
+                        <div onClick={()=>this.displayCapacityConfig(this.props.epics.projectId)} className="login-button">
                             Configure Capacities!
                         </div>
                     </div>

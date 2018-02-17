@@ -3,21 +3,38 @@ import { connect } from "react-redux";
 import * as actions from "../actions/actions.js";
 import store from "../store.js"
 
-
+/**
+ * Connects to the Redux store and adds the epics substate to the props of
+ * the component, in the data attribute.
+ */
 @connect((store)=>{
 		return {
 			data: store.epics,
 		};
 	}, 
 )
-
+/**
+ * Epic component. Responsible for displaying the information a specific Epic.
+ */
 export default class Epic extends React.Component {
 
-
+	/**
+	 * Component constructor that takes props, initiates and returns an instance of the
+	 * Epic component.
+	 * @param {Object} props The props (parameters) used to initiate and return an instance 
+	 * of the Epic component.
+	 * The props include: @param {string} issueId The ID of the specific Epic 
+	 * 					  @param {Object} data The epics sub-state
+	 */
     constructor(props){
 		super(props)
 	}
 
+	/**
+	 * Fires the "DISPLAY_STORIES" action to display the stories of one specific Epic (see 
+	 * action.js).
+	 * @param {string} epicId The ID of the specific Epic
+	 */
 	displayStories(epicId){
 		this.props.dispatch(actions.displayStories(epicId))
 	}
