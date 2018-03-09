@@ -32,7 +32,7 @@ export default class AllStoriesByEpic extends React.Component {
     render(){
         var stories
         if (this.props.data[this.props.epicId]){
-            if (stories = this.props.data[this.props.epicId].issues){
+            if (this.props.data[this.props.epicId].issues){
                 var stories = this.props.data[this.props.epicId].issues
                 for (var i = 0; i<stories.length; i++){
                     this.props.dispatch(actions.getStory(stories[i].key, this.props.epicId))

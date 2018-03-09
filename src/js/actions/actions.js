@@ -129,6 +129,7 @@ export function getAllEpics(projectId){
 export function getStory(storyId, epic){
     //Get Individual Story - http://localhost:3000/getStory/GTMP-12
     return function(dispatch){
+        dispatch({type: "GET_STORY", id: storyId})
         axios.get(API_SERVER+"/getStory/"+storyId)
         .then((response)=>{
             dispatch({type: "GET_STORY_SUCCESS", id: storyId, json: response.data, epicId: epic})
@@ -145,6 +146,7 @@ export function getStory(storyId, epic){
 export function getStoriesByEpic(epicId){
     //Get Stories by Epic http://localhost:3000/getStoriesByEpic/GTMP-19
     return function(dispatch){
+        dispatch({type: "GET_STORIES_EPIC", id: epicId})
         axios.get(API_SERVER+"/getStoriesByEpic/"+epicId)
         .then((response)=>{
             dispatch({type: "GET_STORIES_EPIC_SUCCESS", id: epicId, json: response.data})

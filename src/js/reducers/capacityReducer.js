@@ -15,7 +15,6 @@ var store = {
     unauthorized: false,
     unavailable: false,
     bad_request: false,
-    sprint_number: 1,
     target_completions: [], // The list of all Target Completion Dates
     teams: [], // The list of all the Scrum Team names
     teams_capacities : {}, /* Stores capacities by Scrum Team by Target Completion Date. 
@@ -71,7 +70,7 @@ export default function reducer(state=store, action){
                         var target_completions = state.target_completions 
                     }                
                     target_completions.sort()
-                    var teams_capacity = {}
+                    var teams_capacity = state.teams_capacities
                     
                     for (var i = 0; i<teams.length; i++){
                         if (!teams_capacity[teams[i]]){

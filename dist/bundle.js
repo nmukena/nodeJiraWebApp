@@ -655,8 +655,10 @@ var epicReducerFilter = (0, _reduxPersistTransformFilter.createFilter)('epics', 
 
 var storyReducerFilter = (0, _reduxPersistTransformFilter.createFilter)('stories', ['SCRUM_TEAM_FIELD', 'TARGET_COMPLETION_FIELD'], ['SCRUM_TEAM_FIELD', 'TARGET_COMPLETION_FIELD']);
 
+var priorityReducerFilter = (0, _reduxPersistTransformFilter.createFilter)('priority', ['SCRUM_TEAM_FIELD', 'TARGET_COMPLETION_FIELD'], ['SCRUM_TEAM_FIELD', 'TARGET_COMPLETION_FIELD']);
+
 (0, _reduxPersist.persistStore)(store, {
-    transforms: [epicReducerFilter, storyReducerFilter],
+    transforms: [epicReducerFilter, storyReducerFilter, priorityReducerFilter],
     blacklist: ['connection']
 });
 
@@ -846,6 +848,7 @@ function getAllEpics(projectId) {
 function getStory(storyId, epic) {
     //Get Individual Story - http://localhost:3000/getStory/GTMP-12
     return function (dispatch) {
+        dispatch({ type: "GET_STORY", id: storyId });
         _axios2.default.get(API_SERVER + "/getStory/" + storyId).then(function (response) {
             dispatch({ type: "GET_STORY_SUCCESS", id: storyId, json: response.data, epicId: epic });
         }).catch(function (err) {
@@ -861,6 +864,7 @@ function getStory(storyId, epic) {
 function getStoriesByEpic(epicId) {
     //Get Stories by Epic http://localhost:3000/getStoriesByEpic/GTMP-19
     return function (dispatch) {
+        dispatch({ type: "GET_STORIES_EPIC", id: epicId });
         _axios2.default.get(API_SERVER + "/getStoriesByEpic/" + epicId).then(function (response) {
             dispatch({ type: "GET_STORIES_EPIC_SUCCESS", id: epicId, json: response.data });
         }).catch(function (err) {
@@ -1606,7 +1610,7 @@ module.exports = defaults;
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(131);
+var content = __webpack_require__(132);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -1614,7 +1618,7 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(133)(content, options);
+var update = __webpack_require__(134)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -3833,7 +3837,7 @@ var _actions = __webpack_require__(6);
 
 var actions = _interopRequireWildcard(_actions);
 
-var _Target = __webpack_require__(138);
+var _Target = __webpack_require__(139);
 
 var _Target2 = _interopRequireDefault(_Target);
 
@@ -23173,31 +23177,31 @@ var _store2 = _interopRequireDefault(_store);
 
 __webpack_require__(20);
 
-var _Header = __webpack_require__(135);
+var _Header = __webpack_require__(136);
 
 var _Header2 = _interopRequireDefault(_Header);
 
-var _SprintHeader = __webpack_require__(136);
+var _SprintHeader = __webpack_require__(137);
 
 var _SprintHeader2 = _interopRequireDefault(_SprintHeader);
 
-var _AllEpics = __webpack_require__(137);
+var _AllEpics = __webpack_require__(138);
 
 var _AllEpics2 = _interopRequireDefault(_AllEpics);
 
-var _AllStoriesByEpic = __webpack_require__(140);
+var _AllStoriesByEpic = __webpack_require__(141);
 
 var _AllStoriesByEpic2 = _interopRequireDefault(_AllStoriesByEpic);
 
-var _Footer = __webpack_require__(143);
+var _Footer = __webpack_require__(144);
 
 var _Footer2 = _interopRequireDefault(_Footer);
 
-var _Index = __webpack_require__(144);
+var _Index = __webpack_require__(145);
 
 var _Index2 = _interopRequireDefault(_Index);
 
-var _CapacityConfig = __webpack_require__(149);
+var _CapacityConfig = __webpack_require__(150);
 
 var _CapacityConfig2 = _interopRequireDefault(_CapacityConfig);
 
@@ -31397,7 +31401,15 @@ var _persistReducer = __webpack_require__(130);
 
 var _persistReducer2 = _interopRequireDefault(_persistReducer);
 
+var _priorityReducer = __webpack_require__(131);
+
+var _priorityReducer2 = _interopRequireDefault(_priorityReducer);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * Combination of all the reducers
+ */
 
 exports.default = (0, _redux.combineReducers)({
     epics: _epicsReducer2.default,
@@ -31405,10 +31417,9 @@ exports.default = (0, _redux.combineReducers)({
     views: _viewsReducer2.default,
     connection: _connectionReducer2.default,
     capacity: _capacityReducer2.default,
+    priority: _priorityReducer2.default,
     persist: _persistReducer2.default
-}); /**
-     * Combination of all the reducers
-     */
+});
 
 /***/ }),
 /* 128 */
@@ -31538,7 +31549,6 @@ var store = {
     unauthorized: false,
     unavailable: false,
     bad_request: false,
-    sprint_number: 1,
     target_completions: [], // The list of all Target Completion Dates
     teams: [], // The list of all the Scrum Team names
     teams_capacities: {}, /* Stores capacities by Scrum Team by Target Completion Date. 
@@ -31600,7 +31610,7 @@ var store = {
                             var target_completions = state.target_completions;
                         }
                         target_completions.sort();
-                        var teams_capacity = {};
+                        var teams_capacity = state.teams_capacities;
 
                         for (var i = 0; i < teams.length; i++) {
                             if (!teams_capacity[teams[i]]) {
@@ -31692,7 +31702,175 @@ function reducer() {
 /* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(132)(undefined);
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+exports.default = reducer;
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+/**
+ * Priority Reducer
+ * Reducer responsible for maintaining the capacity Sub-state.
+ */
+
+/**
+  * The priority sub-state
+*/
+var store = {
+    TARGET_COMPLETION_FIELD: "", // The Target Completion Date custom field
+    SCRUM_TEAM_FIELD: "", // The Scrum Team custom field
+    fetching: false,
+    configured: false,
+    in_transit: [],
+    arrived: [],
+    priorities: {}, // The main priority structure
+    projectId: ""
+
+    /**
+     * Reducer. Listens to Actions. Responds to specified Action by creating and returning a new State
+     * with modified information.
+     * @param {Object} state Current State
+     * @param {Object} action Last Triggered Action
+     */
+};function reducer() {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : store;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case "CHANGE_CUSTOMFIELDS":
+            {
+                // Update custom fields when "CHANGE_CUSTOMFIELDS" action is triggered.
+                return _extends({}, state, { TARGET_COMPLETION_FIELD: action.target, SCRUM_TEAM_FIELD: action.team });
+            }
+
+        case "SET_PROJECT":
+            {
+                // Update Project ID when "SET_PROJECT" action triggered.
+                return _extends({}, state, { projectId: action.id });
+            }
+
+        case "GET_ALL_EPICS":
+            {
+                // Indicate that Epics are being fetched
+                return _extends({}, state, { fetching: true });
+            }
+
+        case "GET_ALL_EPICS_SUCCESS":
+            {
+                // Indicate that Epics have been fetched
+                return _extends({}, state, { fetching: false });
+            }
+
+        case "GET_EPIC":
+            {
+                // Indicate that Epics are being fetched
+                return _extends({}, state, { in_transit: [].concat(_toConsumableArray(state.in_transit), [action.id]) });
+            }
+
+        case "GET_EPIC_SUCCESS":
+            {
+                // Sort every received Epic by Team and Target Completion
+                if (state.fetching && state.projectId == action.json.issues[0].fields.project.key) {
+                    //Check the epic belongs to the current project
+                    if (!state.priorities[action.id]) {
+                        var epicPriority = { totalPoints: 0, priority: 0, list: [] };
+                    } else {
+                        var epicPriority = state.priorities[action.id];
+                    }
+                    //Add arrived and clear transit.
+                    return _extends({}, state, { priorities: _extends({}, state.priorities, _defineProperty({}, action.id, epicPriority)) });
+                }
+                return state;
+            }
+
+        case "GET_STORIES_EPIC":
+            {
+                // Indicate that Stories are being fetched
+                return _extends({}, state, { fetching: true });
+            }
+
+        case "GET_STORIES_EPIC_SUCCESS":
+            {
+                return _extends({}, state, { fetching: false });
+            }
+
+        case "GET_STORY":
+            {
+                if (state.in_transit.includes(action.id) || state.arrived.includes(action.id)) {
+                    return state;
+                }
+                return _extends({}, state, { in_transit: [].concat(_toConsumableArray(state.in_transit), [action.id]) });
+            }
+
+        case "GET_STORY_SUCCESS":
+            {
+                // Sort every received Epic by Team and Target Completion
+                if (state.arrived.includes(action.id)) {
+                    return state;
+                } else if (state.projectId == action.json.issues[0].fields.project.key && state.in_transit.includes(action.id)) {
+                    //Check the epic belongs to the current project
+                    if (!state.priorities[action.epicId]) {
+                        var epicPriority = { totalPoints: 0, priority: 0, list: [] };
+                    } else {
+                        var epicPriority = state.priorities[action.epicId];
+                    }
+                    if (!epicPriority.list.includes(action.id)) {
+                        var team = "Default Team";
+                        if (action.json.issues[0].fields[state.SCRUM_TEAM_FIELD]) {
+                            var team = action.json.issues[0].fields[state.SCRUM_TEAM_FIELD].value;
+                        }
+                        if (!epicPriority[team]) {
+                            epicPriority[team] = 0;
+                        }
+                        epicPriority[team] += action.json.issues[0].fields.customfield_10200;
+                        epicPriority.totalPoints += action.json.issues[0].fields.customfield_10200;
+                        epicPriority.list.push(action.id);
+                        return _extends({}, state, { priorities: _extends({}, state.priorities, _defineProperty({}, action.epicId, epicPriority)) });
+                    }
+                }
+                return state;
+            }
+
+        case "ENTER_EPIC_PRIORITY":
+            {
+                return state;
+            }
+
+        case "LOAD_PRIORITIES":
+            {
+                // Load the capacity stored in DB
+                return state;
+            }
+
+        case "LOG_DATABASE":
+            {
+                // Save capacity
+                return _extends({}, state, { configured: true });
+            }
+
+        case "LOG_DATABASE_SUCCESS":
+            {
+                // Indicate that the Capacity has been configured
+                return _extends({}, state, { configured: true });
+            }
+    }
+    return state;
+}
+
+/***/ }),
+/* 132 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(133)(undefined);
 // imports
 
 
@@ -31703,7 +31881,7 @@ exports.push([module.i, "article,aside,details,figcaption,figure,footer,header,h
 
 
 /***/ }),
-/* 132 */
+/* 133 */
 /***/ (function(module, exports) {
 
 /*
@@ -31785,7 +31963,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 133 */
+/* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -31831,7 +32009,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(134);
+var	fixUrls = __webpack_require__(135);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -32144,7 +32322,7 @@ function updateLink (link, options, obj) {
 
 
 /***/ }),
-/* 134 */
+/* 135 */
 /***/ (function(module, exports) {
 
 
@@ -32239,7 +32417,7 @@ module.exports = function (css) {
 
 
 /***/ }),
-/* 135 */
+/* 136 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32335,7 +32513,7 @@ var Header = (_dec = (0, _reactRedux.connect)(function (store) {
 exports.default = Header;
 
 /***/ }),
-/* 136 */
+/* 137 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32425,7 +32603,7 @@ var SprintHeader = (_dec = (0, _reactRedux.connect)(function (store) {
 exports.default = SprintHeader;
 
 /***/ }),
-/* 137 */
+/* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32583,7 +32761,7 @@ var AllEpics = (_dec = (0, _reactRedux.connect)(function (store) {
 exports.default = AllEpics;
 
 /***/ }),
-/* 138 */
+/* 139 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32608,7 +32786,7 @@ var _actions = __webpack_require__(6);
 
 var actions = _interopRequireWildcard(_actions);
 
-var _Epic = __webpack_require__(139);
+var _Epic = __webpack_require__(140);
 
 var _Epic2 = _interopRequireDefault(_Epic);
 
@@ -32711,7 +32889,7 @@ var Target = (_dec = (0, _reactRedux.connect)(function (store) {
 exports.default = Target;
 
 /***/ }),
-/* 139 */
+/* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32884,7 +33062,7 @@ var Epic = (_dec = (0, _reactRedux.connect)(function (store) {
 exports.default = Epic;
 
 /***/ }),
-/* 140 */
+/* 141 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32909,7 +33087,7 @@ var _actions = __webpack_require__(6);
 
 var actions = _interopRequireWildcard(_actions);
 
-var _Sprint = __webpack_require__(141);
+var _Sprint = __webpack_require__(142);
 
 var _Sprint2 = _interopRequireDefault(_Sprint);
 
@@ -32961,7 +33139,7 @@ var AllStoriesByEpic = (_dec = (0, _reactRedux.connect)(function (store) {
 
             var stories;
             if (this.props.data[this.props.epicId]) {
-                if (stories = this.props.data[this.props.epicId].issues) {
+                if (this.props.data[this.props.epicId].issues) {
                     var stories = this.props.data[this.props.epicId].issues;
                     for (var i = 0; i < stories.length; i++) {
                         this.props.dispatch(actions.getStory(stories[i].key, this.props.epicId));
@@ -33028,7 +33206,7 @@ var AllStoriesByEpic = (_dec = (0, _reactRedux.connect)(function (store) {
 exports.default = AllStoriesByEpic;
 
 /***/ }),
-/* 141 */
+/* 142 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33053,7 +33231,7 @@ var _actions = __webpack_require__(6);
 
 var actions = _interopRequireWildcard(_actions);
 
-var _Story = __webpack_require__(142);
+var _Story = __webpack_require__(143);
 
 var _Story2 = _interopRequireDefault(_Story);
 
@@ -33140,7 +33318,7 @@ var Sprint = (_dec = (0, _reactRedux.connect)(function (store) {
 exports.default = Sprint;
 
 /***/ }),
-/* 142 */
+/* 143 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33278,7 +33456,7 @@ var Story = (_dec = (0, _reactRedux.connect)(function (store) {
 exports.default = Story;
 
 /***/ }),
-/* 143 */
+/* 144 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33305,7 +33483,7 @@ function Footer() {
 exports.default = Footer;
 
 /***/ }),
-/* 144 */
+/* 145 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33467,10 +33645,10 @@ var Login = (_dec = (0, _reactRedux.connect)(function (store) {
   return Login;
 }(_react2.default.Component)) || _class);
 exports.default = Login;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(145).Buffer))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(146).Buffer))
 
 /***/ }),
-/* 145 */
+/* 146 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33484,9 +33662,9 @@ exports.default = Login;
 
 
 
-var base64 = __webpack_require__(146)
-var ieee754 = __webpack_require__(147)
-var isArray = __webpack_require__(148)
+var base64 = __webpack_require__(147)
+var ieee754 = __webpack_require__(148)
+var isArray = __webpack_require__(149)
 
 exports.Buffer = Buffer
 exports.SlowBuffer = SlowBuffer
@@ -35267,7 +35445,7 @@ function isnan (val) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
-/* 146 */
+/* 147 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35388,7 +35566,7 @@ function fromByteArray (uint8) {
 
 
 /***/ }),
-/* 147 */
+/* 148 */
 /***/ (function(module, exports) {
 
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
@@ -35478,7 +35656,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 
 
 /***/ }),
-/* 148 */
+/* 149 */
 /***/ (function(module, exports) {
 
 var toString = {}.toString;
@@ -35489,7 +35667,7 @@ module.exports = Array.isArray || function (arr) {
 
 
 /***/ }),
-/* 149 */
+/* 150 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

@@ -36,10 +36,17 @@ const storyReducerFilter = createFilter(
     ['SCRUM_TEAM_FIELD','TARGET_COMPLETION_FIELD']
 );
 
+const priorityReducerFilter = createFilter(
+    'priority',
+    ['SCRUM_TEAM_FIELD','TARGET_COMPLETION_FIELD'],
+    ['SCRUM_TEAM_FIELD','TARGET_COMPLETION_FIELD']
+);
+
 persistStore(store,{
     transforms: [
         epicReducerFilter,
         storyReducerFilter,
+        priorityReducerFilter,
     ], 
     blacklist: [
         'connection'
