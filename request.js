@@ -1,6 +1,6 @@
 /**------------------------------------------------------------------------------------------
 This file is the main backend server.
-    Express: 
+    Express:
         1) Receives and processes front-end requests
         2) Responds with messages, json objects or error status
     Request:
@@ -13,7 +13,7 @@ This file is the main backend server.
     BodyParser:
         1) Displays data that has been POSTed in req.body
 ------------------------------------------------------------------------------------------*/
-var express = require("express"); 
+var express = require("express");
 var app = express();
 request = require('request');
 var path = require('path');
@@ -46,10 +46,10 @@ DB = mongoose.connect('mongodb://localhost/test', function(err, db) {
  ------------------------------------------------------------------------------------------*/
 var URL = ""
 var PROJECT = ""
-var options = {rejectUnauthorized: false, 
-    uri: "", 
+var options = {rejectUnauthorized: false,
+    uri: "",
     method: 'GET',
-    auth: {'user': '', 
+    auth: {'user': '',
     'pass': ''}
 };
 var TARGET_COMPLETION_FIELD = "customfield_10501"
@@ -265,7 +265,7 @@ app.post("/logDatabase/",function(req, res){
  * Some unused Jira requests that can serve in the future...
  ------------------------------------------------------------------------------------------*/
 app.get("/getAllIssues/:projectId", function(req, res)  {
-    options.uri = URL+"/rest/api/2/search?jql=project="+req.params.projectId; 
+    options.uri = URL+"/rest/api/2/search?jql=project="+req.params.projectId;
     request(options, function(error, response, body) {
         if (error) {
             res.send(error)
@@ -283,7 +283,7 @@ app.get("/getAllIssues/:projectId", function(req, res)  {
 });
 
 app.get("/getRapidviews/", function(req, res)  {
-    options.uri = URL+"/rest/greenhopper/latest/rapidviews/list"; 
+    options.uri = URL+"/rest/greenhopper/latest/rapidviews/list";
     request(options, function(error, response, body) {
         if (error) {
             res.send(error)
@@ -300,7 +300,7 @@ app.get("/getRapidviews/", function(req, res)  {
 
 app.get("/getSprints/:rapidViewId", function(req, res)  {
     options.uri = URL+"/rest/greenhopper/latest/sprintquery/"+req.params.rapidViewId
-    +"?includeHistoricSprints=true&includeFutureSprints=true"; 
+    +"?includeHistoricSprints=true&includeFutureSprints=true";
     request(options, function(error, response, body) {
         if (error) {
             res.send(error)
@@ -335,6 +335,6 @@ app.get("/getIssuesBySprint/:rapidViewId/:sprintId", function(req, res)  {
 /**------------------------------------------------------------------------------------------
  * Server Endpoint
  ------------------------------------------------------------------------------------------*/
-app.listen(3000, function() {  
-    console.log("Request Server is running on port 3000");
+app.listen(5000, function() {
+    console.log("Request Server is running on port 5000");
 });
