@@ -27,7 +27,7 @@ class Layout extends React.Component {
     }
 
     displayCapacityConfig(url, projectId){
-        this.props.loadCapacity(url, projectId)
+        this.props.loadCapacity()
         this.props.configureCapacity()
     }
 

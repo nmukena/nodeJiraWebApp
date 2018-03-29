@@ -47,10 +47,8 @@ export default function reducer(state=store, action){
 
         case "GET_EPIC_SUCCESS": {
             // Sort every received Epic by Team and Target Completion
-
-            if (state.fetching&&state.projectId===action.payload.data.issues[0].fields.project.key&&!state.configured){
+            if (state.fetching&&state.projectId===action.payload.data.issues[0].fields.project.key){
                 //Check the epic belongs to the current project
-                console.log('got here in reducers');
                 if(true){
                     var team = "Default Team"
                     if(action.payload.data.issues[0].fields[state.SCRUM_TEAM_FIELD]){
@@ -108,15 +106,17 @@ export default function reducer(state=store, action){
 
         case "LOG_DATABASE": {
             // Save capacity
-            console.log('logdb1')
             return {...state, configured: true}
 
         }
 
         case "LOG_DATABASE_SUCCESS": {
             // Indicate that the Capacity has been configured
-            console.log('logdb2')
             return {...state, configured: true}
+        }
+
+        default: {
+          return state;
         }
     }
     return state;

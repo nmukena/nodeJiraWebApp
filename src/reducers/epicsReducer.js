@@ -62,9 +62,7 @@ export default function reducer(state=store, action){
         }
 
         case "GET_EPIC_SUCCESS":{
-
             if (state.fetching&&state.projectId==action.payload.data.issues[0].fields.project.key){ //Check the epic belongs to the current project
-
                 if(!state.epics[action.meta]){
                     var team = "No Team Assigned"
                     if(action.payload.data.issues[0].fields[state.SCRUM_TEAM_FIELD]){

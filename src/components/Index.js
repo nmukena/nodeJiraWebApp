@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import {bindActionCreators} from 'redux';
 import axios from 'axios';
-import {setURL, changeCustomFields, setProject, configureCapacity, displayEpics, getAllEpics, getAllEpicsSuccess, getEpic, getEpicSuccess, getStoriesByEpic, getStoriesByEpicSuccess, getStory, getStorySuccess} from "../actions/actions.js";
+import {setURL, changeCustomFields, setProject, configureCapacity, loadCapacity, displayEpics, getAllEpics, getAllEpicsSuccess, getEpic, getEpicSuccess, getStoriesByEpic, getStoriesByEpicSuccess, getStory, getStorySuccess} from "../actions/actions.js";
 import '../style/App.css';
 import api_server from '../API_SERVER';
 
@@ -64,43 +64,49 @@ class Login extends React.Component {
     var pass = new Buffer(this.refs.password.value.trim()).toString('hex')
     var project = new Buffer(this.refs.project.value.trim()).toString('hex')
 
-    this.props.setURL(url, project)
-    this.props.changeCustomFields(this.refs.target_completion.value.trim(), this.refs.scrum_team.value.trim())
+      //this.props.setURL(url, project)
+    axios.get(API_SERVER+"/setURL/"+url+"/"+project).then((res)=>{
+      if(res.data.teams.length !== 0){
+        this.props.loadCapacity();
+      }
+      this.props.changeCustomFields(this.refs.target_completion.value.trim(), this.refs.scrum_team.value.trim())
 
-    axios.get(API_SERVER+"/setCredentials/"+user+"/"+pass).then(()=>{
-      this.props.setProject(this.refs.project.value.trim())
-      // Get All Epics, Get EPics, Get Stories by Epics, and Get All Stories during login
-      axios.get(API_SERVER+"/getAllEpics/"+(this.refs.project.value.trim())).then((res)=>{
+      axios.get(API_SERVER+"/setCredentials/"+user+"/"+pass).then(()=>{
+        this.props.setProject(this.refs.project.value.trim())
+        // Get All Epics, Get EPics, Get Stories by Epics, and Get All Stories during login
+        axios.get(API_SERVER+"/getAllEpics/"+(this.refs.project.value.trim())).then((res)=>{
 
-        this.props.getAllEpicsSuccess(res.data)
-        let epics = res.data.issues
-        for (var i = 0; i<epics.length; i++){
-             this.props.getEpic(epics[i].key)
-             this.props.getEpicSuccess(epics[i].key)
+          this.props.getAllEpicsSuccess(res.data)
+          let epics = res.data.issues
+          for (var i = 0; i<epics.length; i++){
+               this.props.getEpic(epics[i].key)
+               this.props.getEpicSuccess(epics[i].key)
 
-             this.props.getStoriesByEpic(epics[i].key)
-             axios.get(API_SERVER+"/getStoriesByEpic/"+epics[i].key).then((response)=>{
-               if(response.data.issues.length!=0){
-                 console.log(response.data.issues)
-                 this.props.getStoriesByEpicSuccess(response.data.issues[0].fields.customfield_10006, response.data)
+               this.props.getStoriesByEpic(epics[i].key)
+               axios.get(API_SERVER+"/getStoriesByEpic/"+epics[i].key).then((response)=>{
+                 if(response.data.issues.length!=0){
 
-                 for (var i = 0; i<response.data.issues.length; i++){
-                     this.props.getStory(response.data.issues[i].key)
-                     this.props.getStorySuccess(response.data.issues[i].key, response.data.issues[0].fields.customfield_10006)
+                   this.props.getStoriesByEpicSuccess(response.data.issues[0].fields.customfield_10006, response.data)
+
+                   for (var i = 0; i<response.data.issues.length; i++){
+                       this.props.getStory(response.data.issues[i].key)
+                       this.props.getStorySuccess(response.data.issues[i].key, response.data.issues[0].fields.customfield_10006)
+                   }
                  }
-               }
 
-             })
-        }
+               })
+          }
 
+          if (!this.props.data.capacity.configured ){// && this.props.data.capacity.teams.length!==0
 
-        if (!this.props.data.capacity.configured){
-          this.props.configureCapacity()
-        } else {
-          this.props.displayEpics(this.refs.project.value.trim())
-        }
+            this.props.configureCapacity()
+          } else {
+            this.props.displayEpics(this.refs.project.value.trim())
+          }
+        })
       })
     })
+
   }
 
 }
@@ -112,7 +118,7 @@ function mapStateToProps(state){
 }
 
 function mapDispatchToProps(dispatch){
-  return bindActionCreators({setURL, changeCustomFields, setProject, configureCapacity, displayEpics, getAllEpics, getAllEpicsSuccess, getEpic, getEpicSuccess, getStoriesByEpic, getStoriesByEpicSuccess, getStory, getStorySuccess}, dispatch);
+  return bindActionCreators({setURL, changeCustomFields, setProject, configureCapacity, loadCapacity, displayEpics, getAllEpics, getAllEpicsSuccess, getEpic, getEpicSuccess, getStoriesByEpic, getStoriesByEpicSuccess, getStory, getStorySuccess}, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

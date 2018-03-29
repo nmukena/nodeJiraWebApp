@@ -267,7 +267,7 @@ export function configureCapacity(){
  * @param {string} projectId The ID of the specific Project.
  */
 export function loadCapacity(url, projectId){
-  const api_url = API_SERVER+"/loadCapacity/"+url+"/"+projectId;
+  const api_url = API_SERVER+"/loadCapacity";
   const request = axios.get(api_url);
 
   return{

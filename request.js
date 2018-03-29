@@ -80,6 +80,7 @@ app.get("/setURL/:url/:projectId",function(req, res){
      */
     URL = new Buffer(req.params.url, 'hex').toString();
     PROJECT = new Buffer(req.params.projectId, 'hex').toString();
+    console.log('URL is:', URL)
     Account.findOne({url: URL, project: PROJECT}, function(error, exist) {
         if(exist && !error){
             console.log("Capacity is configured and loaded!");
@@ -87,8 +88,8 @@ app.get("/setURL/:url/:projectId",function(req, res){
         } else {
             console.log("Capacity is not configured yet...");
             Account.update({url: URL, project: PROJECT}, {$set: { state: {
-                TARGET_COMPLETION_FIELD: "",
-                SCRUM_TEAM_FIELD: "",
+                TARGET_COMPLETION_FIELD: "customfield_10501",
+                SCRUM_TEAM_FIELD: "customfield_10500",
                 fetching: false,
                 fetched: true,
                 configured: false,
@@ -116,7 +117,7 @@ app.get("/setURL/:url/:projectId",function(req, res){
     console.log("URL and Project Id set!")
 })
 
-app.get("/loadCapacity/:url/:projectId",function(req, res){
+app.get("/loadCapacity",function(req, res){
     /**
      * Fetches the team capacities for the current project from DB.
      */

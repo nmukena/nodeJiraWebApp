@@ -33,7 +33,6 @@ class AllStoriesByEpic extends React.Component {
     // }
 
     render(){
-      console.log('hi')
         var stories
         if (this.props.data[this.props.epicId]){
             if (this.props.data[this.props.epicId].issues){

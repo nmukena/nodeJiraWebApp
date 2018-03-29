@@ -13,25 +13,6 @@ class CapacityConfig extends React.Component {
         super(props)
     }
 
-    // componentWillMount(){
-    //   this.props.getAllEpics(this.props.epicstate.projectId)
-    //   axios.get(API_SERVER+"/getAllEpics/"+this.props.epicstate.projectId).then((response)=>{
-    //         this.props.getAllEpicsSuccess(response.data)
-    //   }).catch((err)=>{
-    //       this.props.getAllEpicsError(err.response, err.response)
-    //   })
-    //
-    //
-    // }
-    //
-    // shouldComponentUpdate(){
-    //     if (this.props.data.issues&&this.props.epicstate.epics){
-    //         if (this.props.data.issues.length==Object.keys(this.props.epicstate.epics).length){
-    //             return false
-    //         }
-    //     }
-    //     return true
-    // }
 
     displayEpics(project){
         this.props.displayEpics(project)
@@ -46,19 +27,13 @@ class CapacityConfig extends React.Component {
     }
 
     logDatabase(state){
+      console.log(state)
         this.props.logDatabase(state)
         this.props.logDatabaseSuccess(state)
     }
 
     render(){
-      console.log('rerender');
         if (this.props.data.issues){
-            // var epics = this.props.data.issues
-            // for (var i = 0; i<epics.length; i++){
-            //      this.props.getEpic(epics[0].key)
-            //      this.props.getEpicSuccess(epics[0].key)
-            // }
-
             var teamNames = Object.keys(this.props.teams).sort()
             var teams = this.props.capacity.teams
             var target_completions = this.props.capacity.target_completions
@@ -97,6 +72,7 @@ class CapacityConfig extends React.Component {
                         </div>
                     </div>
                     <div className="login-button-container">
+
                         <div onClick={()=>this.logDatabase(this.props.capacity)} className="login-button">
                             Submit Capacities!
                         </div>
