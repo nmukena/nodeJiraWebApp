@@ -11,6 +11,7 @@ import AllStoriesByEpic from "./AllStoriesByEpic";
 import Footer from "./Footer";
 import Index from "./Index";
 import CapacityConfig from "./CapacityConfig";
+import PriorityConfig from "./PriorityConfig";
 
 class Layout extends React.Component {
 
@@ -109,7 +110,22 @@ class Layout extends React.Component {
                 </div>
             )
         }else if(this.props.data.view=="Priority_Config"){
-
+            return(
+                <div>
+                    <div>
+                    <div class="projer projer-head">
+                        ProJER by Deloitte
+                    </div>
+                    <div class="projer projer-welcome">
+                        Welcome to ProJER, a Project Management and Planning Tool designed for Jira.
+                    </div>
+                    </div>
+                    <div class="projer projer-detail">
+                        <p>Enter your Epics Priority:</p>
+                        <PriorityConfig />
+                    </div>
+                </div>
+            )
         }
     };
 }

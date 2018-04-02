@@ -2,13 +2,13 @@ var mongoose = require('mongoose'),
 Schema = mongoose.Schema,
 passportLocalMongoose = require('passport-local-mongoose');
 
-var Account = new Schema({
+var Priority = new Schema({
 username: String,
 url: String,
 project: String,
 state: Object
-});
+}, { collection: 'priority' });
 
-Account.plugin(passportLocalMongoose);
+Priority.plugin(passportLocalMongoose);
 
-module.exports = mongoose.model('Account', Account);
+module.exports = mongoose.model('Priority', Priority);

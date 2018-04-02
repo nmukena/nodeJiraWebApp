@@ -18,7 +18,8 @@ var app = express();
 request = require('request');
 var path = require('path');
 var mongoose = require('mongoose');
-var Account = require('./models/account');
+var Capacity = require('./models/capacity');
+var Priority = require('./models/priority');
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 require('ssl-root-cas').inject()
@@ -52,9 +53,9 @@ var options = {rejectUnauthorized: false,
     auth: {'user': '',
     'pass': ''}
 };
-var TARGET_COMPLETION_FIELD = "customfield_10501"
-var SCRUM_TEAM_FIELD = "customfield_10500"
-var STORY_POINT_FIELD = "customfield_10200"
+var TARGET_COMPLETION_FIELD = ""
+var SCRUM_TEAM_FIELD = ""
+var STORY_POINT_FIELD = ""
 
 /**------------------------------------------------------------------------------------------
  * Routing
@@ -81,15 +82,24 @@ app.get("/setURL/:url/:projectId",function(req, res){
     URL = new Buffer(req.params.url, 'hex').toString();
     PROJECT = new Buffer(req.params.projectId, 'hex').toString();
     console.log('URL is:', URL)
-    Account.findOne({url: URL, project: PROJECT}, function(error, exist) {
+    // Check if capacity is configured
+    console.log("URL and Project Id set!")
+    res.send('Done!')
+})
+
+app.get("/loadCapacity",function(req, res){
+    /**
+     * Fetches the team capacities for the current project from DB.
+     */
+    Capacity.findOne({url: URL, project: PROJECT}, function(error, exist) {
         if(exist && !error){
             console.log("Capacity is configured and loaded!");
             res.json(exist.state)
         } else {
             console.log("Capacity is not configured yet...");
-            Account.update({url: URL, project: PROJECT}, {$set: { state: {
-                TARGET_COMPLETION_FIELD: "customfield_10501",
-                SCRUM_TEAM_FIELD: "customfield_10500",
+            Capacity.update({url: URL, project: PROJECT}, {$set: { state: {
+                TARGET_COMPLETION_FIELD: "",
+                SCRUM_TEAM_FIELD: "",
                 fetching: false,
                 fetched: true,
                 configured: false,
@@ -104,7 +114,7 @@ app.get("/setURL/:url/:projectId",function(req, res){
             }}}, {upsert: true}, function (err) {
                 if (!err){
                     console.log("Capacity is ready to be configured.")
-                    Account.findOne({url: URL, project: PROJECT}, function(err, doc){
+                    Capacity.findOne({url: URL, project: PROJECT}, function(err, doc){
                         res.json(doc.state)
                     })
                 } else {
@@ -114,23 +124,40 @@ app.get("/setURL/:url/:projectId",function(req, res){
             });
         }
     });
-    console.log("URL and Project Id set!")
 })
 
-app.get("/loadCapacity",function(req, res){
+app.get("/loadPriority",function(req, res){
     /**
      * Fetches the team capacities for the current project from DB.
      */
-    Account.findOne({url: URL, project: PROJECT}, function(error, exist) {
+    Priority.findOne({url: URL, project: PROJECT}, function(error, exist) {
         if(exist && !error){
-            console.log("Capacity is loaded!");
+            console.log("Priority is configured and loaded!");
             res.json(exist.state)
         } else {
-            console.log("Capacity is not configured yet...");
-            res.send(error)
+            console.log("Priority is not configured yet...");
+            Priority.update({url: URL, project: PROJECT}, {$set: { state: {
+                TARGET_COMPLETION_FIELD: "", // The Target Completion Date custom field
+                SCRUM_TEAM_FIELD: "", // The Scrum Team custom field
+                fetching: false,
+                configured: false,
+                in_transit: [],
+                arrived: [],
+                priorities: {}, // The main priority structure
+                projectId : ""
+            }}}, {upsert: true}, function (err) {
+                if (!err){
+                    console.log("Priority is ready to be configured.")
+                    Priority.findOne({url: URL, project: PROJECT}, function(err, doc){
+                        res.json(doc.state)
+                    })
+                } else {
+                    console.log("Error occurred while preparing the priority to be configured: "+err)
+                    res.send(err)
+                }
+            });
         }
     });
-    console.log("URL and Project Id set!")
 })
 
 app.get("/setCredentials/:user/:password",function(req, res){
@@ -247,11 +274,25 @@ app.get("/getStory/:issueNumber", function(req, res)  {
 /**------------------------------------------------------------------------------------------
  * Database Requests
  -------------------------------------------------------------------------------------------*/
-app.post("/logDatabase/",function(req, res){
+app.post("/logCapacity/",function(req, res){
     /**
      * Log the team capacities of the current project in the DB.
      */
-    Account.update({url: URL, project: PROJECT}, {$set: { state: req.body }}, function (err) {
+    Capacity.update({url: URL, project: PROJECT}, {$set: { state: req.body }}, function (err) {
+        if (err){
+            console.log(err);
+            res.send(err)
+        }
+    });
+    res.send("Database Updated!")
+    console.log("Database Updated!")
+})
+
+app.post("/logPriority/",function(req, res){
+    /**
+     * Log the team capacities of the current project in the DB.
+     */
+    Priority.update({url: URL, project: PROJECT}, {$set: { state: req.body }}, function (err) {
         if (err){
             console.log(err);
             res.send(err)

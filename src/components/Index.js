@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import {bindActionCreators} from 'redux';
 import axios from 'axios';
-import {setURL, changeCustomFields, setProject, configureCapacity, loadCapacity, displayEpics, getAllEpics, getAllEpicsSuccess, getEpic, getEpicSuccess, getStoriesByEpic, getStoriesByEpicSuccess, getStory, getStorySuccess} from "../actions/actions.js";
+import {setURL, changeCustomFields, setProject, configureCapacity, configurePriority, loadCapacity, loadPriority, displayEpics, getAllEpics, getAllEpicsSuccess, getEpic, getEpicSuccess, getStoriesByEpic, getStoriesByEpicSuccess, getStory, getStorySuccess} from "../actions/actions.js";
 import '../style/App.css';
 import api_server from '../API_SERVER';
 
@@ -66,8 +66,9 @@ class Login extends React.Component {
 
       //this.props.setURL(url, project)
     axios.get(API_SERVER+"/setURL/"+url+"/"+project).then((res)=>{
-      if(res.data.teams.length !== 0){
+      if(res){
         this.props.loadCapacity();
+        this.props.loadPriority();
       }
       this.props.changeCustomFields(this.refs.target_completion.value.trim(), this.refs.scrum_team.value.trim())
 
@@ -100,6 +101,8 @@ class Login extends React.Component {
           if (!this.props.data.capacity.configured ){// && this.props.data.capacity.teams.length!==0
 
             this.props.configureCapacity()
+          } else if (!this.props.data.priority.configured) {
+            this.props.configurePriority()
           } else {
             this.props.displayEpics(this.refs.project.value.trim())
           }
@@ -118,7 +121,7 @@ function mapStateToProps(state){
 }
 
 function mapDispatchToProps(dispatch){
-  return bindActionCreators({setURL, changeCustomFields, setProject, configureCapacity, loadCapacity, displayEpics, getAllEpics, getAllEpicsSuccess, getEpic, getEpicSuccess, getStoriesByEpic, getStoriesByEpicSuccess, getStory, getStorySuccess}, dispatch);
+  return bindActionCreators({setURL, changeCustomFields, setProject, configureCapacity, configurePriority, loadCapacity, loadPriority, displayEpics, getAllEpics, getAllEpicsSuccess, getEpic, getEpicSuccess, getStoriesByEpic, getStoriesByEpicSuccess, getStory, getStorySuccess}, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

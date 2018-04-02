@@ -1,7 +1,7 @@
 import React from "react";
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getAllEpics, getAllEpicsSuccess, getAllEpicsError, displayEpics, displayIndex, setTeamCapacities, logDatabase, logDatabaseSuccess, getEpic, getEpicSuccess} from "../actions/actions.js";
+import {getAllEpics, getAllEpicsSuccess, getAllEpicsError, displayEpics, displayIndex, setTeamCapacities, logCapacity, configurePriority, logCapacitySuccess, getEpic, getEpicSuccess} from "../actions/actions.js";
 import axios from 'axios'
 import Team from "./Team";
 
@@ -22,14 +22,18 @@ class CapacityConfig extends React.Component {
         this.props.displayIndex()
     }
 
+    displayPriority(){
+        this.props.configurePriority()
+    }
+
     setTeamCapacities(team, target, event){
         this.props.setTeamCapacities(team, target, event.target.value)
     }
 
     logDatabase(state){
       console.log(state)
-        this.props.logDatabase(state)
-        this.props.logDatabaseSuccess(state)
+        this.props.logCapacity(state)
+        this.props.logCapacitySuccess(state)
     }
 
     render(){
@@ -66,6 +70,11 @@ class CapacityConfig extends React.Component {
                             {displayTeams}
                         </tbody>
                     </table>
+                    <div className="login-button-container">
+                        <div onClick={()=>this.displayPriority()} className="login-button">
+                            Configure Priorities!
+                        </div>
+                    </div>      
                     <div className="login-button-container">
                         <div onClick={()=>this.displayEpics(this.props.epicstate.projectId)} className="login-button">
                             See Epics!
@@ -117,7 +126,7 @@ function mapStateToProps(state){
 }
 
 function mapDispatchToProps(dispatch){
-  return bindActionCreators({getAllEpics, getAllEpicsSuccess, getAllEpicsError, displayEpics, displayIndex, setTeamCapacities, logDatabase, logDatabaseSuccess, getEpic, getEpicSuccess}, dispatch);
+  return bindActionCreators({getAllEpics, getAllEpicsSuccess, getAllEpicsError, displayEpics, displayIndex, setTeamCapacities, logCapacity, configurePriority, logCapacitySuccess, getEpic, getEpicSuccess}, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CapacityConfig);

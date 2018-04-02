@@ -32,11 +32,6 @@ export const GET_ALL_EPICS = "GET_ALL_EPICS";
 export function setURL(url, projectId){
   const api_url = API_SERVER+"/setURL/"+url+"/"+projectId;
   const request = axios.get(api_url);
-
-  return{
-    type: "LOAD_CAPACITY",
-    payload: request
-  };
 }
 
 export function changeCustomFields(target_completion, scrum_team){
@@ -74,6 +69,18 @@ export function setTeamCapacities(team, target, capacity){
      team: team,
      target: target,
      capacity: capacity
+  };
+}
+
+/**
+ * Triggers an action that notifies reducers to store a Priority entry for a specific Epic.
+ * @param {string} epic The specific Epic name.
+ */
+export function setEpicPriority(epic, priority){
+  return{
+    type: "ENTER_EPIC_PRIORITY",
+     epic: epic,
+     priority: priority
   };
 }
 
@@ -255,6 +262,12 @@ export function configureCapacity(){
   };
 }
 
+export function configurePriority(){
+  return{
+    type: "PRIORITY_CONFIG"
+  };
+}
+
 
 /**--------------------------------------------------------------------------------------------------------
  * DATABASE ACTIONS
@@ -280,17 +293,50 @@ export function loadCapacity(url, projectId){
  * Saves the Team Capacities in the database.
  * @param {Object} state The state containing the Team Capacity record.
  */
-export function logDatabase(state){
+export function logCapacity(state){
+  const api_url = API_SERVER+"/logCapacity/";
+  const request = axios.post(api_url, state);
   return{
-    type: "LOG_DATABASE"
+    type: "LOG_CAPACITY"
   };
 }
 
-export function logDatabaseSuccess(state){
-  const api_url = API_SERVER+"/logDatabase/";
-  const request = axios.post(api_url, state);
+export function logCapacitySuccess(state){
+  return{
+    type: "LOG_CAPACITY_SUCCESS"
+  };
+}
+
+/**
+ * Loads team capacities associated to a specific Project from the database.
+ * Triggers action with the JSON object from the response or the error message.
+ * @param {string} url The Jira instance URL.
+ * @param {string} projectId The ID of the specific Project.
+ */
+export function loadPriority(url, projectId){
+  const api_url = API_SERVER+"/loadPriority";
+  const request = axios.get(api_url);
 
   return{
-    type: "LOG_DATABASE_SUCCESS"
+    type:"LOAD_PRIORITY",
+    payload: request
+  };
+}
+
+/**
+ * Saves the Epic Priorities in the database.
+ * @param {Object} state The state containing the Team Capacity record.
+ */
+export function logPriority(state){
+  const api_url = API_SERVER+"/logPriority/";
+  const request = axios.post(api_url, state);
+  return{
+    type: "LOG_PRIORITY"
+  };
+}
+
+export function logPrioritySuccess(state){
+  return{
+    type: "LOG_PRIORITY_SUCCESS"
   };
 }

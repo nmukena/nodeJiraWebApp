@@ -14,42 +14,17 @@ class AllStoriesByEpic extends React.Component {
         this.displayTargets = []
     }
 
-    // componentWillMount(){
-    //   this.props.getStoriesByEpic(this.props.epicId)
-    //   axios.get(API_SERVER+"/getStoriesByEpic/"+this.props.epicId).then((response)=>{
-    //       this.props.getStoriesByEpicSuccess(this.props.epicId, response.data)
-    //   }).catch((err)=>{
-    //     this.props.getStoriesByEpicError(err.response.status, err.response.statusText)
-    //   })
-    // }
-
-    // shouldComponentUpdate(){
-    //     if (this.props.targets[this.props.epicId]&&
-    //         this.displayTargets.length==Object.keys(this.props.targets[this.props.epicId]).length){
-    //         return false
-    //     }
-    //     return true
-    //
-    // }
-
     render(){
         var stories
         if (this.props.data[this.props.epicId]){
             if (this.props.data[this.props.epicId].issues){
-                // var stories = this.props.data[this.props.epicId].issues
-                // for (var i = 0; i<stories.length; i++){
-                //     this.props.getStory(stories[i].key)
-                //     this.props.getStorySuccess(stories[i].key, this.props.epicId)
-                // }
                 var targetList = []
                 if(this.props.targets[this.props.epicId]){
                     targetList = Object.keys(this.props.targets[this.props.epicId]).sort()
                     this.displayTargets = targetList.map(target => {
                         return (
                             <div key={target} class="story-background col-2.75 col-pad">
-
                                     <Sprint target={target} epic={this.props.epicId}/>
-
                             </div>
                         )
                     });

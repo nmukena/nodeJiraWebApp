@@ -29,7 +29,7 @@ export default function reducer(state=store, action){
                 fetched: true,
                 unauthorized: false,
                 unavailable: false,
-                bad_request: false,
+                bad_request: false
             }
         }
 
@@ -62,6 +62,10 @@ export default function reducer(state=store, action){
 
             }
             return {...state, fetched: false }
+        }
+
+        case "SET_PROJECT":{
+            return {...state, url: action.url, project: action.id}
         }
         
     }

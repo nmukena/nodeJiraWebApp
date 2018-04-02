@@ -61,6 +61,7 @@ export default function reducer(state=store, action){
                 }
                 //Add arrived and clear transit.
                 return {...state, priorities: {...state.priorities, [action.meta]: epicPriority} };
+
             }
             return state;
         }
@@ -110,20 +111,23 @@ export default function reducer(state=store, action){
         }
 
         case "ENTER_EPIC_PRIORITY": {
-            return state;
+            var priority = state.priorities
+            priority[action.epic].priority = action.priority
+            return {...state, priorities: priority}
         }
 
-        case "LOAD_PRIORITIES": {
+
+        case "LOAD_PRIORITY": {
             // Load the capacity stored in DB
-            return state;
-        }
+            return action.payload.data;
+        }       
 
-        case "LOG_DATABASE": {
+        case "LOG_PRIORITY": {
             // Save capacity
             return {...state, configured: true}
         }
 
-        case "LOG_DATABASE_SUCCESS": {
+        case "LOG_PRIORITY_SUCCESS": {
             // Indicate that the Capacity has been configured
             return {...state, configured: true}
         }
