@@ -31,7 +31,6 @@ class CapacityConfig extends React.Component {
     }
 
     logDatabase(state){
-      console.log(state)
         this.props.logCapacity(state)
         this.props.logCapacitySuccess(state)
     }
@@ -74,7 +73,7 @@ class CapacityConfig extends React.Component {
                         <div onClick={()=>this.displayPriority()} className="login-button">
                             Configure Priorities!
                         </div>
-                    </div>      
+                    </div>
                     <div className="login-button-container">
                         <div onClick={()=>this.displayEpics(this.props.epicstate.projectId)} className="login-button">
                             See Epics!

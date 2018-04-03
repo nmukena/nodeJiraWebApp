@@ -101,7 +101,12 @@ export default function reducer(state=store, action){
 
         case "LOAD_CAPACITY": {
             // Load the capacity stored in DB
-            return action.payload.data
+            if (action.payload.data.teams.length===0){
+              return state;
+            }else{
+              return action.payload.data
+            }
+
         }
 
         case "LOG_DATABASE": {

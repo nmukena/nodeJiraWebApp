@@ -66,10 +66,10 @@ class Login extends React.Component {
 
       //this.props.setURL(url, project)
     axios.get(API_SERVER+"/setURL/"+url+"/"+project).then((res)=>{
-      if(res){
-        this.props.loadCapacity();
-        this.props.loadPriority();
-      }
+      
+      this.props.loadCapacity();
+      this.props.loadPriority();
+
       this.props.changeCustomFields(this.refs.target_completion.value.trim(), this.refs.scrum_team.value.trim())
 
       axios.get(API_SERVER+"/setCredentials/"+user+"/"+pass).then(()=>{
