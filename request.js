@@ -55,7 +55,7 @@ var options = {rejectUnauthorized: false,
 };
 var TARGET_COMPLETION_FIELD = ""
 var SCRUM_TEAM_FIELD = ""
-var STORY_POINT_FIELD = ""
+var STORY_POINT_FIELD = "customfield_10200"
 
 /**------------------------------------------------------------------------------------------
  * Routing
