@@ -84,7 +84,7 @@ export default function reducer(state=store, action){
 
         case "GET_STORY_SUCCESS": {
             // Sort every received Epic by Team and Target Completion
-            console.log('action: ', action.payload)
+            //console.log('action: ', action.payload)
             if(state.arrived.includes(action.meta.id)){
                 return state
             } else if (state.projectId==action.payload.data.issues[0].fields.project.key&&state.in_transit.includes(action.meta.id)){
