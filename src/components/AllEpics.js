@@ -25,44 +25,132 @@ class AllEpics extends React.Component {
 	 * 					  @param {Object} connection The connection sub-state
      */
     constructor(props){
-        super(props)
+        super(props);
+        this.state = {
+          priorities: null,
+          targetCompletions: null,
+          teamCapacities: null,
+          teams: null,
 
+        };
     }
 
-    // componentWillMount(){
-    //   this.props.getAllEpics(this.props.projectId)
-    //   axios.get(API_SERVER+"/getAllEpics/"+this.props.projectId).then((response)=>{
-    //        this.props.getAllEpicsSuccess(response.data)
-    //   }).catch((err)=>{
-    //       this.props.getAllEpicsError(err.response.status, err.response.statusText)
-    //   })
-    // }
+    componentWillMount(){
+      let priorities = this.props.priority.priorities;
+      let structuredPriorities = [];
+      let teams = this.props.capacity.teams;
 
-    /**
-     * Helps avoid infinite loop. It prevents further updates as soon as all the epics
-     * have been collected.
-     * this.props.data serves as the record of all the existing epics.
-     * this.props.state.epics is the record of all collected epic details that are received
-     * progressively. As soon as they match, this component should stop changing to prevent
-     * infinite loops.
-     */
-    // shouldComponentUpdate(){
-    //     if (this.props.data.issues&&this.props.epicstate.epics){
-    //         if (this.props.data.issues.length==Object.keys(this.props.epicstate.epics).length){
-    //             return false
-    //         }
-    //     }
-    //     return true
-    // }
+      Object.keys(priorities).forEach((key)=>{
+        let tempTeams = [];
+        Object.keys(priorities[key]).forEach((key2)=>{
+          if(key2.includes('Team')){
+            tempTeams.push([key2,priorities[key][key2]])
+          }
+        });
+
+        let emptyTeams = [];
+        for(let i = 0; i<teams.length; i++){
+          let count = false;
+          for(let j=0; j<tempTeams.length; j++){
+            if(tempTeams[j][0]===teams[i]){
+              count=true;
+            }
+          }
+          if(!count){
+            emptyTeams.push([teams[i],0]);
+          }else{
+
+          }
+        }
+
+        for(let i=0; i<emptyTeams.length; i++){
+          tempTeams.push(emptyTeams[i]);
+        }
+
+        tempTeams.sort();
+        let tempEpic = {epic: key, priority: priorities[key].priority, points: priorities[key].totalPoints, teams: tempTeams.slice()};
+        structuredPriorities.push(tempEpic)
+
+      });
+
+      structuredPriorities.sort((a,b)=>{
+        return a.priority - b.priority;
+      });
+
+      this.setState({priorities: JSON.parse(JSON.stringify(structuredPriorities)),
+        targetCompletions: this.props.capacity.target_completions.slice(),
+        teamCapacities: JSON.parse(JSON.stringify(this.props.capacity.teams_capacities)),
+        teams: teams});
+    }
+
+    burnEpics(){
+      //console.log(this.state.priorities);
+
+      let remainingEpics = JSON.parse(JSON.stringify(this.state.priorities));
+      let epicsByTarget = {};
+
+      for (let i = 0; i<this.state.targetCompletions.length; i++){
+        let sprintTeamCapacity = [];
+        let burnableEpics = [];
+
+        Object.keys(this.state.teamCapacities).forEach((team)=>{
+          sprintTeamCapacity.push([team, this.state.teamCapacities[team][this.state.targetCompletions[i]]]);
+        });
+
+        console.log('Target Completion: ', this.state.targetCompletions[i]);
+
+        for(let j=0; j<remainingEpics.length; j++){
+          for(let k=0; k<this.state.teams.length; k++){
+            if(sprintTeamCapacity[k][1] !== 0 && remainingEpics[j].teams[k][1] !== 0){
+              let result = sprintTeamCapacity[k][1] - remainingEpics[j].teams[k][1];
+              if(result>=0){
+                burnableEpics.push([remainingEpics[j].epic, sprintTeamCapacity[k][0], result]);
+                sprintTeamCapacity[k][1]=result;
+                remainingEpics[j].teams[k][1] = 0;
+              }else{
+                burnableEpics.push([remainingEpics[j].epic, sprintTeamCapacity[k][0], Number(sprintTeamCapacity[k][1])]);
+                sprintTeamCapacity[k][1]=0;
+                remainingEpics[j].teams[k][1] = -1*result;
+              }
+            }
+          }
+        }
+
+        //console.log('Epics burned in this sprint: ', burnableEpics);
+        let indexSplice = [];
+
+        for(let j=0; j<remainingEpics.length; j++){
+          let count = 0;
+          for(let k=0; k<this.state.teams.length; k++){
+            if(remainingEpics[j].teams[k][1] === 0){
+              count=count+1;
+            }
+          }
+          if(count===this.state.teams.length){
+            indexSplice.push(j);
+          }
+        }
+
+        indexSplice.sort();
+        let offset =0;
+        for(let j=0; j<indexSplice.length; j++){
+          let finishedEpic =JSON.parse(JSON.stringify(remainingEpics.splice(j-offset,1)));
+          offset=offset+1;
+          console.log('Finished Epics: ', finishedEpic);
+        }
+        epicsByTarget[this.state.targetCompletions[i]] = burnableEpics;
+      }
+      console.log('Epics by Target and Team: ', JSON.parse(JSON.stringify(epicsByTarget)));
+
+      return epicsByTarget;
+    }
 
     render(){
-      
+
+      let epicsByTarget =JSON.parse(JSON.stringify(this.burnEpics()));
+
         if (this.props.data.issues){
-            // var epics = this.props.data.issues
-            // for (var i = 0; i<epics.length; i++){
-            //     this.props.getEpic(epics[i].key)
-            //     this.props.getEpicSuccess(epics[i].key)
-            // }
+
             var teamNames = Object.keys(this.props.teams).sort()
             var displayTeams = teamNames.map(name => {
                 return (
@@ -100,7 +188,9 @@ function mapStateToProps(state){
     data: state.epics.allEpics,
     teams: state.epics.epicByTeam,
     epicstate: state.epics,
-    connection: state.connection
+    connection: state.connection,
+    capacity: state.capacity,
+    priority: state.priority
   };
 }
 

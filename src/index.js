@@ -7,8 +7,8 @@ import { createLogger } from 'redux-logger'
 import Layout from './components/Layout';
 import reducers from './reducers';
 
-const createStoreWithMiddleware = applyMiddleware(ReduxPromise, createLogger())(createStore);
-//const createStoreWithMiddleware = applyMiddleware(ReduxPromise)(createStore);
+//const createStoreWithMiddleware = applyMiddleware(ReduxPromise, createLogger())(createStore);
+const createStoreWithMiddleware = applyMiddleware(ReduxPromise)(createStore);
 
 ReactDOM.render(
   <Provider store={createStoreWithMiddleware(reducers)}>

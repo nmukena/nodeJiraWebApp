@@ -31,7 +31,7 @@ class Epic extends React.Component {
 
 
     render(){
-		
+
 		const data = this.props.data
 		const epics = this.props.data.epics
 
