@@ -84,31 +84,50 @@ class AllEpics extends React.Component {
     }
 
     burnEpics(){
-      //console.log(this.state.priorities);
 
       let remainingEpics = JSON.parse(JSON.stringify(this.state.priorities));
-      let epicsByTarget = {};
-
+      let burnableEpics = {};
       for (let i = 0; i<this.state.targetCompletions.length; i++){
         let sprintTeamCapacity = [];
-        let burnableEpics = [];
+
 
         Object.keys(this.state.teamCapacities).forEach((team)=>{
           sprintTeamCapacity.push([team, this.state.teamCapacities[team][this.state.targetCompletions[i]]]);
         });
 
-        console.log('Target Completion: ', this.state.targetCompletions[i]);
-
         for(let j=0; j<remainingEpics.length; j++){
           for(let k=0; k<this.state.teams.length; k++){
             if(sprintTeamCapacity[k][1] !== 0 && remainingEpics[j].teams[k][1] !== 0){
               let result = sprintTeamCapacity[k][1] - remainingEpics[j].teams[k][1];
-              if(result>=0){
-                burnableEpics.push([remainingEpics[j].epic, sprintTeamCapacity[k][0], result]);
+              if(result>0){
+
+                if(burnableEpics[this.state.teams[k]]){
+                  if(burnableEpics[this.state.teams[k]][this.state.targetCompletions[i]]){
+                    burnableEpics[this.state.teams[k]][this.state.targetCompletions[i]].push([remainingEpics[j].epic, sprintTeamCapacity[k][0], remainingEpics[j].teams[k][1]]);
+                  }else{
+                    burnableEpics[this.state.teams[k]][this.state.targetCompletions[i]] = [[remainingEpics[j].epic, sprintTeamCapacity[k][0], remainingEpics[j].teams[k][1]]];
+                  }
+                }else{
+                  burnableEpics[this.state.teams[k]] = {};
+                  burnableEpics[this.state.teams[k]][this.state.targetCompletions[i]] = [[remainingEpics[j].epic, sprintTeamCapacity[k][0], remainingEpics[j].teams[k][1]]];
+                }
+
+                //burnableEpics.push([remainingEpics[j].epic, sprintTeamCapacity[k][0], result]);
                 sprintTeamCapacity[k][1]=result;
                 remainingEpics[j].teams[k][1] = 0;
               }else{
-                burnableEpics.push([remainingEpics[j].epic, sprintTeamCapacity[k][0], Number(sprintTeamCapacity[k][1])]);
+
+                if(burnableEpics[this.state.teams[k]]){
+                  if(burnableEpics[this.state.teams[k]][this.state.targetCompletions[i]]){
+                    burnableEpics[this.state.teams[k]][this.state.targetCompletions[i]].push([remainingEpics[j].epic, sprintTeamCapacity[k][0], Number(sprintTeamCapacity[k][1])]);
+                  }else{
+                    burnableEpics[this.state.teams[k]][this.state.targetCompletions[i]] = [[remainingEpics[j].epic, sprintTeamCapacity[k][0], Number(sprintTeamCapacity[k][1])]];
+                  }
+                }else{
+                  burnableEpics[this.state.teams[k]] = {};
+                  burnableEpics[this.state.teams[k]][this.state.targetCompletions[i]] = [[remainingEpics[j].epic, sprintTeamCapacity[k][0], Number(sprintTeamCapacity[k][1])]];
+                }
+
                 sprintTeamCapacity[k][1]=0;
                 remainingEpics[j].teams[k][1] = -1*result;
               }
@@ -136,17 +155,15 @@ class AllEpics extends React.Component {
         for(let j=0; j<indexSplice.length; j++){
           let finishedEpic =JSON.parse(JSON.stringify(remainingEpics.splice(j-offset,1)));
           offset=offset+1;
-          console.log('Finished Epics: ', finishedEpic);
         }
-        epicsByTarget[this.state.targetCompletions[i]] = burnableEpics;
       }
-      console.log('Epics by Target and Team: ', JSON.parse(JSON.stringify(epicsByTarget)));
 
-      return epicsByTarget;
+      //console.log('Epics by Target and Team: ', JSON.parse(JSON.stringify(burnableEpics)));
+
+      return burnableEpics;
     }
 
     render(){
-
       let epicsByTarget =JSON.parse(JSON.stringify(this.burnEpics()));
 
         if (this.props.data.issues){
@@ -156,7 +173,7 @@ class AllEpics extends React.Component {
                 return (
                     <div key={name} className="team-type">
 
-                            <Team teamName={name}/>
+                            <Team teamName={name} epicsByTarget={epicsByTarget}/>
 
                     </div>
                 )

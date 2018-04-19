@@ -23,16 +23,18 @@ class Target extends React.Component {
     }
 
     render(){
-        var teams = this.props.teams
+        let epicsByTarget = this.props.epicsByTarget;
+        //var teams = this.props.teams
         var target_completion = this.props.targetComp
-        if (teams[this.props.teamName][target_completion]){
-            var epics = teams[this.props.teamName][target_completion]
+        if (epicsByTarget[this.props.teamName][target_completion]){
+            var epics = epicsByTarget[this.props.teamName][target_completion]
             var displayEpics = epics.map(item => {
-                var epic = item.issues[0]
+                var epic = item
+                console.log(item[0])
                 return (
-                    <div key={epic.id} className="epic-type">
-                        
-                            <Epic issueId={epic.key}/>
+                    <div key={epic[0]} className="epic-type">
+
+                            <Epic issueId={epic[0]} points={epic[2]}/>
 
                     </div>
                 )

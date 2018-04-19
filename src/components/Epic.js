@@ -56,7 +56,7 @@ class Epic extends React.Component {
 			<div>
 				<h2>Epic {this.props.issueId} </h2>
 				<h3>{epicsDict.summary}</h3>
-				<article>Target completion: {target} </article>
+				<article>Points burned: {this.props.points} </article>
 				<p>Scrum Team: {team}</p>
 				<button class="button" onClick={()=>this.displayStories(this.props.issueId)}>
                     Display Stories

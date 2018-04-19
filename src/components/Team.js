@@ -23,16 +23,17 @@ class Team extends React.Component {
 
 
     render(){
-        var teams = this.props.teams
-        var tCompletions = this.props.targetCompletions
-        var displayEpics = []
-        if (teams[this.props.teamName]){
+        let epicsByTarget = this.props.epicsByTarget;
+        //var teams = this.props.teams
+        var tCompletions = this.props.targetCompletions;
+        var displayEpics = [];
+        if (epicsByTarget[this.props.teamName]){
             var displayTargets = tCompletions.map((item, i) => {
-                    if(teams[this.props.teamName][item]){
+                    if(epicsByTarget[this.props.teamName][item]){
                         return (
                             <div key={item+i} className="target-type">
-                                
-                                    <Target targetComp={item} teamName={this.props.teamName}/>
+
+                                    <Target targetComp={item} teamName={this.props.teamName} epicsByTarget={epicsByTarget}/>
 
                             </div>
                         )
