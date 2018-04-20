@@ -501,7 +501,7 @@ function forEach(obj, fn) {
   }
 
   // Force an array if not already something iterable
-  if (typeof obj !== 'object' && !isArray(obj)) {
+  if (typeof obj !== 'object') {
     /*eslint no-param-reassign:0*/
     obj = [obj];
   }
@@ -1466,7 +1466,7 @@ if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
 
-var options = {}
+var options = {"hmr":true}
 options.transform = transform
 // add the styles to the DOM
 var update = __webpack_require__(132)(content, options);
@@ -2639,8 +2639,7 @@ module.exports = function xhrAdapter(config) {
     // For IE 8/9 CORS support
     // Only supports POST and GET calls and doesn't returns the response headers.
     // DON'T do this for testing b/c XMLHttpRequest is mocked, not XDomainRequest.
-    if (!window.XMLHttpRequest &&
-        process.env.NODE_ENV !== 'test' &&
+    if (process.env.NODE_ENV !== 'test' &&
         typeof window !== 'undefined' &&
         window.XDomainRequest && !('withCredentials' in request) &&
         !isURLSameOrigin(config.url)) {
@@ -23157,7 +23156,7 @@ module.exports.default = axios;
 /*!
  * Determine if an object is a Buffer
  *
- * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
+ * @author   Feross Aboukhadijeh <https://feross.org>
  * @license  MIT
  */
 
@@ -23987,7 +23986,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = api_server;
 function api_server() {
-    return 'http://localhost:3000';
+    return 'http://18.221.174.71:3000';
 }
 
 /***/ }),
@@ -24037,7 +24036,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FULFILLED", function() { return FULFILLED; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REJECTED", function() { return REJECTED; });
 /* harmony export (immutable) */ __webpack_exports__["default"] = promiseMiddleware;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__isPromise__ = __webpack_require__(114);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__isPromise_js__ = __webpack_require__(114);
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -24070,7 +24069,7 @@ function promiseMiddleware() {
     return function (next) {
       return function (action) {
         if (action.payload) {
-          if (!Object(__WEBPACK_IMPORTED_MODULE_0__isPromise__["a" /* default */])(action.payload) && !Object(__WEBPACK_IMPORTED_MODULE_0__isPromise__["a" /* default */])(action.payload.promise)) {
+          if (!Object(__WEBPACK_IMPORTED_MODULE_0__isPromise_js__["a" /* default */])(action.payload) && !Object(__WEBPACK_IMPORTED_MODULE_0__isPromise_js__["a" /* default */])(action.payload.promise)) {
             return next(action);
           }
         } else {
@@ -24117,7 +24116,7 @@ function promiseMiddleware() {
         var promise = void 0;
         var data = void 0;
 
-        if (!Object(__WEBPACK_IMPORTED_MODULE_0__isPromise__["a" /* default */])(action.payload) && _typeof(action.payload) === 'object') {
+        if (!Object(__WEBPACK_IMPORTED_MODULE_0__isPromise_js__["a" /* default */])(action.payload) && _typeof(action.payload) === 'object') {
           promise = payload.promise;
           data = payload.data;
         } else {
@@ -31349,9 +31348,19 @@ var getElement = (function (fn) {
 
 	return function(selector) {
 		if (typeof memo[selector] === "undefined") {
-			memo[selector] = fn.call(this, selector);
+			var styleTarget = fn.call(this, selector);
+			// Special case to return head of iframe instead of iframe itself
+			if (styleTarget instanceof window.HTMLIFrameElement) {
+				try {
+					// This will throw an exception if access to iframe is blocked
+					// due to cross-origin restrictions
+					styleTarget = styleTarget.contentDocument.head;
+				} catch(e) {
+					styleTarget = null;
+				}
+			}
+			memo[selector] = styleTarget;
 		}
-
 		return memo[selector]
 	};
 })(function (target) {
@@ -31481,8 +31490,11 @@ function insertStyleElement (options, style) {
 		stylesInsertedAtTop.push(style);
 	} else if (options.insertAt === "bottom") {
 		target.appendChild(style);
+	} else if (typeof options.insertAt === "object" && options.insertAt.before) {
+		var nextSibling = getElement(options.insertInto + " " + options.insertAt.before);
+		target.insertBefore(style, nextSibling);
 	} else {
-		throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
+		throw new Error("[Style Loader]\n\n Invalid value for parameter 'insertAt' ('options.insertAt') found.\n Must be 'top', 'bottom', or Object.\n (https://github.com/webpack-contrib/style-loader#insertat)\n");
 	}
 }
 
