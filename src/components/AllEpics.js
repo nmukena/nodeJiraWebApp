@@ -77,29 +77,36 @@ class AllEpics extends React.Component {
         return a.priority - b.priority;
       });
 
+      console.log('Priorities': structuredPriorities);
+
+      let teamCapacities= JSON.parse(JSON.stringify(this.props.capacity.teams_capacities));
+
       this.setState({priorities: JSON.parse(JSON.stringify(structuredPriorities)),
         targetCompletions: this.props.capacity.target_completions.slice(),
-        teamCapacities: JSON.parse(JSON.stringify(this.props.capacity.teams_capacities)),
+        teamCapacities: teamCapacities,
         teams: teams});
     }
 
     burnEpics(){
-
+      console.log(JSON.parse(JSON.stringify(this.state.priorities)));
       let remainingEpics = JSON.parse(JSON.stringify(this.state.priorities));
       let burnableEpics = {};
       for (let i = 0; i<this.state.targetCompletions.length; i++){
         let sprintTeamCapacity = [];
 
 
+
         Object.keys(this.state.teamCapacities).forEach((team)=>{
           sprintTeamCapacity.push([team, this.state.teamCapacities[team][this.state.targetCompletions[i]]]);
         });
 
+        sprintTeamCapacity.sort();
 
         for(let j=0; j<remainingEpics.length; j++){
           for(let k=0; k<this.state.teams.length; k++){
             if(Number(sprintTeamCapacity[k][1]) !== 0 && remainingEpics[j].teams[k][1] !== 0){
               let result = sprintTeamCapacity[k][1] - remainingEpics[j].teams[k][1];
+
               if(result>0){
 
                 if(burnableEpics[this.state.teams[k]]){
@@ -157,14 +164,13 @@ class AllEpics extends React.Component {
         }
       }
 
-      //console.log('Epics by Target and Team: ', JSON.parse(JSON.stringify(burnableEpics)));
+      console.log('Epics by Target and Team: ', JSON.parse(JSON.stringify(burnableEpics)));
 
       return burnableEpics;
     }
 
     render(){
       let epicsByTarget =JSON.parse(JSON.stringify(this.burnEpics()));
-
         if (this.props.data.issues){
 
             var teamNames = Object.keys(this.props.teams).sort()

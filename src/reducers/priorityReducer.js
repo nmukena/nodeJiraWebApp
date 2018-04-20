@@ -84,7 +84,7 @@ export default function reducer(state=store, action){
 
         case "GET_STORY_SUCCESS": {
             // Sort every received Epic by Team and Target Completion
-            //console.log('action: ', action.payload)
+
             if(state.arrived.includes(action.meta.id)){
                 return state
             } else if (state.projectId==action.payload.data.issues[0].fields.project.key&&state.in_transit.includes(action.meta.id)){
@@ -119,10 +119,13 @@ export default function reducer(state=store, action){
 
 
         case "LOAD_PRIORITY": {
-            // Load the capacity stored in DB
-            if (action.payload.data.priorities===0){
+            // Load the capacity stored in
+            console.log(state);
+            console.log(action.payload.data);
+            if (Object.keys(action.payload.data.priorities).length===0){
               return state;
             }else{
+              console.log('Loaded Priority')
               return action.payload.data
             }
         }
