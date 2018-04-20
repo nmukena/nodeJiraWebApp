@@ -5,6 +5,10 @@ input[type=reset],input[type=submit]{-webkit-appearance:button;cursor:pointer;}b
 
 * { box-sizing: border-box; }
 
+html{
+	zoom: 45%;
+}
+
 body{
 	background: #3D3D43;
 	margin: 0 auto;
@@ -19,10 +23,12 @@ body{
 }
 
 
+
+
 /*Header Styles*/
 .col-pad{
 	padding:10px;
-	margin: 4px;
+	margin: 10px;
 }
 
 .label-column{
@@ -49,15 +55,18 @@ body{
 	background: #5B5B60;
 	text-align: center;
 	justify-content: space-between;
-	letter-spacing: 5px;
+	letter-spacing: 3px;
 	font-weight: bold;
 	padding-top: 10px;
+	font-size: 14px;
 } 
 
 h1{
-	font-size: 20px;
+	font-size: 30px;
 	width: 100%;
-	padding: 10px;
+	padding: 10px 0px;
+	margin-left: 10px;
+	margin-right: 10px;
 	background: #2C2C33;
 	text-align: center;
 	margin: 0 auto;
@@ -65,8 +74,85 @@ h1{
 	margin-bottom: 10px;
 	letter-spacing: 4px;
 }
+
+.projer{
+	margin: 0 auto;
+	text-align: center;
+}
+
+.projer-head{
+	margin-top: 10px;
+	color:#51a087;
+	font-size: 48px;
+	letter-spacing: 4px;
+	font-weight: bold;
+}
+
+.projer-head div{
+
+}
+
+.projer-project{
+	color: white;
+	margin-top: 10px;
+	font-size: 48px;
+	letter-spacing: 4px;
+	font-weight: bold;
+}
+
+.projer-welcome{
+	font-size: 30px;
+	margin-bottom: 20px;
+}
+
+.login-input{
+	width: 50%;
+	margin: 0 auto;
+	display: flex;
+
+}
+.login-input input{
+	flex-wrap: wrap;
+	font-size: 40px;
+	height: 80px;
+	margin: 10px 0px;
+}
+
+.login-input div{
+	margin: 35px 20px 25px 0px;
+	font-size: 24px;
+	font-weight: bold;
+	width: 50%;
+	text-align: right;
+}
+
+.login-button{
+	width: 10%;
+	color: black;
+	background: #51a087;
+	margin-top: 25px;
+	padding: 30px;
+	border: 1px black;
+	
+
+}
+
+.login-button:hover{
+	color: black;
+	background: white;
+	border: 1px black;
+
+}
+
 /*End of Header Styles*/
 
+/* Input Form Styles */
+
+.form-control{
+
+}
+
+/* End of Input Form Styles */
 
 /*Epic Details*/
 .epic-details{
@@ -80,6 +166,7 @@ h2{
 	color: black;
 	border-bottom: 8px solid #51a087;
 	margin: 0;
+	margin-top: 10px;
 }
 
 h3{
@@ -91,22 +178,53 @@ h3{
 }
 
 article{
-	background: #2C2C33;
-	margin: 5px;
+	width: 100%;
+	background: black;
 	font-size: 16px;
+	padding: 5px 0px;
 }
 
 article + p {
+	width: 100%;
 	font-size: 12px;
 	color: white;
-	margin: 5px;
+	margin-bottom: 0px;
+	padding: 5px 0px;
 }
 
-button{
+
+.button-back{
+	width: 5%;
+	background: #51a087;
+	color: black;
+	border: 1px black;
+	padding: 5px 0px;
+}
+
+.button{
+	width: 100%;
 	color: black;
 	background: #51a087;
 	border: 1px black;
-	margin: 5px;
+	padding: 5px 0px;
+
+}
+
+.button:hover{
+	color: black;
+	background: white;
+	border: 1px black;
+
+}
+
+.epic-type{
+	
+	margin: 20px;
+	padding: 5px;
+}
+
+.epic-type p {
+	background: black;
 }
 
 /*End of Epic Details*/
@@ -117,7 +235,7 @@ button{
 .team-type{
 	display: flex;
 	width: 100%;
-
+	overflow: hidden;
 }
 
 .team-name{
@@ -126,26 +244,28 @@ button{
 	text-align: center;
 	width: 10%;
 	padding: 150px 0px;
-	margin-top: 10px;
+	margin-top: 10px 0px;
 	background: white;
 	color: #51a087;
 }
 
-.epic-type{
-	margin: 10px 4px;
+
+.team-type > div{
+	width: 100%;
 }
 
-.epic-type div{
-	background: #2C2C33;
-}
 
 
 /* Spinner */
 
 i.loading{
+	margin-top: 40px;
 	color: #51a087;
-	font-size: 40px;
+	font-size: 150px !important;
+}
 
+i + p {
+	font-size: 40px;
 }
 
 /* Spinner */
@@ -169,16 +289,50 @@ i.loading{
 
 
 .story-details{
-	
-	width: 100%;
-	color: #51a087;
 	background: black;
+	width: 33.33%;
+	color: #51a087;
 	margin: 0 auto;
 	text-align: center;
 	font-size: 30px;
 }
 
+.story-background{
+	width: 100%;
+	flex-direction: row;
+	flex-wrap: wrap;
+	background: #2C2C33;
+	text-align: center;
+	justify-content: space-between;
+	letter-spacing: 5px;
+	font-weight: bold;
+	padding-top: 10px;
+} 
+
+
 /* End of Story Styles */
+
+/* Target Styles */
+.targets{
+	width: 100%;
+	display: flex;
+
+}
+
+.displayTargets{
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	overflow: auto;
+}
+
+.target-type{
+	width: 100%;
+	margin: 10px 10px;
+	background: #2C2C33;
+}
+
+/* End of Target Styles */
 
 /*Footer Styles*/
 

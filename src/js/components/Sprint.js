@@ -1,43 +1,60 @@
 import React from "react";
 import { connect } from "react-redux";
 import * as actions from "../actions/actions.js";
+import { Provider } from  "react-redux"
+import Story from "./Story"
+import store from "../store.js"
 
 @connect((store)=>{
     return {
-        data: store,
+        data: store.stories.storiesByEpics,
+        targets: store.stories.storiesByTarget,
+        state: store.stories
     };
 })
 
 export default class Sprint extends React.Component {
-    componentWillMount(){
-        this.props.dispatch(actions.getAllSprints(4))
-	}
+    constructor(props){
+        super(props)
+    }
 
+    shouldComponentUpdate(){
+        if (this.props.data[this.props.epicId]&&
+            this.displayStories.length==Object.keys(this.props.targets).length){
+            return false
+        }
+        return true
 
+    }
     render(){
+        var epic = this.props.epic
+        var target = this.props.target
+        if (this.props.targets[epic][target]){
+            var stories = this.props.targets[epic][target]
+            this.displayStories = stories.map(story => {
+                return (
+                    <div key={story} className="epic-type">
+                        <Provider store={store}>
+                            <Story storyId={story}/>
+                        </Provider>
+                    </div>
+                )
+            });
 
-        const listSprints = this.props.data.sprintIds.
-        map((sprint, i) =>
-        <div key={sprint.id} className="sprint-header">Sprint {i}: {sprint.name} 
-						<div className={sprint.id}></div>
-					</div>)
-		return (
-			<div>
-				<h1>
-					Target MMF Completion Sprints
-				</h1>
-				<div className="label-column">
-					<div className="label-header">Target Completion</div>     
-                	<ul>{ listSprints }</ul>
-				</div>
-			</div>
+            return(
+                 <div className="target-type">{this.displayStories}</div>
+            )
+        }
 
-		);
-	}
+        var date = '';
+        
+        
 
-	componentDidMount(){
-		for (var num = 0; num < this.props.data.sprintIds; num++) {
-			this.props.dispatch(actions.getIssuesBySprint(4, this.props.data.sprintIds[num].id))
-		}
-	}
+        return(
+            <div>
+                    <i class="fa fa-refresh fa-spin fa-5x fa-fw loading"></i>
+                    <p>Wait For It...</p>
+            </div>
+        )
+    }
 }

@@ -6,7 +6,7 @@ import store from "../store.js"
 
 @connect((store)=>{
 		return {
-			data: store,
+			data: store.epics,
 		};
 	}, 
 )
@@ -22,8 +22,10 @@ export default class Epic extends React.Component {
 		this.props.dispatch(actions.displayStories(epicId))
 	}
 
+
     render(){
 		console.log(store);
+		const data = this.props.data
 		const epics = this.props.data.epics
 
 		if (this.error){
@@ -35,13 +37,21 @@ export default class Epic extends React.Component {
 			);	
 		} else if (epics) {
 			const epicsDict = epics[this.props.issueId].issues[0].fields
+			var target = "Not Specified"
+			var team = "Not Specified"
+			if (epicsDict[data.TARGET_COMPLETION_FIELD]){
+				target = epicsDict[data.TARGET_COMPLETION_FIELD].value
+			}
+			if (epicsDict[data.SCRUM_TEAM_FIELD]){
+				team = epicsDict[data.SCRUM_TEAM_FIELD].value
+			}
 			return(
 			<div>
 				<h2>Epic {this.props.issueId} </h2>
 				<h3>{epicsDict.summary}</h3>
-				<article>Target completion: {epicsDict.customfield_10501.value} </article>
-				<p>Scrum Team: {epicsDict.customfield_10500.value }</p>
-				<button onClick={()=>this.displayStories(this.props.issueId)}>
+				<article>Target completion: {target} </article>
+				<p>Scrum Team: {team}</p>
+				<button class="button" onClick={()=>this.displayStories(this.props.issueId)}>
                     Display Stories
                 </button>
 			</div>);

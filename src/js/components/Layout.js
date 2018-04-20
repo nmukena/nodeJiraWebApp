@@ -6,13 +6,17 @@ import store from "../store.js"
 
 import '../../App.css';
 import Header from "./Header";
+import SprintHeader from "./SprintHeader";
 import AllEpics from "./AllEpics";
 import AllStoriesByEpic from "./AllStoriesByEpic";
 import Footer from "./Footer";
+import Index from "./Index"
 
 @connect((store)=>{
     return {
-        data: store,
+        data: store.views,
+        epics: store.epics,
+        connection: store.connection
     };
 })
 
@@ -22,39 +26,64 @@ export default class Layout extends React.Component {
         super(props)
     }
     
-    displayEpics(){
-        this.props.dispatch(actions.displayEpics())
+    displayEpics(project){
+        this.props.dispatch(actions.displayEpics(project))
+    }
+
+    displayIndex(){
+        this.props.dispatch(actions.displayIndex())
     }
 
     render(){
-        if(this.props.data.view=="Epics"){
+        if (this.props.data.view=="Epics"){
             return(
                 <div>
                     <div>
                         <Header />
                     </div>
                     <div className="main-layout">
-                        <AllEpics projectId = {"GTMP"}/>
+                        <AllEpics projectId = {this.props.epics.projectId}/>
                     </div>
+                    <div>
+                        <Footer />
+                    </div>
+                    <button className="button-back" onClick={()=>this.displayIndex()}>
+                                Back to Index!
+                    </button>
+                </div>
+            );
+        }
+        if (this.props.data.view=="Stories"){
+            return(
+                <div>
+                    <div>
+                        <SprintHeader />
+                    </div>
+                    <div className="main-layout">
+                        <AllStoriesByEpic epicId = {this.props.data.epicView}/>
+                    </div>
+                    <button className="button-back" onClick={()=>this.displayEpics(this.props.epics.projectId)}>
+                                Back to Epics!
+                    </button>
                     <div>
                         <Footer />
                     </div>
                 </div>
             );
-        }else if(this.props.data.view=="Stories"){
+        }else if(this.props.data.view=="Index"){
             return(
                 <div>
                     <div>
-                        <Header />
+                    <div class="projer projer-head">
+                        ProJER by Deloitte
                     </div>
-                    <div className="main-layout">
-                        <AllStoriesByEpic epicId = {this.props.data.epicView}/>
-                        <button onClick={()=>this.displayEpics()}>
-                                Back to Epics!
-                        </button>
+                    <div class="projer projer-welcome">
+                        Welcome to ProJER, a Project Management and Planning Tool designed for Jira.
                     </div>
-                    <div>
-                        <Footer />
+                    </div>
+                    <div class="projer projer-detail">
+                        <p>Enter your Jira Project Details:</p>
+                        <Index />
                     </div>
                 </div>
             );

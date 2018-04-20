@@ -1,7 +1,15 @@
 import { combineReducers } from "redux";
 
-import allIssues from "./getAllIssuesReducer"
+import epics from "./epicsReducer"
+import stories from "./storiesReducer"
+import views from "./viewsReducer"
+import connection from "./connectionReducer"
+import persist from "./persistReducer"
 
 export default combineReducers({
-    allIssues,
+    epics,
+    stories,
+    views,
+    connection,
+    persist
 })

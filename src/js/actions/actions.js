@@ -1,15 +1,12 @@
 import axios from 'axios';
+import api_server from '../API_SERVER';
 
-var API_SERVER = "http://localhost:3000";
-
-export function reRender(){
-    return function(dispatch){
-        dispatch({type: "RE-RENDER"})
-    }
-}
+var API_SERVER = api_server();
+//var API_SERVER = 'http://18.221.174.71:3000';
 
 export function getEpic(epicId){
     return function(dispatch){
+        dispatch({type: "GET_EPIC"})
         axios.get(API_SERVER+"/getEpic/"+epicId)
         .then((response)=>{
             dispatch({type: "GET_EPIC_SUCCESS", id: epicId, json: response.data})
@@ -21,20 +18,21 @@ export function getEpic(epicId){
 
 export function getAllEpics(projectId){ 
     return function(dispatch){
+        dispatch({type: "GET_ALL_EPICS"})
         axios.get(API_SERVER+"/getAllEpics/"+projectId)
         .then((response)=>{
             dispatch({type: "GET_ALL_EPICS_SUCCESS", json: response.data})
         }).catch((err)=>{
-            dispatch({type: "ERROR", error: err})
+            dispatch({type: "GET_ALL_EPICS_ERROR", code: err.response.status, text: err.response.statusText})
         })
     }
 }
 
-export function getStory(storyId){
+export function getStory(storyId, epic){
     return function(dispatch){
         axios.get(API_SERVER+"/getStory/"+storyId)
         .then((response)=>{
-            dispatch({type: "GET_STORY_SUCCESS", id: storyId, json: response.data})
+            dispatch({type: "GET_STORY_SUCCESS", id: storyId, json: response.data, epicId: epic})
         }).catch((err)=>{
             dispatch({type: "ERROR", error: err})
         })
@@ -47,7 +45,7 @@ export function getStoriesByEpic(epicId){
         .then((response)=>{
             dispatch({type: "GET_STORIES_EPIC_SUCCESS", id: epicId, json: response.data})
         }).catch((err)=>{
-            dispatch({type: "ERROR", error: err})
+            dispatch({type: "GET_STORIES_EPIC_ERROR", code: err.response.status, text: err.response.statusText})
         })
     }
 }
@@ -58,41 +56,42 @@ export function displayStories(epicId){
     }
 }
 
-export function displayEpics(){
+export function displayEpics(project){
     return function(dispatch){
-        dispatch({type: "DISPLAY_EPICS"})
+        dispatch({type: "DISPLAY_EPICS", projectId: project})
     }
 }
 
-/*export function getAllRapidViews(){
+export function displayIndex(){
     return function(dispatch){
-        axios.get(API_SERVER+"/getRapidviews/")
+        dispatch({type: "DISPLAY_INDEX"})
+    }
+}
+
+export function changeCustomFields(target_completion, scrum_team){
+    return function(dispatch){
+        axios.get(API_SERVER+"/setCustomFields/"+target_completion+"/"+scrum_team)
         .then((response)=>{
-            dispatch({type: "GET_RAPIDVIEWS_SUCCESS", json: response.data})
         }).catch((err)=>{
-            dispatch({type: "ERROR", error: err})
+        })
+        dispatch({type: "CHANGE_CUSTOMFIELDS", team: scrum_team, target: target_completion})
+    }  
+}
+
+export function setCredentials(user, pass){
+    return function(dispatch){
+        axios.get(API_SERVER+"/setCredentials/"+user+"/"+pass)
+        .then((response)=>{
+        }).catch((err)=>{
         })
     }
 }
 
-export function getAllSprints(rapidViewId){
+export function setURL(url){
     return function(dispatch){
-        axios.get(API_SERVER+"/getSprints/"+rapidViewId)
+        axios.get(API_SERVER+"/setURL/"+url)
         .then((response)=>{
-            dispatch({type: "GET_ALL_SPRINTS_SUCCESS", json: response.data})
         }).catch((err)=>{
-            dispatch({type: "ERROR", error: err})
         })
     }
 }
-
-export function getIssuesBySprint(rapidViewId, sprintId){
-    return function(dispatch){
-        axios.get(API_SERVER+"/getIssuesBySprint/"+rapidViewId+"/"+sprintId)
-        .then((response)=>{
-            dispatch({type: "GET_ISSUES_SPRINT_SUCCESS", json: response.data})
-        }).catch((err)=>{
-            dispatch({type: "ERROR", error: err})
-        })
-    }
-}*/

@@ -3,14 +3,15 @@ import { connect } from "react-redux";
 import * as actions from "../actions/actions.js";
 import { Provider } from  "react-redux"
 import Team from "./Team"
-import Date from "./Date"
+import Header from "./Header";
 import store from "../store.js"
 
 @connect((store)=>{
     return {
-        data: store.allEpics,
-        teams: store.epicByTeam,
-        state: store
+        data: store.epics.allEpics,
+        teams: store.epics.epicByTeam,
+        state: store.epics,
+        connection: store.connection
     };
 })
 
@@ -36,12 +37,14 @@ export default class AllEpics extends React.Component {
             for (var i = 0; i<epics.length; i++){
                 this.props.dispatch(actions.getEpic(epics[i].key))
             }
-            var teamNames = Object.keys(this.props.teams)
+            var teamNames = Object.keys(this.props.teams).sort()
             var displayTeams = teamNames.map(name => {
                 return (
-                    <Provider store={store}>
-                        <Team teamName={name}/>
-                    </Provider>
+                    <div key={name} className="team-type">
+                        <Provider store={store}>
+                            <Team teamName={name}/>
+                        </Provider>
+                    </div>
                 )
             });
             return(
