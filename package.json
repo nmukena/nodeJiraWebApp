@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/nmukena/nodeJiraWebApp#readme",
   "dependencies": {
+    "aws-sdk": "^2.152.0",
     "axios": "^0.17.0",
     "babel": "^6.23.0",
     "babel-core": "^6.26.0",
