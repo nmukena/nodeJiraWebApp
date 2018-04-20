@@ -30,7 +30,7 @@ class Target extends React.Component {
             var epics = epicsByTarget[this.props.teamName][target_completion]
             var displayEpics = epics.map(item => {
                 var epic = item
-                console.log(item[0])
+
                 return (
                     <div key={epic[0]} className="epic-type">
 

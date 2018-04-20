@@ -95,9 +95,10 @@ class AllEpics extends React.Component {
           sprintTeamCapacity.push([team, this.state.teamCapacities[team][this.state.targetCompletions[i]]]);
         });
 
+
         for(let j=0; j<remainingEpics.length; j++){
           for(let k=0; k<this.state.teams.length; k++){
-            if(sprintTeamCapacity[k][1] !== 0 && remainingEpics[j].teams[k][1] !== 0){
+            if(Number(sprintTeamCapacity[k][1]) !== 0 && remainingEpics[j].teams[k][1] !== 0){
               let result = sprintTeamCapacity[k][1] - remainingEpics[j].teams[k][1];
               if(result>0){
 
@@ -112,7 +113,6 @@ class AllEpics extends React.Component {
                   burnableEpics[this.state.teams[k]][this.state.targetCompletions[i]] = [[remainingEpics[j].epic, sprintTeamCapacity[k][0], remainingEpics[j].teams[k][1]]];
                 }
 
-                //burnableEpics.push([remainingEpics[j].epic, sprintTeamCapacity[k][0], result]);
                 sprintTeamCapacity[k][1]=result;
                 remainingEpics[j].teams[k][1] = 0;
               }else{
@@ -135,7 +135,6 @@ class AllEpics extends React.Component {
           }
         }
 
-        //console.log('Epics burned in this sprint: ', burnableEpics);
         let indexSplice = [];
 
         for(let j=0; j<remainingEpics.length; j++){
