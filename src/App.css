@@ -6,23 +6,21 @@ input[type=reset],input[type=submit]{-webkit-appearance:button;cursor:pointer;}b
 * { box-sizing: border-box; }
 
 html{
-	zoom: 45%;
+	zoom: 55%;
 }
 
 body{
-	background: #3D3D43;
+	background: #25313C;
 	margin: 0 auto;
 	color: white;
 	width: 100%;
-
+	font-family: 'Roboto', sans-serif;
 }
 
 #main-layout{
 	text-align: center;
 	margin: 0 auto;
 }
-
-
 
 
 /*Header Styles*/
@@ -55,7 +53,6 @@ body{
 	background: #5B5B60;
 	text-align: center;
 	justify-content: space-between;
-	letter-spacing: 3px;
 	font-weight: bold;
 	padding-top: 10px;
 	font-size: 14px;
@@ -80,6 +77,10 @@ h1{
 	text-align: center;
 }
 
+.projer-detail p{
+	font-size: 24px;
+}
+
 .projer-head{
 	margin-top: 10px;
 	color:#51a087;
@@ -88,9 +89,6 @@ h1{
 	font-weight: bold;
 }
 
-.projer-head div{
-
-}
 
 .projer-project{
 	color: white;
@@ -106,7 +104,7 @@ h1{
 }
 
 .login-input{
-	width: 50%;
+	width: 75%;
 	margin: 0 auto;
 	display: flex;
 
@@ -118,21 +116,68 @@ h1{
 	margin: 10px 0px;
 }
 
+.login-input-auth{
+	width: 75%;
+	display: flex;
+	margin: 0 auto;
+
+}
+
+.login-input-login{
+	width: 75%;
+	display: flex;
+	margin: 0 auto;
+
+}
+.login-input-auth input{
+	flex-wrap: wrap;
+	font-size: 40px;
+	height: 80px;
+	margin: 10px 0px;
+	width: 80%;
+}
+
+
 .login-input div{
-	margin: 35px 20px 25px 0px;
-	font-size: 24px;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	/* margin: 35px 20px 25px 0px; */
+	font-size: 32px;
 	font-weight: bold;
-	width: 50%;
+	width: 75%;
 	text-align: right;
+	margin-right: 5px;
+}
+.login-input-auth div{
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	/* margin: 35px 20px 25px 0px; */
+	font-size: 32px;
+	font-weight: bold;
+	width: 75%;
+	text-align: right;
+	margin-right: 5px;
+}
+
+.login-button-container{
+	width: 75%;
+	margin: 0 auto;
+	display: flex;
+	justify-content: flex-end;
+
 }
 
 .login-button{
-	width: 10%;
+	width: 15%;
 	color: black;
 	background: #51a087;
 	margin-top: 25px;
 	padding: 30px;
 	border: 1px black;
+	font-size: 24px;
+
 	
 
 }
@@ -148,8 +193,25 @@ h1{
 
 /* Input Form Styles */
 
-.form-control{
+.login-form{
+	width: 75%;
+	margin: 0 auto;
+}
 
+.form-control{
+	background: transparent;
+	border: none;
+	border-bottom: 1px solid #51a087;
+}
+
+
+.form-control:focus{
+	background: transparent;
+	outline: none;
+}
+
+.form-control::placeholder {
+    opacity: 1;
 }
 
 /* End of Input Form Styles */
@@ -329,7 +391,8 @@ i + p {
 .target-type{
 	width: 100%;
 	margin: 10px 10px;
-	background: #2C2C33;
+	background: #0c0c11;
+
 }
 
 /* End of Target Styles */

@@ -24,15 +24,17 @@ export default class Login extends React.Component {
     }
 
     return (
-      <div>
+      <div className="projer projer-detail">
         {errorMessage &&
           <p>{errorMessage}</p>
         }
-        <div className="login-input">
-          <div>Jira Username: </div><input type='text' ref='username' className="form-control" placeholder='Jira Username'/>
-        </div>
-        <div className="login-input">
-          <div>Jira Password: </div><input type='password' ref='password' className="form-control"  placeholder='Jira Password'/>
+        <div className="login-input-auth">
+          <div className="login-input">
+            <input type='text' ref='username' className="form-control" placeholder='Jira Username'/>
+          </div>
+          <div className="login-input">
+            <input type='password' ref='password' className="form-control"  placeholder='Jira Password'/>
+          </div>
         </div>
         <div className="login-input">
           <div>Jira URL: </div><input type='text' ref='url' defaultValue='https://mehran-development.atlassian.net' className="form-control" placeholder='Jira URL'/>
@@ -46,9 +48,11 @@ export default class Login extends React.Component {
         <div className="login-input">
           <div>Scrum Team Custom Field: </div><input type='text' ref='scrum_team' defaultValue='customfield_10500' className="form-control"  placeholder='Scrum Team Customfield'/>
         </div>
-        <button onClick={(event) => this.handleClick(event)} className="login-button">
-          Login
-        </button>
+        <div className="login-button-container">
+          <div onClick={(event) => this.handleClick(event)} className="login-button">
+            Login
+          </div>
+        </div>
       </div>
     )
   }

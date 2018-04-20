@@ -12,14 +12,17 @@ import views from "./reducers/viewsReducer"
 
 import reducers from "./reducers"
 
-const middleware = applyMiddleware(promise(), thunk, createLogger())
+//Actions go through the middleware to be changed and are then sent to reducers
 
+const middleware = applyMiddleware(promise(), thunk, createLogger())
+//Middleware - redux promise and redux thunk, CreateLogger just logs state
+
+//Note by Sam - revisit this section (Ask Nate)
+//Stores State (Locally?)
 let store = compose (
     middleware,
     autoRehydrate()
 )(createStore)(reducers)
-
-//export default createStore(reducers, middleware)
 
 const epicReducerFilter = createFilter(
     'epics',

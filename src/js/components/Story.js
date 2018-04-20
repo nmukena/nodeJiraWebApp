@@ -6,7 +6,7 @@ import store from "../store.js"
 
 @connect((store)=>{
     return {
-		data: store.stories,
+		data: store.stories
     };
 })
 

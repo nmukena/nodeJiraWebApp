@@ -1,10 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
 import * as actions from "../actions/actions.js";
-import { Provider } from  "react-redux"
-import Team from "./Team"
-import Header from "./Header";
-import store from "../store.js"
+import { Provider } from  "react-redux";
+import Team from "./Team";
+import store from "../store.js";
 
 @connect((store)=>{
     return {
@@ -28,7 +27,6 @@ export default class AllEpics extends React.Component {
             }
         }
         return true
-
     }
 
     render(){
