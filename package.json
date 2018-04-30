@@ -5,6 +5,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
     "crypto-js": "^3.1.9-1",
     "express": "^4.16.2",
     "mongoose": "^5.0.9",
@@ -26,5 +27,6 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
-  }
+  },
+  "proxy": "http://18.221.174.71:3000"
 }
