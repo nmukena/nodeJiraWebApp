@@ -120,12 +120,9 @@ export default function reducer(state=store, action){
 
         case "LOAD_PRIORITY": {
             // Load the capacity stored in
-            console.log(state);
-            console.log(action.payload.data);
             if (Object.keys(action.payload.data.priorities).length===0){
               return state;
             }else{
-              console.log('Loaded Priority')
               return action.payload.data
             }
         }
