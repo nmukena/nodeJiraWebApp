@@ -77,8 +77,6 @@ class AllEpics extends React.Component {
         return a.priority - b.priority;
       });
 
-      console.log('Priorities': structuredPriorities);
-
       let teamCapacities= JSON.parse(JSON.stringify(this.props.capacity.teams_capacities));
 
       this.setState({priorities: JSON.parse(JSON.stringify(structuredPriorities)),
@@ -164,7 +162,7 @@ class AllEpics extends React.Component {
         }
       }
 
-      console.log('Epics by Target and Team: ', JSON.parse(JSON.stringify(burnableEpics)));
+      //console.log('Epics by Target and Team: ', JSON.parse(JSON.stringify(burnableEpics)));
 
       return burnableEpics;
     }
