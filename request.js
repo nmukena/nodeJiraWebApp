@@ -26,6 +26,12 @@ app.use(bodyParser.json());
 app.use(cors());
 require('ssl-root-cas').inject()
 
+app.use(function(req, res, next) {
+	res.header("Access-Control-Allow-Origin", "*");
+	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, db, collection, id");
+	next();
+});
+
 /**------------------------------------------------------------------------------------------
  * Connection to the DB
 ------------------------------------------------------------------------------------------*/
