@@ -15,7 +15,6 @@ This file is the main backend server.
 ------------------------------------------------------------------------------------------*/
 var express = require("express");
 var app = express();
-var cors = require('cors');
 request = require('request');
 var path = require('path');
 var mongoose = require('mongoose');
@@ -23,7 +22,6 @@ var Capacity = require('./models/capacity');
 var Priority = require('./models/priority');
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
-app.use(cors());
 require('ssl-root-cas').inject()
 
 app.use(function(req, res, next) {
